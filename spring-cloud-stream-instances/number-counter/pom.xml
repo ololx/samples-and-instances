@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.project.sample.spring.cloud.stream</groupId>
+	<artifactId>number-counter</artifactId>
+	<version>00.00.0000</version>
+	<name>number-counter</name>
+	<description>
+		This is an example of a Spring Cloud Stream application using Rabbit Streams Binder support.
+	</description>
+	<url>https://bitbucket.org/ol_lx/sample-project/src/master/number-counter</url>
+	<inceptionYear>2019</inceptionYear>
+
+	<developers>
+		<developer>
+			<name>Alexander A. Kropotin</name>
+			<email>ol_lx@icloud.com</email>
+		</developer>
+	</developers>
+
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>/number-publisher</module>
+		<module>/number-listener</module>
+	</modules>
+
+	<properties>
+		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.5.RELEASE</version>
+	</parent>
+</project>

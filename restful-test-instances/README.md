@@ -142,7 +142,3 @@ That's why when  you're working with an individual module, there's no need to im
 ## 🔏 Licensing
 
 This project is licensed under the MIT license - see the [lisence](LICENSE) document for details.
-
-```
-
-```

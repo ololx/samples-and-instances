@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet
+            id="2020-04-18-organization-scheme-init"
+            author="a.kropotin@innopolis.ru"
+            logicalFilePath="2019-09-18-scheme-init.xml"
+    >
+
+        <createTable tableName="organization">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="organization_pkey"/>
+            </column>
+            <column name="inn" type="VARCHAR(10)">
+                <constraints nullable="true" unique="false"/>
+            </column>
+            <column name="kpp" type="VARCHAR(8)">
+                <constraints nullable="true" unique="false"/>
+            </column>
+            <column name="address" type="VARCHAR(100)">
+                <constraints nullable="true" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

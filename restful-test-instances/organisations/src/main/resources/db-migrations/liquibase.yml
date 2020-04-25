@@ -1,5 +1,5 @@
 liquibase:
   changeLogFile: src/main/resources/db-migrations/changelog.xml
-  url: jdbc:postgresql://localhost:5433/organisations
+  url: jdbc:postgresql://localhost:5434/organisations_test
   username: postgres
   password: postgres

@@ -1,4 +1,4 @@
-package org.restful.test.instances.db.local.test;
+package org.restful.test.instances;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -45,11 +45,12 @@
     <modules>
         <module>organisations</module>
         <module>db-local-test</module>
+        <module>service-test</module>
     </modules>
 
     <properties>
         <!--<project versioning-->
-        <revision>0.1.0</revision>
+        <revision>0.2.0</revision>
         <changelist></changelist>
         <sha1/>
         <!--project versioning>-->
@@ -69,6 +70,11 @@
             <dependency>
                 <groupId>org.restful.test.instances</groupId>
                 <artifactId>db-local-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.restful.test.instances</groupId>
+                <artifactId>service-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

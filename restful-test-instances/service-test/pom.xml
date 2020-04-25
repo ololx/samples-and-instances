@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>restful-test-instances</artifactId>
+        <groupId>org.restful.test.instances</groupId>
+        <version>${revision}${sha1}${changelist}</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+
+    <artifactId>service-test</artifactId>
+    <name>service-test</name>
+    <description>
+        This module presents unit tests of the API service layer.
+    </description>
+
+    <dependencies>
+        <!--<organisations-->
+        <dependency>
+            <groupId>org.restful.test.instances</groupId>
+            <artifactId>organisations</artifactId>
+        </dependency>
+        <!--organisations/>-->
+    </dependencies>
+
+</project>

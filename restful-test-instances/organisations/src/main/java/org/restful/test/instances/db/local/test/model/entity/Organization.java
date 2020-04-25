@@ -4,11 +4,20 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(
+        of = {
+                "id",
+                "name"
+        },
+        doNotUseGetters = true
+)
 @Data
 @FieldDefaults(
         level = AccessLevel.PRIVATE
@@ -27,6 +36,12 @@ public class Organization implements Serializable {
             nullable = false
     )
     Long id;
+
+    @NotBlank(
+            message = "Наименование организации должно быть задано"
+    )
+    @Column(name = "name")
+    String name;
 
     @Column(name = "inn")
     String inn;

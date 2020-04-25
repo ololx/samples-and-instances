@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolationException;
@@ -44,6 +45,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  * <p>
  * @author Alexander A. Kropotin
  */
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext
@@ -83,13 +85,13 @@ public class OrganizationRepositoryTests {
 
         assertNotNull(organizationOrigin.getId(), "Сущность не сохранилась");
 
-        Organization organisationSaved = this.organizationRepository
+        Organization organizationSaved = this.organizationRepository
                 .findById(organizationOrigin.getId())
                 .orElse(null);
 
-        assertNotNull(organisationSaved, "Сущности в бд не обнаружено");
+        assertNotNull(organizationSaved, "Сущности в бд не обнаружено");
         assertTrue(
-                organizationOrigin.equals(organisationSaved),
+                organizationOrigin.equals(organizationSaved),
                 "Сущность в бд не такая же как сущность, которую сохраняли"
         );
     }
@@ -153,26 +155,26 @@ public class OrganizationRepositoryTests {
 
         assertNotNull(organizationOrigin.getId(), "Сущность не была сохранена");
 
-        Organization organisationSaved = this.organizationRepository
+        Organization organizationSaved = this.organizationRepository
                 .findById(organizationOrigin.getId())
                 .orElse(null);
 
-        assertNotNull(organisationSaved, "Сущности в бд не обнаружено");
+        assertNotNull(organizationSaved, "Сущности в бд не обнаружено");
 
-        organisationSaved.setName("ПИМ-195");
-        this.organizationRepository.save(organisationSaved);
+        organizationSaved.setName("ПИМ-195");
+        this.organizationRepository.save(organizationSaved);
 
         if (log.isInfoEnabled())
-            log.info("Обновили сущность `Организация` - {}", organisationSaved);
+            log.info("Обновили сущность `Организация` - {}", organizationSaved);
 
-        Organization organisationUpdated = this.organizationRepository
+        Organization organizationUpdated = this.organizationRepository
                 .findById(organizationOrigin.getId())
                 .orElse(null);
 
-        assertNotNull(organisationUpdated, "Сущности в бд не обнаружено");
-        assertTrue(organisationSaved.equals(organisationUpdated), "Сохранилось не то, что мы сохраняли");
+        assertNotNull(organizationUpdated, "Сущности в бд не обнаружено");
+        assertTrue(organizationSaved.equals(organizationUpdated), "Сохранилось не то, что мы сохраняли");
         assertTrue(
-                !organizationOrigin.getName().equals(organisationUpdated.getName()),
+                !organizationOrigin.getName().equals(organizationUpdated.getName()),
                 "Наменование организации не было обновлено"
         );
     }

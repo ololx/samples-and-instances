@@ -1,4 +1,4 @@
-package org.restful.test.instances.db.local.test.model.entity;
+package org.restful.test.instances.model.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

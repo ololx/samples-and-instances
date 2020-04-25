@@ -1,4 +1,4 @@
-package org.restful.test.instances.db.local.test.configuration;
+package org.restful.test.instances.configuration;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

@@ -28,7 +28,13 @@ public class Organization implements Serializable {
 
     @Id
     @GeneratedValue(
-            strategy = GenerationType.IDENTITY
+            strategy = GenerationType.SEQUENCE,
+            generator = "organization_pkey"
+    )
+    @SequenceGenerator(
+            name = "organization_pkey",
+            sequenceName = "organization_uid_seq",
+            allocationSize = 1
     )
     @Column(
             name = "id",
@@ -47,7 +53,6 @@ public class Organization implements Serializable {
     @Column(name = "name", nullable = false)
     String name;
 
-    //TODO: Добавить паттерн для проверки на только числовые символы
     @Size(
             max = 10,
             message = "ИНН организации должен быть до 10 символов"

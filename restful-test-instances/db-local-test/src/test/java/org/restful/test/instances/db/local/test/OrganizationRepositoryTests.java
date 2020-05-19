@@ -28,14 +28,18 @@ import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.hibernate.validator.internal.util.Contracts.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hibernate.validator.internal.util.Contracts.*;
 
 /**
  * @project restful-test-instances
@@ -68,24 +72,19 @@ public class OrganizationRepositoryTests {
     }
 
     @Test
-    public void savePositiveTest() {
+    public void save_positive_whenOrganizationWithName_thenSuccessfulSaved() {
         Organization organizationOrigin = Organization.builder()
                 .name("ПИМ-195")
                 .build();
-
-        if (log.isInfoEnabled())
-            log.info("Создали сущность `Организация` - {}", organizationOrigin);
+        log.info("Создали сущность `Организация` - {}", organizationOrigin);
 
         organizationRepository.save(organizationOrigin);
-
-        if (log.isInfoEnabled())
-            log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
-
-        assertNotNull(organizationOrigin.getId(), "Сущность не сохранилась");
+        log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationSaved = this.organizationRepository
                 .findById(organizationOrigin.getId())
                 .orElse(null);
+        log.info("Получили из бд сущность `Организация` - {}", organizationSaved);
 
         assertNotNull(organizationSaved, "Сущности в бд не обнаружено");
         assertTrue(
@@ -95,79 +94,72 @@ public class OrganizationRepositoryTests {
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void saveNullNameNegativeTest() {
+    public void save_negative_whenOrganizationWithNullName_thenFailureWithThrowException() {
         Organization organizationOrigin = new Organization();
-
-        if (log.isInfoEnabled())
-            log.info("Создали сущность `Организация` - {}", organizationOrigin);
+        log.info("Создали сущность `Организация` - {}", organizationOrigin);
 
         organizationRepository.save(organizationOrigin);
-
-        if (log.isInfoEnabled())
-            log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void saveEmptyNameNegativeTest() {
+    public void save_negative_whenOrganizationWithEmptyName_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
                 .name("")
                 .build();
-
-        if (log.isInfoEnabled())
-            log.info("Создали сущность `Организация` - {}", organizationOrigin);
+        log.info("Создали сущность `Организация` - {}", organizationOrigin);
 
         organizationRepository.save(organizationOrigin);
-
-        if (log.isInfoEnabled())
-            log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void saveBlankNameNegativeTest() {
+    public void save_negative_whenOrganizationWithBlankName_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("      ")
+                .name(" ")
                 .build();
-
-        if (log.isInfoEnabled())
-            log.info("Создали сущность `Организация` - {}", organizationOrigin);
+        log.info("Создали сущность `Организация` - {}", organizationOrigin);
 
         organizationRepository.save(organizationOrigin);
-
-        if (log.isInfoEnabled())
-            log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
     }
 
+    @Test(expected = DataIntegrityViolationException.class)
+    public void save_negative_whenOrganizationWithDuplicateName_thenFailureWithThrowException() {
+        Organization organizationOrigin = Organization.builder()
+                .name("ПИМ-195")
+                .build();
+        log.info("Создали сущность `Организация` - {}", organizationOrigin);
+        organizationRepository.save(organizationOrigin);
+        log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
+
+        Organization organizationOriginDuplicate = Organization.builder()
+                .name("ПИМ-195")
+                .build();
+        log.info("Создали сущность-дубликат `Организация` - {}", organizationOriginDuplicate);
+
+        organizationRepository.save(organizationOriginDuplicate);
+    }
+
+    //TODO: Допилить тут проверочку на сохранение при длиннах больше заданного и паттерну
+
     @Test
-    public void updateNamePositiveTest() {
+    public void update_positive_whenOrganizationWithName_thenSuccessfulUpdated() {
         Organization organizationOrigin = Organization.builder()
                 .name("ПИМ-190")
                 .build();
-
-        if (log.isInfoEnabled())
-            log.info("Создали сущность `Организация` - {}", organizationOrigin);
-
+        log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
-
-        if (log.isInfoEnabled())
-            log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
-
-        assertNotNull(organizationOrigin.getId(), "Сущность не была сохранена");
+        log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationSaved = this.organizationRepository
                 .findById(organizationOrigin.getId())
                 .orElse(null);
-
-        assertNotNull(organizationSaved, "Сущности в бд не обнаружено");
-
         organizationSaved.setName("ПИМ-195");
         this.organizationRepository.save(organizationSaved);
-
-        if (log.isInfoEnabled())
-            log.info("Обновили сущность `Организация` - {}", organizationSaved);
+        log.info("Обновили сущность `Организация` - {}", organizationSaved);
 
         Organization organizationUpdated = this.organizationRepository
                 .findById(organizationOrigin.getId())
                 .orElse(null);
+        log.info("Получили из бд сущность `Организация` - {}", organizationUpdated);
 
         assertNotNull(organizationUpdated, "Сущности в бд не обнаружено");
         assertTrue(organizationSaved.equals(organizationUpdated), "Сохранилось не то, что мы сохраняли");
@@ -175,6 +167,82 @@ public class OrganizationRepositoryTests {
                 !organizationOrigin.getName().equals(organizationUpdated.getName()),
                 "Наменование организации не было обновлено"
         );
+    }
+
+    @Test
+    public void findById_positive_whenIdNotNullAndOrganizationExists_thenSuccessfulReturnOrganization() {
+        Organization organizationOrigin = Organization.builder()
+                .name("ПИМ-195")
+                .build();
+        log.info("Создали сущность `Организация` - {}", organizationOrigin);
+        organizationRepository.save(organizationOrigin);
+        log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
+
+        Organization organizationSaved = this.organizationRepository
+                .findById(organizationOrigin.getId())
+                .orElse(null);
+        log.info("Получили из бд сущность `Организация` - {}", organizationSaved);
+
+        assertNotNull(organizationSaved, "Сущности в бд не обнаружено");
+    }
+
+    @Test
+    public void findById_positive_whenIdNotNullAndOrganizationNotExists_thenSuccessfulReturnNull() {
+        Organization organizationSaved = this.organizationRepository
+                .findById(Long.valueOf(1))
+                .orElse(null);
+        log.info("Получили из бд сущность `Организация` - {}", organizationSaved);
+
+        assertTrue(organizationSaved == null, "Получили сущность которой не должно было быть");
+    }
+
+    @Test(expected = InvalidDataAccessApiUsageException.class)
+    public void findById_positive_whenOrganizationIdIsNull_thenSuccessfulFailureThrowException() {
+        Organization organizationOrigin = Organization.builder()
+                .name("ПИМ-195")
+                .build();
+        log.info("Создали сущность `Организация` - {}", organizationOrigin);
+        organizationRepository.save(organizationOrigin);
+        log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
+
+        Organization organizationSaved = this.organizationRepository
+                .findById(null)
+                .orElse(null);
+        log.info("Получили из бд сущность `Организация` - {}", organizationSaved);
+
+        assertNotNull(organizationSaved, "Сущности в бд не обнаружено");
+    }
+
+    @Test
+    public void findAll_positive_whenOrganizationsExists_thenSuccessfulReturnOrganizations() {
+        int organizationsCount = 5;
+        List<Organization> organisationsOrigin = this.getOrganizations(organizationsCount);
+        log.info("Создали сущности `Организация` - {}", organisationsOrigin);
+        organizationRepository.saveAll(organisationsOrigin);
+        log.info("Сохранили сущности `Организация` - {}", organisationsOrigin);
+
+        List<Organization> organizationsSaved = this.organizationRepository.findAll();
+        log.info("Получили из бд сущности `Организация` - {}", organizationsSaved);
+
+        assertNotNull(organizationsSaved, "Сущности в бд не обнаружено");
+        assertTrue(
+                organizationsSaved.size() == organizationsCount,
+                "получили меньше сущностей, чем сохранили"
+        );
+        organisationsOrigin.forEach(eachOrganization -> {
+            assertTrue(
+                    organizationsSaved.contains(eachOrganization),
+                    "Сущность в бд не такая же как сущность, которую сохраняли"
+            );
+        });
+    }
+
+    @Test
+    public void findAll_positive_whenOrganizationsNotExists_thenSuccessfulReturnNull() {
+        List<Organization> organizationsSaved = this.organizationRepository.findAll();
+        log.info("Получили из бд сущности `Организация` - {}", organizationsSaved);
+
+        assertTrue(organizationsSaved != null, "Получили сущности которых не должно было быть");
     }
 
     private void cleanDb() {
@@ -192,5 +260,17 @@ public class OrganizationRepositoryTests {
                     "В таблице стало {} записей",
                     organizationRepository.count()
             );
+    }
+
+    private List<Organization> getOrganizations(int count) {
+        return new ArrayList<Organization>(){{
+            for (int i = 1; i <= count; i++) {
+                add(
+                        Organization.builder()
+                                .name(String.format("ПИМ-19%s", i))
+                                .build()
+                );
+            }
+        }};
     }
 }

@@ -11,6 +11,13 @@
             logicalFilePath="2019-09-18-scheme-init.xml"
     >
 
+        <createSequence sequenceName="organization_uid_seq"
+                        cycle="true"
+                        minValue="1"
+                        maxValue="9223372036854775807"
+                        startValue="1"
+                        incrementBy="1"/>
+
         <createTable tableName="organization">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="organization_pkey"/>

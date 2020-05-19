@@ -32,8 +32,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.TransactionSystemException;
 
 import javax.validation.ConstraintViolationException;
 
@@ -96,7 +98,7 @@ public class OrganizationRepositoryTests {
         );
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = Exception.class)
     public void save_negative_nameNull_thenFailureWithThrowException() {
         Organization organizationOrigin = new Organization();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
@@ -104,7 +106,7 @@ public class OrganizationRepositoryTests {
         organizationRepository.save(organizationOrigin);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = Exception.class)
     public void save_negative_whenNameEmpty_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
                 .name("")
@@ -114,7 +116,7 @@ public class OrganizationRepositoryTests {
         organizationRepository.save(organizationOrigin);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = Exception.class)
     public void save_negative_whenNameBlank_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
                 .name(" ")
@@ -141,7 +143,7 @@ public class OrganizationRepositoryTests {
         organizationRepository.save(organizationOriginDuplicate);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = Exception.class)
     public void save_negative_whenNameLong_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
                 .name(Stream.iterate(1,  i -> i++)
@@ -154,7 +156,7 @@ public class OrganizationRepositoryTests {
         organizationRepository.save(organizationOrigin);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = Exception.class)
     public void save_negative_whenInnLong_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
                 .name("ПИМ-195")
@@ -168,7 +170,7 @@ public class OrganizationRepositoryTests {
         organizationRepository.save(organizationOrigin);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = Exception.class)
     public void save_negative_whenKppLong_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
                 .name("ПИМ-195")

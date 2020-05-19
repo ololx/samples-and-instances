@@ -3,8 +3,8 @@
 ---
 
 - [x] Init this project.
-- [ ] Add tests for other repository methods.
-- [ ] Add tests on embeded h2 database.
+- [x] Add tests for other repository methods.
+- [x] Add tests on embedded h2 database.
 - [ ] Add tests for service layer.
 
 ---

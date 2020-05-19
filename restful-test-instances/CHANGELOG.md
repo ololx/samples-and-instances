@@ -8,7 +8,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ### Added
 
-- The tests for other organisation repository methods.
+- The tests for other organisation repository methods on the test containers.
+
+## [0.3.0] - yyyy-mm-dd
+
+### Added
+
+- The tests for other organisation repository methods on the local database.
+- The tests for organisation repository methods on the H2 database.
 
 ## [0.2.0] - 2020-04-25
 

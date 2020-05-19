@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.restful.test.instances.db.local.test;
+package org.restful.test.instances.db.embedded.test;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -27,6 +27,8 @@ import org.junit.runner.RunWith;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -56,6 +58,8 @@ import static org.hibernate.validator.internal.util.Contracts.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext
+@AutoConfigureTestDatabase
+@AutoConfigureDataJpa
 @Slf4j
 @NoArgsConstructor
 @FieldDefaults(
@@ -124,23 +128,6 @@ public class OrganizationRepositoryTests {
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
 
         organizationRepository.save(organizationOrigin);
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
-    public void save_negative_whenNameDuplicate_thenFailureWithThrowException() {
-        Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
-                .build();
-        log.info("Создали сущность `Организация` - {}", organizationOrigin);
-        organizationRepository.save(organizationOrigin);
-        log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
-
-        Organization organizationOriginDuplicate = Organization.builder()
-                .name("ПИМ-195")
-                .build();
-        log.info("Создали сущность-дубликат `Организация` - {}", organizationOriginDuplicate);
-
-        organizationRepository.save(organizationOriginDuplicate);
     }
 
     @Test(expected = Exception.class)

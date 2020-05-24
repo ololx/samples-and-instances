@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 - The modeule with QueryDSL samples.
 
-## [0.1.0] - 2020-04-23
+## [0.1.0] - 2020-05-24
 
 ### Added
 - Initial project commit.

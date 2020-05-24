@@ -1,4 +1,4 @@
-# restful-test-instances
+# restful-querying-instances
 
 This project presents a several examples of the tests usage in relation to a spring rest service grouped by modules. Each module presents a small simple test instance of the rest service layer.
 

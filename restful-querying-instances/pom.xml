@@ -58,7 +58,7 @@
 
     <properties>
         <!--<project versioning-->
-        <revision>0.0.0</revision>
+        <revision>0.1.0</revision>
         <changelist></changelist>
         <sha1/>
         <!--project versioning>-->

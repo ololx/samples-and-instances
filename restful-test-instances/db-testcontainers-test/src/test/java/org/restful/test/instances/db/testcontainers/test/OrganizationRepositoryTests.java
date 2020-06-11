@@ -14,19 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.restful.test.instances.db.local.test;
+package org.restful.test.instances.db.testcontainers.test;
 
+import configuration.OrganizationDbContainer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,6 +41,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.TransactionSystemException;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.validation.ConstraintViolationException;
 
@@ -62,6 +68,9 @@ import static org.hibernate.validator.internal.util.Contracts.*;
         level = AccessLevel.PRIVATE
 )
 public class OrganizationRepositoryTests {
+
+    @ClassRule
+    public static PostgreSQLContainer postgreSQLContainer = OrganizationDbContainer.getInstance();
 
     @Autowired
     OrganizationRepository organizationRepository;

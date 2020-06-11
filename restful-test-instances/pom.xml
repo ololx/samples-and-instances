@@ -48,6 +48,7 @@
         <module>db-testcontainers-test</module>
         <module>db-embedded-test</module>
         <module>service-test</module>
+        <module>controller-testcontainers-test</module>
     </modules>
 
     <properties>
@@ -87,6 +88,11 @@
             <dependency>
                 <groupId>org.restful.test.instances</groupId>
                 <artifactId>service-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.restful.test.instances</groupId>
+                <artifactId>controller-testcontainers-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -2,7 +2,7 @@
 
 This project presents a several examples of the tests usage in relation to a spring rest service grouped by modules. Each module presents a small simple test instance of the rest service layer.
 
-[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-May_19,_2020-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
+[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-June_11,_2020-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
 
 [![license](https://img.shields.io/badge/license-MIT-informational?style=flat-square)](LICENSE)
 
@@ -30,6 +30,9 @@ This project includes the follows modules:
 
 - [restful-test-instances-organisations](organisations/README.md) - this module is a simple `spring-boot` RESTful API which provides the create/read/update/delete operations for the manipulating `organization` entities;
 - [restful-test-instances-db-local-test](db-local-test/README.md) - this module presents unit tests of the API model layer. For this tests is used the local database;
+- [restful-test-instances-db-embedded-test](db-embedded-test/README.md) - this module presents unit tests of the API model layer. For this tests is used the embedded H2 database;
+- [restful-test-instances-db-testcontainers-test](db-testcontainers-test/README.md) - this module presents unit tests of the API model layer. For this tests is used the postgreSQL  database on the docker container;
+- [restful-test-instances-service-test](service-test/README.md) - this module presents unit tests of the API service layer;
 
 ## 🎚 Features
 

@@ -1,4 +1,4 @@
 # restful test instances db local test
 
-This module presents unit tests of the API model layer. For this tests is used the embedded database.
+This module presents unit tests of the API model layer. For this tests is used the Docker Test Containers Technologies.
 Please, visit the project main [page](../README.md) for getting more information about description, getting started process, e.t.c.

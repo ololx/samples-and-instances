@@ -7,8 +7,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableAsync
-@EnableScheduling
 @SpringBootApplication
 public class MainConfiguration extends SpringBootServletInitializer {
 

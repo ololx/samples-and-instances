@@ -12,10 +12,11 @@
     </parent>
 
 
-    <artifactId>db-embedded-test</artifactId>
-    <name>db-embedded-test</name>
+    <artifactId>db-testcontainers-test</artifactId>
+    <name>db-testcontainers-test</name>
     <description>
-        This module presents unit tests of the API model layer. For this tests is used the embedded database.
+        This module presents unit tests of the API model layer. For this tests is used the Docker Test Containers
+        Technology.
     </description>
 
     <dependencies>
@@ -25,13 +26,19 @@
             <artifactId>organisations</artifactId>
         </dependency>
         <!--organisations/>-->
-        <!--<database-->
+        <!--<docker test containers-->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.197</version>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.11.4</version>
         </dependency>
-        <!--<database/>-->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>1.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!--docker test containers/>-->
     </dependencies>
 
 </project>

@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type Root dir creator.
+ * @project restful-querying-instances
+ * @created 24.05.2020 07:54
+ * <p>
+ * @author Alexander A. Kropotin
  */
 @Slf4j
 @RequiredArgsConstructor

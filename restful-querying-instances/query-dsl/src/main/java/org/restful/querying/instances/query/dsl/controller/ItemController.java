@@ -33,10 +33,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @project restful-querying-instances
- * @created 24.05.2020 07:54
- * <p>
+ * The type Item controller.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -querying-instances
+ * @created 24.05.2020 07:54 <p>
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -53,6 +54,12 @@ public class ItemController {
 
     PagedResourcesAssembler<Item> assembler;
 
+    /**
+     * Find response entity.
+     *
+     * @param uid the uid
+     * @return the response entity
+     */
     @GetMapping(
             value = "/{uid}",
             produces = "application/json"
@@ -73,6 +80,13 @@ public class ItemController {
                 .body(ItemDetail.getInstance(someItem));
     }
 
+    /**
+     * Find filtered response entity.
+     *
+     * @param predicate the predicate
+     * @param pageable  the pageable
+     * @return the response entity
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(
             produces = "application/json"

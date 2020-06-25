@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @project restful-querying-instances
+ * @created 24.05.2020 07:54
+ * <p>
+ * @author Alexander A. Kropotin
+ */
 @Slf4j
 @NoArgsConstructor
 @FieldDefaults(

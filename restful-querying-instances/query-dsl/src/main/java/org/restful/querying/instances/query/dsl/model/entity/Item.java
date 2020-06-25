@@ -6,6 +6,13 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * The type Item.
+ *
+ * @author Alexander A. Kropotin
+ * @project restful -querying-instances
+ * @created 24.05.2020 07:54 <p>
+ */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

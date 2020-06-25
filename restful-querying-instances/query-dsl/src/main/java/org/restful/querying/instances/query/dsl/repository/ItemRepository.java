@@ -8,6 +8,13 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
+/**
+ * The interface Item repository.
+ *
+ * @author Alexander A. Kropotin
+ * @project restful -querying-instances
+ * @created 24.05.2020 07:54 <p>
+ */
 public interface ItemRepository extends
         QuerydslPredicateExecutor<Item>,
         QuerydslBinderCustomizer<QItem>,

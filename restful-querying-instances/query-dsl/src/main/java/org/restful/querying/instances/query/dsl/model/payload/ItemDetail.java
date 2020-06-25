@@ -30,10 +30,11 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
- * @project restful-querying-instances
- * @created 24.05.2020 10:52
- * <p>
+ * The type Item detail.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -querying-instances
+ * @created 24.05.2020 10:52 <p>
  */
 @Builder
 @NoArgsConstructor
@@ -60,6 +61,12 @@ public class ItemDetail extends ResourceSupport {
     @JsonProperty("length")
     Integer length;
 
+    /**
+     * Gets instance.
+     *
+     * @param item the item
+     * @return the instance
+     */
     public static ItemDetail getInstance(Item item) {
         if (item == null) return null;
 
@@ -75,6 +82,12 @@ public class ItemDetail extends ResourceSupport {
         return itemDetail;
     }
 
+    /**
+     * Self link of link.
+     *
+     * @param uid the uid
+     * @return the link
+     */
     static Link selfLinkOf(Long uid) {
         return ControllerLinkBuilder.linkTo(methodOn(ItemController.class).find(uid)).withSelfRel();
     }

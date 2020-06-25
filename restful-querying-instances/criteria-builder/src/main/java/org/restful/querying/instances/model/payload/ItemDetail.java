@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.restful.querying.instances.model.entity;
+package org.restful.querying.instances.model.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.restful.querying.instances.controller.ItemController;
+import org.restful.querying.instances.model.entity.Item;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
@@ -73,7 +74,7 @@ public class ItemDetail extends ResourceSupport {
         return itemDetail;
     }
 
-    static Link selfLinkOf(Long id) {
-        return linkTo(methodOn(ItemController.class).find(id)).withSelfRel();
+    static Link selfLinkOf(Long uid) {
+        return linkTo(methodOn(ItemController.class).find(uid)).withSelfRel();
     }
 }

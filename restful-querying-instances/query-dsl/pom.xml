@@ -11,7 +11,7 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>query-dsl</artifactId>
+    <artifactId>org.restful.querying.instances.criteria.builder.query.dsl</artifactId>
     <name>query-dsl</name>
     <description>
         This module presents the simple instances of the restful service query method using QueryDSL.

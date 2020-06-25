@@ -44,13 +44,19 @@
 
     <modules>
         <module>query-dsl</module>
+        <module>criteria-builder</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.restful.querying.instances</groupId>
-                <artifactId>query-dsl</artifactId>
+                <artifactId>org.restful.querying.instances.criteria.builder.query.dsl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.restful.querying.instances</groupId>
+                <artifactId>org.restful.querying.instances.criteria.builder</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -16,7 +16,6 @@
  */
 package org.restful.querying.instances.controller;
 
-import com.querydsl.core.types.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,12 +24,13 @@ import org.restful.querying.instances.model.entity.Item;
 import org.restful.querying.instances.model.payload.ItemDetail;
 import org.restful.querying.instances.repository.ItemRepository;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @project restful-querying-instances
@@ -54,14 +54,14 @@ public class ItemController {
     PagedResourcesAssembler<Item> assembler;
 
     @GetMapping(
-            value = "/{id}",
+            value = "/{uid}",
             produces = "application/json"
     )
     public ResponseEntity<ItemDetail> find(
             @PathVariable(
-                    name = "id"
-            ) Long id) {
-        Item someItem = this.itemRepository.findById(id)
+                    name = "uid"
+            ) Long uid) {
+        Item someItem = this.itemRepository.findById(uid)
                 .orElse(null);
 
         return ResponseEntity
@@ -78,16 +78,17 @@ public class ItemController {
             produces = "application/json"
     )
     public ResponseEntity<PagedResources<ItemDetail>> findFiltered(
-            @QuerydslPredicate(
-                    root = Item.class
-            ) Predicate predicate,
+            @RequestParam(
+                    value = "uid",
+                    required = false
+            ) List<Long> uid,
             Pageable pageable) {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
                         this.assembler.toResource(
-                                itemRepository.findAll(predicate, pageable),
+                                itemRepository.findByIdIn(uid),
                                 ItemDetail::getInstance
                 ));
     }

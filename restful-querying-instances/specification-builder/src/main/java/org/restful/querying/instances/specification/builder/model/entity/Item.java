@@ -1,4 +1,4 @@
-package org.restful.querying.instances.model.entity;
+package org.restful.querying.instances.specification.builder.model.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -6,6 +6,12 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * @project restful-querying-instances
+ * @created 24.05.2020 07:54
+ * <p>
+ * @author Alexander A. Kropotin
+ */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

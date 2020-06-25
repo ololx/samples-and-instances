@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.restful.querying.instances.controller;
+package org.restful.querying.instances.specification.builder.controller;
 
 import com.querydsl.core.types.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.restful.querying.instances.model.entity.Item;
-import org.restful.querying.instances.model.entity.ItemDetail;
-import org.restful.querying.instances.repository.ItemRepository;
+import org.restful.querying.instances.specification.builder.model.entity.Item;
+import org.restful.querying.instances.specification.builder.model.payload.ItemDetail;
+import org.restful.querying.instances.specification.builder.repository.ItemRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -33,10 +33,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @project restful-querying-instances
- * @created 24.05.2020 07:54
- * <p>
+ * The type Item controller.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -querying-instances
+ * @created 24.05.2020 07:54 <p>
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -46,22 +47,28 @@ import org.springframework.web.bind.annotation.*;
 )
 @CrossOrigin(value = "/**")
 @RestController
-@RequestMapping("/item")
+@RequestMapping("/items")
 public class ItemController {
 
     ItemRepository itemRepository;
 
     PagedResourcesAssembler<Item> assembler;
 
+    /**
+     * Find response entity.
+     *
+     * @param uid the uid
+     * @return the response entity
+     */
     @GetMapping(
-            value = "/{id}",
+            value = "/{uid}",
             produces = "application/json"
     )
     public ResponseEntity<ItemDetail> find(
             @PathVariable(
-                    name = "id"
-            ) Long id) {
-        Item someItem = this.itemRepository.findById(id)
+                    name = "uid"
+            ) Long uid) {
+        Item someItem = this.itemRepository.findById(uid)
                 .orElse(null);
 
         return ResponseEntity
@@ -73,6 +80,13 @@ public class ItemController {
                 .body(ItemDetail.getInstance(someItem));
     }
 
+    /**
+     * Find filtered response entity.
+     *
+     * @param predicate the predicate
+     * @param pageable  the pageable
+     * @return the response entity
+     */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(
             produces = "application/json"

@@ -27,7 +27,8 @@ A strong focus of these is, of course, the different test approaches of the `spr
 
 This project includes the follows modules:
 
-- [query-dsl](query-dsl/README.md) - this module is a simple `spring-boot` RESTful API which provides the read operations for the selecting `item` entities via dynamic querying with `QueryDSL`;
+- [query-dsl](query-dsl/README.md) - this module is a simple `spring-boot` RESTful API which provides the read operations for the selecting `item` entities via dynamic querying with `QueryDSL`; **This instance  is listening on port `8081`;**
+- [query-dsl](query-dsl/README.md) - this module is a simple `spring-boot` RESTful API which provides the read operations for the selecting `item` entities via dynamic querying with `Custom Specification Builder`; This instance  is listening on port `8082`;
 
 ## 🎚 Features
 
@@ -78,8 +79,9 @@ https://github.com/ololx/restful-querying-instances
 ### Using
 
 To use it is necessary to:
-1 - To build the project.
-2 - To launch the instances.
+1 - Build the project.
+2 - Launch the instances.
+3 - Send http request
 
 ### Building the project
 
@@ -109,6 +111,14 @@ mvn spring-boot:run
 
 This is a multi-module project. Each model is supposed to provide a separate example. 
 That's why when  you're working with an individual module, there's no need to import all of them (or build all of them) - you can simply import that particular module in either Eclipse, NetBeanse or IntelliJ IDEA and run each example  in IDE.
+
+### Sending http request
+
+Just use the follows link by method `GET`:
+
+```http
+https://localhost:{port-of-module}/items?{request}
+```
 
 ## 🛠 Built With
 

@@ -19,6 +19,7 @@
 
     <properties>
         <querydsl.version>4.2.2</querydsl.version>
+        <start-class>org.restful.querying.instances.query.dsl.QueryDsl</start-class>
     </properties>
 
     <dependencies>

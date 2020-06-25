@@ -44,6 +44,7 @@
 
     <modules>
         <module>query-dsl</module>
+        <module>specification-builder</module>
     </modules>
 
     <dependencyManagement>
@@ -51,6 +52,11 @@
             <dependency>
                 <groupId>org.restful.querying.instances</groupId>
                 <artifactId>query-dsl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.restful.querying.instances</groupId>
+                <artifactId>specification-builder</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

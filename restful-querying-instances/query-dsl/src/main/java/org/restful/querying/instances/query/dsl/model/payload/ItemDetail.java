@@ -14,24 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.restful.querying.instances.model.entity;
+package org.restful.querying.instances.specification.builder.model.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.restful.querying.instances.controller.ItemController;
+import org.restful.querying.instances.specification.builder.controller.ItemController;
+import org.restful.querying.instances.specification.builder.model.entity.Item;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
- * @project restful-querying-instances
- * @created 24.05.2020 10:52
- * <p>
+ * The type Item detail.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -querying-instances
+ * @created 24.05.2020 10:52 <p>
  */
 @Builder
 @NoArgsConstructor
@@ -58,6 +61,12 @@ public class ItemDetail extends ResourceSupport {
     @JsonProperty("length")
     Integer length;
 
+    /**
+     * Gets instance.
+     *
+     * @param item the item
+     * @return the instance
+     */
     public static ItemDetail getInstance(Item item) {
         if (item == null) return null;
 
@@ -73,7 +82,13 @@ public class ItemDetail extends ResourceSupport {
         return itemDetail;
     }
 
-    static Link selfLinkOf(Long id) {
-        return linkTo(methodOn(ItemController.class).find(id)).withSelfRel();
+    /**
+     * Self link of link.
+     *
+     * @param uid the uid
+     * @return the link
+     */
+    static Link selfLinkOf(Long uid) {
+        return ControllerLinkBuilder.linkTo(methodOn(ItemController.class).find(uid)).withSelfRel();
     }
 }

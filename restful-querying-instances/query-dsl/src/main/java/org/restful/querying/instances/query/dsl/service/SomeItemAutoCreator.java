@@ -1,11 +1,11 @@
-package org.restful.querying.instances.service;
+package org.restful.querying.instances.specification.builder.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.restful.querying.instances.model.entity.Item;
-import org.restful.querying.instances.repository.ItemRepository;
+import org.restful.querying.instances.specification.builder.model.entity.Item;
+import org.restful.querying.instances.specification.builder.repository.ItemRepository;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type Root dir creator.
+ * The type Some item auto creator.
+ *
+ * @author Alexander A. Kropotin
+ * @project restful -querying-instances
+ * @created 24.05.2020 07:54 <p>
  */
 @Slf4j
 @RequiredArgsConstructor

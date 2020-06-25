@@ -5,7 +5,8 @@
 - [x] Init this project.
 - [x] Add simple samole for QueryDSL usage.
 - [ ] Add other QueryDSL udage samples.
-- [ ] Add Specification builder samoles.
+- [x] Add specification builder sample.
+- [ ] Add specification builder samples by quey string
 
 ---
 

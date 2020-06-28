@@ -45,7 +45,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 )
 @CrossOrigin(value = "/**")
 @RestController
-@RequestMapping("/peoples")
+@RequestMapping("/persons")
 public class PersonController {
 
     PersonRepository peopleRepository;
@@ -71,8 +71,8 @@ public class PersonController {
 
         Person people = this.peopleRepository.findById(uid).orElse(null);
         assertNotNull(people, String.format("Person with uid - {} is not existed", uid));
-
         log.info("Select the entity from the database: {}", people);
+
         objectMapper.updateValue(people, updatePersonRequest);
         peopleRepository.save(people);
         log.info("Update the entity: {}", people);

@@ -1,5 +1,6 @@
 package org.restful.updating.instances.option.field.approach.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -27,8 +28,9 @@ import java.io.Serializable;
 )
 @Entity(name = "People")
 @Table(name = "people")
-public class People implements Serializable {
+public class Person implements Serializable {
 
+    @JsonProperty("uid")
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -46,12 +48,24 @@ public class People implements Serializable {
     )
     Long uid;
 
-    @Column(name = "first_name", nullable = false)
+    @JsonProperty("first_name")
+    @Column(
+            name = "first_name",
+            nullable = false
+    )
     String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @JsonProperty("last_name")
+    @Column(
+            name = "last_name",
+            nullable = false
+    )
     String lastName;
 
-    @Column(name = "age", nullable = false)
+    @JsonProperty("age")
+    @Column(
+            name = "age",
+            nullable = false
+    )
     Integer age;
 }

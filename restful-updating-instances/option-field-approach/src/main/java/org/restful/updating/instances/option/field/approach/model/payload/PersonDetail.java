@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.hateoas.core.Relation;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
@@ -34,33 +33,52 @@ import java.util.Optional;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(
+        of = {
+                "uid",
+                "firstName",
+                "lastName",
+                "age"
+        }
+)
 @EqualsAndHashCode(
         of = {
                 "uid"
         },
         doNotUseGetters = true
 )
-@Data
+@Getter
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-@Relation(value = "people")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PeopleDetail {
+public class PersonDetail {
 
     @JsonProperty("uid")
-    Long uid;
+    Optional<@NotNull Long> uid;
 
     @JsonProperty("first_name")
     Optional<@NotNull String> firstName;
 
     @JsonProperty("last_name")
-    String lastName;
+    Optional<@NotNull String> lastName;
 
     @JsonProperty("age")
-    Integer age;
+    Optional<@NotNull Integer> age;
+
+    public void setUid(Long uid) {
+        this.uid = Optional.ofNullable(uid);
+    }
 
     public void setFirstName(String firstName) {
         this.firstName = Optional.ofNullable(firstName);
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = Optional.ofNullable(lastName);
+    }
+
+    public void setAge(Integer age) {
+        this.age = Optional.ofNullable(age);
     }
 }

@@ -16,14 +16,20 @@
  */
 package org.restful.updating.instances.option.field.approach.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.restful.updating.instances.option.field.approach.model.payload.PeopleDetail;
-import org.restful.updating.instances.option.field.approach.repository.PeopleRepository;
+import org.restful.updating.instances.option.field.approach.model.entity.Person;
+import org.restful.updating.instances.option.field.approach.model.payload.PersonDetail;
+import org.restful.updating.instances.option.field.approach.repository.PersonRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 /**
  * @project restful-updating-instances
@@ -40,27 +46,41 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(value = "/**")
 @RestController
 @RequestMapping("/peoples")
-public class PeopleController {
+public class PersonController {
 
-    PeopleRepository peopleRepository;
+    PersonRepository peopleRepository;
 
+    ObjectMapper objectMapper;
+
+    @SneakyThrows
     @PatchMapping(
             path = "/{uid}"
     )
-    public PeopleDetail update_patch(
+    public PersonDetail update(
             @ApiParam(
                     name="uid",
-                    value = "The people entity uid",
+                    value = "The updatePersonRequest entity uid",
                     required = true
             ) @PathVariable Long uid,
             @ApiParam(
-                    name="people",
-                    value = "The people entity model",
+                    name="updatePersonRequest",
+                    value = "The updatePersonRequest entity model",
                     required = true
-            ) @RequestBody PeopleDetail people) {
-        log.info("Catch the request with dto: {}", people);
+            ) @RequestBody PersonDetail updatePersonRequest) {
+        log.info("Catch the request with dto: {}", updatePersonRequest);
 
-        return new PeopleDetail();
+        Person people = this.peopleRepository.findById(uid).orElse(null);
+        assertNotNull(people, String.format("Person with uid - {} is not existed", uid));
 
+        log.info("Select the entity from the database: {}", people);
+        objectMapper.updateValue(people, updatePersonRequest);
+        peopleRepository.save(people);
+        log.info("Update the entity: {}", people);
+
+        PersonDetail updatePersonResponse = new PersonDetail();
+        BeanUtils.copyProperties(people, updatePersonResponse);
+        log.info("Return the result of request: {}", updatePersonResponse);
+
+        return updatePersonResponse;
     }
 }

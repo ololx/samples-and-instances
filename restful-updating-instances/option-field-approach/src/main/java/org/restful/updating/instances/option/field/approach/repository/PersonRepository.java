@@ -1,6 +1,6 @@
 package org.restful.updating.instances.option.field.approach.repository;
 
-import org.restful.updating.instances.option.field.approach.model.entity.People;
+import org.restful.updating.instances.option.field.approach.model.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * <p>
  * @author Alexander A. Kropotin
  */
-public interface PeopleRepository extends
-        JpaRepository<People, Long>,
-        JpaSpecificationExecutor<People> {
+public interface PersonRepository extends
+        JpaRepository<Person, Long>,
+        JpaSpecificationExecutor<Person> {
 }

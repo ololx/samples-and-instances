@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.restful.updating.instances.option.field.approach.model.entity.People;
-import org.restful.updating.instances.option.field.approach.repository.PeopleRepository;
+import org.restful.updating.instances.option.field.approach.model.entity.Person;
+import org.restful.updating.instances.option.field.approach.repository.PersonRepository;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -26,19 +26,19 @@ import java.util.List;
         makeFinal = true
 )
 @Component
-public class NewPeoplesAutoCreator implements ApplicationListener<ApplicationReadyEvent> {
+public class NewPersonAutoCreator implements ApplicationListener<ApplicationReadyEvent> {
 
-    PeopleRepository peopleRepository;
+    PersonRepository peopleRepository;
 
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
 
-        List<People> newPeoples = new ArrayList<People>(){{
+        List<Person> newPeoples = new ArrayList<Person>(){{
             for (int i = 1; i <= 5; i++) {
                 add(
-                        People.builder()
+                        Person.builder()
                                 .uid(Long.valueOf(i))
-                                .firstName("John_" + i)
+                                .firstName("Boris_" + i)
                                 .lastName("Bronson_" + i)
                                 .age(i)
                                 .build()

@@ -16,10 +16,14 @@
  */
 package org.restful.updating.instances.option.field.approach.model.payload;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.hateoas.core.Relation;
+
+import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 /**
  * @project restful-updating-instances
@@ -41,17 +45,22 @@ import org.springframework.hateoas.core.Relation;
         level = AccessLevel.PRIVATE
 )
 @Relation(value = "people")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PeopleDetail {
 
     @JsonProperty("uid")
     Long uid;
 
     @JsonProperty("first_name")
-    String firstName;
+    Optional<@NotNull String> firstName;
 
     @JsonProperty("last_name")
     String lastName;
 
     @JsonProperty("age")
     Integer age;
+
+    public void setFirstName(String firstName) {
+        this.firstName = Optional.ofNullable(firstName);
+    }
 }

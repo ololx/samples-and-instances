@@ -58,6 +58,7 @@ public class PeopleController {
                     value = "The people entity model",
                     required = true
             ) @RequestBody PeopleDetail people) {
+        log.info("Catch the request with dto: {}", people);
 
         return new PeopleDetail();
 

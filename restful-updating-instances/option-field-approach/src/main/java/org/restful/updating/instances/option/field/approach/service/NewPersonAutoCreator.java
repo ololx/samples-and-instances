@@ -14,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @project restful-updating-instances
- * @created 28.08.2020 07:54
- * <p>
+ * The type New person auto creator.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -updating-instances
+ * @created 28.08.2020 07:54 <p>
  */
 @Slf4j
 @RequiredArgsConstructor

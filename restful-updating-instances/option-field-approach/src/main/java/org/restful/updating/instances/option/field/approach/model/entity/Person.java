@@ -11,10 +11,11 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * @project restful-updating-instances
- * @created 28.06.2020 07:54
- * <p>
+ * The type Person.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -updating-instances
+ * @created 28.06.2020 07:54 <p>
  */
 @Builder
 @NoArgsConstructor
@@ -29,8 +30,8 @@ import java.io.Serializable;
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-@Entity(name = "People")
-@Table(name = "people")
+@Entity(name = "Person")
+@Table(name = "person")
 public class Person implements Serializable {
 
     @JsonProperty("uid")

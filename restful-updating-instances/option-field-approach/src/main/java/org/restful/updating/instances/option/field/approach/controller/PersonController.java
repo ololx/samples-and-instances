@@ -1,19 +1,3 @@
-/**
- * Copyright 2020 the project restful-updating-instances authors
- * and the original author or authors annotated by {@author}
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.restful.updating.instances.option.field.approach.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,16 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.restful.updating.instances.option.field.approach.model.entity.Person;
 import org.restful.updating.instances.option.field.approach.model.payload.PersonDetail;
 import org.restful.updating.instances.option.field.approach.repository.PersonRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 /**
- * @project restful-updating-instances
- * @created 28.06.2020 07:54
- * <p>
+ * The type Person controller.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -updating-instances
+ * @created 28.06.2020 07:54 <p>
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -52,6 +36,13 @@ public class PersonController {
 
     ObjectMapper objectMapper;
 
+    /**
+     * Update person detail.
+     *
+     * @param uid                 the uid
+     * @param updatePersonRequest the update person request
+     * @return the person detail
+     */
     @SneakyThrows
     @PatchMapping(
             path = "/{uid}"

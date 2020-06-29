@@ -5,6 +5,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -48,6 +51,9 @@ public class Person implements Serializable {
     )
     Long uid;
 
+    @NotBlank(
+            message = "The first name value couldn't be 'blank'"
+    )
     @JsonProperty("first_name")
     @Column(
             name = "first_name",
@@ -58,10 +64,17 @@ public class Person implements Serializable {
     @JsonProperty("last_name")
     @Column(
             name = "last_name",
-            nullable = false
+            nullable = true
     )
     String lastName;
 
+    @Min(
+            value = 1,
+            message = "The age have to be more than '0'"
+    )
+    @NotNull(
+            message = "The age value couldn't be 'null'"
+    )
     @JsonProperty("age")
     @Column(
             name = "age",

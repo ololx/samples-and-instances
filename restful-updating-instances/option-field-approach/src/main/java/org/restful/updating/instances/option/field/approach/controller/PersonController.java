@@ -78,7 +78,7 @@ public class PersonController {
         log.info("Update the entity: {}", people);
 
         PersonDetail updatePersonResponse = new PersonDetail();
-        BeanUtils.copyProperties(people, updatePersonResponse);
+        objectMapper.updateValue(updatePersonResponse, people);
         log.info("Return the result of request: {}", updatePersonResponse);
 
         return updatePersonResponse;

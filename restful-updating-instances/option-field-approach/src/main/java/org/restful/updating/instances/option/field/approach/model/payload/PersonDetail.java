@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -30,24 +31,9 @@ import java.util.Optional;
  * <p>
  * @author Alexander A. Kropotin
  */
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(
-        of = {
-                "uid",
-                "firstName",
-                "lastName",
-                "age"
-        }
-)
-@EqualsAndHashCode(
-        of = {
-                "uid"
-        },
-        doNotUseGetters = true
-)
-@Getter
+@Data
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
@@ -55,30 +41,14 @@ import java.util.Optional;
 public class PersonDetail {
 
     @JsonProperty("uid")
-    Optional<@NotNull Long> uid;
+    Optional<Long> uid;
 
     @JsonProperty("first_name")
-    Optional<@NotNull String> firstName;
+    Optional<String> firstName;
 
     @JsonProperty("last_name")
-    Optional<@NotNull String> lastName;
+    Optional<String> lastName;
 
     @JsonProperty("age")
-    Optional<@NotNull Integer> age;
-
-    public void setUid(Long uid) {
-        this.uid = Optional.ofNullable(uid);
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = Optional.ofNullable(firstName);
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = Optional.ofNullable(lastName);
-    }
-
-    public void setAge(Integer age) {
-        this.age = Optional.ofNullable(age);
-    }
+    Optional<Integer> age;
 }

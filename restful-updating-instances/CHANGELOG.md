@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 - Other `UPDATE` realisation examples.
 
-## [0.1.0] - 2020-05-24
+## [0.1.0] - 2020-06-29
 
 ### Added
 - Initial project commit.

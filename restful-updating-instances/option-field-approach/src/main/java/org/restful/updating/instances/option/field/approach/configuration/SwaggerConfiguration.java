@@ -38,8 +38,8 @@ public class SwaggerConfiguration {
 
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
-                .title("")
-                .description("")
+                .title("The RESTful updating instance")
+                .description("This is a controller for updating entity 'Person'")
                 .version("0.1.0")
                 .build();
     }

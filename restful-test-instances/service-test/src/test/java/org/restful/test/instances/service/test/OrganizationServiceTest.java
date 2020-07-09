@@ -1,21 +1,6 @@
-/**
- * Copyright 2020 the project restful-test-instances authors
- * and the original author or authors annotated by {@author}
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.restful.test.instances.service.test;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -34,11 +19,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import static org.hibernate.validator.internal.util.Contracts.*;
 
 /**
  * @project restful-test-instances
@@ -73,17 +60,20 @@ public class OrganizationServiceTest {
     }
 
     @Test
-    public void createPositiveTest() {
+    public void createPositiveTest() throws JsonMappingException {
         OrganizationDetail organizationRequest = OrganizationDetail.builder()
-                .name("ПИМ-195")
+                .name(Optional.of("WCorp"))
                 .build();
 
-        if (log.isInfoEnabled())
-            log.info("Создали ДТО `Организация` - {}", organizationRequest);
+        log.info("Создали ДТО `Организация` - {}", organizationRequest);
 
         OrganizationDetail organizationResponse = this.organizationService.create(organizationRequest);
         verify(organizationRepository).save(any(Organization.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
-        assertTrue(organizationResponse.getId().equals(Long.valueOf(1)), "Иденьтификаторы разные");
+        assertNotNull(organizationResponse.getId().orElse(null), "Иденьтификатор null");
+        assertTrue(
+                organizationResponse.getId().orElse(null).equals(Long.valueOf(1)),
+                "Иденьтификаторы разные"
+        );
     }
 }

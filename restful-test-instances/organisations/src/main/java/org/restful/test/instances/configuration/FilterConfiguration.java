@@ -5,6 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+/**
+ * @project restful-test-instances
+ * @created 11.06.2020 10:07
+ * <p>
+ * @author Alexander A. Kropotin
+ */
 @Configuration
 public class FilterConfiguration {
 

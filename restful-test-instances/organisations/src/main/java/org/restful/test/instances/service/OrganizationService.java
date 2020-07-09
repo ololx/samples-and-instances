@@ -1,34 +1,17 @@
-/**
- * Copyright 2020 the project restful-test-instances authors
- * and the original author or authors annotated by {@author}
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.restful.test.instances.service;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-
-import static org.hibernate.validator.internal.util.Contracts.*;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 
 /**
@@ -48,25 +31,25 @@ public final class OrganizationService {
 
     OrganizationRepository organizationRepository;
 
-    ModelMapper modelMapper;
+    ObjectMapper objectMapper;
 
-    public OrganizationDetail create(OrganizationDetail organizationDetailRequest) {
-        if (log.isInfoEnabled())
-            log.info("Получили запрос на создание сущности - {}", organizationDetailRequest);
+    public OrganizationDetail create(OrganizationDetail createOrganizationRequest) throws JsonMappingException {
+        log.info("Получили запрос на создание сущности - {}", createOrganizationRequest);
 
-        assertNotNull(organizationDetailRequest, "Организация не может быть null");
-        Organization organization = this.modelMapper.map(organizationDetailRequest, Organization.class);
+        assertNotNull(createOrganizationRequest, "Организация не может быть null");
+        Organization organization = this.objectMapper.updateValue(new Organization(), createOrganizationRequest);
 
-        if (log.isInfoEnabled())
-            log.info("Создали сущность организации - {}", organization);
+        log.info("Создали сущность организации - {}", organization);
 
         organization = this.organizationRepository.save(organization);
         assertNotNull(organization.getId(), "Не получилось сохранить организацию");
-        OrganizationDetail organizationDetailResponse = this.modelMapper.map(organization, OrganizationDetail.class);
+        OrganizationDetail createOrganizationResponse = this.objectMapper.updateValue(
+                new OrganizationDetail(),
+                organization
+        );
 
-        if (log.isInfoEnabled())
-            log.info("Возвращаем ответ - {}", organizationDetailResponse);
+        log.info("Возвращаем ответ - {}", createOrganizationResponse);
 
-        return organizationDetailResponse;
+        return createOrganizationResponse;
     }
 }

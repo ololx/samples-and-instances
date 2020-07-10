@@ -42,11 +42,11 @@ public class Organization implements Serializable {
             allocationSize = 1
     )
     @Column(
-            name = "id",
+            name = "uid",
             insertable = false,
             nullable = false
     )
-    Long id;
+    Long uid;
 
     @Size(
             max = 10,

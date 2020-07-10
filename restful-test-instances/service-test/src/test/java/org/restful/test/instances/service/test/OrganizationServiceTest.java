@@ -54,7 +54,7 @@ public class OrganizationServiceTest {
     public void beforeEachTest() {
         when(organizationRepository.save(any(Organization.class)))
                 .thenReturn(Organization.builder()
-                        .id(Long.valueOf(1))
+                        .uid(Long.valueOf(1))
                         .build()
                 );
     }
@@ -70,9 +70,9 @@ public class OrganizationServiceTest {
         OrganizationDetail organizationResponse = this.organizationService.create(organizationRequest);
         verify(organizationRepository).save(any(Organization.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
-        assertNotNull(organizationResponse.getId().orElse(null), "Иденьтификатор null");
+        assertNotNull(organizationResponse.getUid().orElse(null), "Иденьтификатор null");
         assertTrue(
-                organizationResponse.getId().orElse(null).equals(Long.valueOf(1)),
+                organizationResponse.getUid().orElse(null).equals(Long.valueOf(1)),
                 "Иденьтификаторы разные"
         );
     }

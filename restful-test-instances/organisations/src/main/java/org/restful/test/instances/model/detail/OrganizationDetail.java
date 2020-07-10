@@ -19,7 +19,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @EqualsAndHashCode(
         of = {
-                "id",
+                "uid",
                 "name"
         },
         doNotUseGetters = true
@@ -31,8 +31,8 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationDetail implements Serializable {
 
-    @JsonProperty("id")
-    Optional<Long> id;
+    @JsonProperty("uid")
+    Optional<Long> uid;
 
     @JsonProperty("name")
     Optional<String> name;

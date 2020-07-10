@@ -71,7 +71,7 @@ public class OrganizationRepositoryTests {
         log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationSaved = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         log.info("Получили из бд сущность `Организация` - {}", organizationSaved);
 
@@ -161,14 +161,14 @@ public class OrganizationRepositoryTests {
         log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationSaved = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         organizationSaved.setName("WCorp");
         this.organizationRepository.save(organizationSaved);
         log.info("Обновили сущность `Организация` - {}", organizationSaved);
 
         Organization organizationUpdated = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         log.info("Получили из бд сущность `Организация` - {}", organizationUpdated);
 
@@ -190,7 +190,7 @@ public class OrganizationRepositoryTests {
         log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationSaved = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         log.info("Получили из бд сущность `Организация` - {}", organizationSaved);
 
@@ -273,11 +273,11 @@ public class OrganizationRepositoryTests {
         organizationRepository.save(organizationOrigin);
         log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
-        this.organizationRepository.deleteById(organizationOrigin.getId());
+        this.organizationRepository.deleteById(organizationOrigin.getUid());
         log.info("Удалили из бд сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationDeleted = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         log.info("Получили из бд сущность `Организация` - {}", organizationDeleted);
 

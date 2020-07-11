@@ -81,4 +81,26 @@ public final class OrganizationService {
 
         return updateOrganizationResponse;
     }
+
+    public OrganizationDetail delete(Long uidOrganization)
+            throws JsonMappingException {
+        log.info("Получили запрос на удаление сущности с идентификатором - {}", uidOrganization);
+
+        Organization organization = this.organizationRepository.findById(uidOrganization).orElse(null);
+        assertNotNull(
+                organization,
+                String.format("Организации с таким идентификатором - {} не существует", uidOrganization)
+        );
+        log.info("Получили сущность организации - {}", organization);
+
+        organizationRepository.delete(organization);
+
+        OrganizationDetail deleteOrganizationResponse = this.objectMapper.updateValue(
+                new OrganizationDetail(),
+                organization
+        );
+        log.info("Возвращаем ответ - {}", deleteOrganizationResponse);
+
+        return deleteOrganizationResponse;
+    }
 }

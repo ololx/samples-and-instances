@@ -1,9 +1,7 @@
 package org.restful.test.instances.service;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiParam;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -12,15 +10,12 @@ import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.service.specification.CustomSpecificationBuilder;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import static org.hibernate.validator.internal.util.Contracts.assertNotEmpty;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 

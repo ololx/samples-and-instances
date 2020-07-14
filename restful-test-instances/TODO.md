@@ -7,6 +7,7 @@
 - [x] Add tests on embedded h2 database.
 - [x] Add tests on postgreSQL db via docker test containers.
 - [x] Add tests for service layer.
+- [x] Add other CRUD methods on the service layer.
 - [ ] Add tests for other service layer.
 - [ ] Add tests for controller layer.
 - [ ] Add tests for controller layer via docker test containers.

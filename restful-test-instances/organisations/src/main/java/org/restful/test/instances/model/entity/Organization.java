@@ -5,10 +5,15 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+/**
+ * @project restful-test-instances
+ * @created 11.06.2020 10:07
+ * <p>
+ * @author Alexander A. Kropotin
+ */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,11 +42,11 @@ public class Organization implements Serializable {
             allocationSize = 1
     )
     @Column(
-            name = "id",
+            name = "uid",
             insertable = false,
             nullable = false
     )
-    Long id;
+    Long uid;
 
     @Size(
             max = 10,

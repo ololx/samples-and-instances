@@ -1,19 +1,3 @@
-/**
- * Copyright 2020 the project restful-test-instances authors
- * and the original author or authors annotated by {@author}
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.restful.test.instances.db.embedded.test;
 
 import lombok.AccessLevel;
@@ -30,23 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.TransactionSystemException;
-
-import javax.validation.ConstraintViolationException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hibernate.validator.internal.util.Contracts.*;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 
 /**
  * @project restful-test-instances
@@ -83,7 +63,7 @@ public class OrganizationRepositoryTests {
     @Test
     public void save_positive_whenNameNotNull_thenSuccessfulSaved() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
 
@@ -91,7 +71,7 @@ public class OrganizationRepositoryTests {
         log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationSaved = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         log.info("Получили из бд сущность `Организация` - {}", organizationSaved);
 
@@ -146,7 +126,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = Exception.class)
     public void save_negative_whenInnLong_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
+                .name("WCorp")
                 .inn(Stream.iterate(1,  i -> i++)
                         .limit(11)
                         .map(eachIterator -> "*")
@@ -160,7 +140,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = Exception.class)
     public void save_negative_whenKppLong_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
+                .name("WCorp")
                 .kpp(Stream.iterate(1,  i -> i++)
                         .limit(9)
                         .map(eachIterator -> "*")
@@ -174,21 +154,21 @@ public class OrganizationRepositoryTests {
     @Test
     public void update_positive_Name_thenSuccessfulUpdated() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-190")
+                .name("GCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
         log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationSaved = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
-        organizationSaved.setName("ПИМ-195");
+        organizationSaved.setName("WCorp");
         this.organizationRepository.save(organizationSaved);
         log.info("Обновили сущность `Организация` - {}", organizationSaved);
 
         Organization organizationUpdated = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         log.info("Получили из бд сущность `Организация` - {}", organizationUpdated);
 
@@ -203,14 +183,14 @@ public class OrganizationRepositoryTests {
     @Test
     public void findById_positive_whenIdNotNullAndOrganizationExists_thenSuccessfulReturnOrganization() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
         log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationSaved = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         log.info("Получили из бд сущность `Организация` - {}", organizationSaved);
 
@@ -230,7 +210,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = InvalidDataAccessApiUsageException.class)
     public void findById_negative_whenIdNull_thenFailureThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
@@ -251,7 +231,7 @@ public class OrganizationRepositoryTests {
             for (int i = 1; i <= organizationsCount; i++) {
                 add(
                         Organization.builder()
-                                .name(String.format("ПИМ-19%s", i))
+                                .name(String.format("GCorps%d", i))
                                 .build()
                 );
             }
@@ -287,17 +267,17 @@ public class OrganizationRepositoryTests {
     @Test
     public void deleteById_positive_whenIdNotNull_thenSuccessfulDeleteOrganization() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
         log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
 
-        this.organizationRepository.deleteById(organizationOrigin.getId());
+        this.organizationRepository.deleteById(organizationOrigin.getUid());
         log.info("Удалили из бд сущность `Организация` - {}", organizationOrigin);
 
         Organization organizationDeleted = this.organizationRepository
-                .findById(organizationOrigin.getId())
+                .findById(organizationOrigin.getUid())
                 .orElse(null);
         log.info("Получили из бд сущность `Организация` - {}", organizationDeleted);
 
@@ -307,7 +287,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = EmptyResultDataAccessException.class)
     public void deleteById_positive_whenIdNotNullButNotExists_thenFailureThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
@@ -319,7 +299,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = InvalidDataAccessApiUsageException.class)
     public void deleteById_negative_whenIdNull_thenFailureThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("ПИМ-195")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);

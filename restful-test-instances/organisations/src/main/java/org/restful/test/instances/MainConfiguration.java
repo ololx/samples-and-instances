@@ -4,9 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * @project restful-test-instances
+ * @created 11.06.2020 10:07
+ * <p>
+ * @author Alexander A. Kropotin
+ */
 @SpringBootApplication
 public class MainConfiguration extends SpringBootServletInitializer {
 

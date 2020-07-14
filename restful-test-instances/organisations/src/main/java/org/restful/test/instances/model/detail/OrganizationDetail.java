@@ -1,20 +1,25 @@
 package org.restful.test.instances.model.detail;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Optional;
 
+/**
+ * @project restful-test-instances
+ * @created 11.06.2020 10:07
+ * <p>
+ * @author Alexander A. Kropotin
+ */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(
         of = {
-                "id",
+                "uid",
                 "name"
         },
         doNotUseGetters = true
@@ -23,20 +28,21 @@ import java.io.Serializable;
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationDetail implements Serializable {
 
-    @JsonProperty("id")
-    Long id;
+    @JsonProperty("uid")
+    Optional<Long> uid;
 
     @JsonProperty("name")
-    String name;
+    Optional<String> name;
 
     @JsonProperty("inn")
-    String inn;
+    Optional<String> inn;
 
     @JsonProperty("kpp")
-    String kpp;
+    Optional<String> kpp;
 
     @JsonProperty("address")
-    String address;
+    Optional<String> address;
 }

@@ -10,11 +10,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 - The tests for other organisation service methods.
 
+## [0.5.0] - 2020-07-14
+
+### Added
+
+- The other organisation service methods for the organization updating, deleting or finding.
+
 ## [0.4.0] - 2020-06-11
 
 ### Added
 
-The tests for other organisation repository methods on the test containers.
+- The tests for other organisation repository methods on the test containers.
 
 ## [0.3.0] - 2020-05-02
 

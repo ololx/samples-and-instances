@@ -78,8 +78,11 @@ https://github.com/ololx/restful-updating-instances
 ### Using
 
 To use it is necessary to:
+
 1 - Build the project.
+
 2 - Launch the instances.
+
 3 - Send http request
 
 ### Building the project

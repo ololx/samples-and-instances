@@ -65,7 +65,7 @@ If any of the listed software is not installed, then it can be installed by inst
    
 3. #### Docker Compose
 
-   - Install PostgreSQL 9+ according to instructions from an [official](https://docs.docker.com/compose/install/) source.
+   - Install Docker Compose according to instructions from an [official](https://docs.docker.com/compose/install/) source.
 
 
 ### Installing
@@ -130,7 +130,7 @@ That's why when  you're working with an individual module, there's no need to im
 
 - **[Oracle JDK](https://www.oracle.com/java/technologies/javase-downloads.html)** -  java development kit;
 - **[Maven](https://maven.apache.org/)** - dependency management;
-- **[PostgreSQL 9+](https://www.postgresql.org/download/)** - database management system;
+- **[RabbitMQ](https://www.cloudamqp.com/?utm_source=google&utm_medium=cpc&utm_term=rabbit%20message%20queue&utm_campaign=general&gclid=CjwKCAjwps75BRAcEiwAEiACMeDjZjyvvqbEwtBlAjbt41zWdXCjui-x5M7y_m3yHQrM8ielZWvWqhoCI_8QAvD_BwE)** - database management system;
 - **[Docker Compose](https://docs.docker.com/compose/)** - tool for defining and running multi-container `Docker` applications.
 
 ## ©️ Authors

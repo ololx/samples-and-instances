@@ -2,20 +2,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.project.sample.spring.cloud.stream</groupId>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.5.RELEASE</version>
+		<relativePath />
+	</parent>
+
+	<groupId>org.spring.cloud.stream.instances</groupId>
 	<artifactId>number-counter</artifactId>
-	<version>00.00.0000</version>
+	<version>${revision}${sha1}${changelist}</version>
 	<name>number-counter</name>
 	<description>
-		This is an example of a Spring Cloud Stream application using Rabbit Streams Binder support.
+		This is a java project with simple instances of the Spring Cloud Stream implementation with Rabbit and Kafka.
 	</description>
-	<url>https://bitbucket.org/ol_lx/sample-project/src/master/number-counter</url>
+	<url>https://github.com/ololx/spring-cloud-stream-instances/tree/master/number-counter</url>
 	<inceptionYear>2019</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://github.com/ololx/${project.name}/LICENSE</url>
+		</license>
+	</licenses>
 
 	<developers>
 		<developer>
 			<name>Alexander A. Kropotin</name>
-			<email>ol_lx@icloud.com</email>
+			<email>ololx@icloud.com</email>
+			<roles>
+				<role>initial work</role>
+				<role>author</role>
+				<role>developer</role>
+			</roles>
 		</developer>
 	</developers>
 
@@ -27,15 +46,126 @@
 	</modules>
 
 	<properties>
-		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+		<!--<project versioning-->
+		<revision>0.1.0</revision>
+		<changelist></changelist>
+		<sha1/>
+		<!--project versioning>-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<java.version>1.8</java.version>
 	</properties>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.5.RELEASE</version>
-	</parent>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Greenwich.SR1</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>number-publisher</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>number-listener</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!--Rest<-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+		<!-->Rest-->
+		<!--Spring-Cloud<-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+		</dependency>
+		<!-->Spring-Cloud-->
+		<!--POJO<-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.9.7</version>
+		</dependency>
+		<!-->POJO-->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!--<flatten pom-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<updatePomFile>true</updatePomFile>
+					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--flatten pom>-->
+			<!--<compiler-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<compilerArguments>
+						<endorseddirs>${endorsed.dir}</endorseddirs>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			<!--compiler>-->
+		</plugins>
+	</build>
 </project>

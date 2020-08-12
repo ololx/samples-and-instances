@@ -4,91 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>number-listener</artifactId>
-
-    <packaging>jar</packaging>
-
     <parent>
-        <groupId>org.project.sample.spring.cloud.stream</groupId>
+        <groupId>org.spring.cloud.stream.instances</groupId>
         <artifactId>number-counter</artifactId>
-        <version>00.00.0000</version>
-        <relativePath />
+        <version>${revision}${sha1}${changelist}</version>
+        <relativePath>../</relativePath>
     </parent>
 
-    <properties>
-        <start-class>number.listener.LisApplication</start-class>
-    </properties>
+    <artifactId>number-listener</artifactId>
+    <name>number-listener</name>
+    <description>
+        This module presents the simple instance of the publisher of the Spring Cloud Stream Binder.
+    </description>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Greenwich.SR1</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <!--<properties>
+        <start-class>org.restful.updating.instances.option.field.approach.OptionFieldApproach</start-class>
+    </properties>-->
 
-    <dependencies>
-        <!--Rest<-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <!-->Rest-->
-        <!--Spring-Cloud<-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-        </dependency>
-        <!-->Spring-Cloud-->
-        <!--POJO<-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>2.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.9.7</version>
-        </dependency>
-        <!-->POJO-->
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <packaging>jar</packaging>
 </project>

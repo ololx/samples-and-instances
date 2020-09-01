@@ -50,9 +50,6 @@ public class OrganizationServiceTest {
     @MockBean
     OrganizationRepository organizationRepository;
 
-    @Mock
-    ObjectMapper objectMapper;
-
     @InjectMocks
     @Autowired
     OrganizationService organizationService;
@@ -71,16 +68,6 @@ public class OrganizationServiceTest {
                 );
         when(organizationRepository.findById(Long.valueOf(2)))
                 .thenReturn(Optional.ofNullable(null));
-        when(objectMapper.updateValue(any(Organization.class), any(OrganizationDetail.class)))
-                .thenReturn(Organization.builder()
-                        .uid(Long.valueOf(1))
-                        .build()
-                );
-        when(objectMapper.updateValue(any(OrganizationDetail.class), any(Organization.class)))
-                .thenReturn(OrganizationDetail.builder()
-                        .uid(Optional.ofNullable(Long.valueOf(1)))
-                        .build()
-                );
     }
 
     @Test

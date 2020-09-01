@@ -1,6 +1,7 @@
 package org.restful.test.instances.service.test;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -9,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
@@ -47,28 +50,41 @@ public class OrganizationServiceTest {
     @MockBean
     OrganizationRepository organizationRepository;
 
+    @Mock
+    ObjectMapper objectMapper;
+
     @InjectMocks
     @Autowired
     OrganizationService organizationService;
 
     @Before
-    public void beforeEachTest() {
+    public void beforeEachTest() throws JsonMappingException {
         when(organizationRepository.save(any(Organization.class)))
                 .thenReturn(Organization.builder()
                         .uid(Long.valueOf(1))
                         .build()
                 );
-        when(organizationRepository.findById(anyLong()))
+        when(organizationRepository.findById(Long.valueOf(1)))
                 .thenReturn(Optional.ofNullable(Organization.builder()
                         .uid(Long.valueOf(1))
                         .build())
                 );
-        when(organizationRepository.findById(2L))
-                .thenReturn(null);
+        when(organizationRepository.findById(Long.valueOf(2)))
+                .thenReturn(Optional.ofNullable(null));
+        when(objectMapper.updateValue(any(Organization.class), any(OrganizationDetail.class)))
+                .thenReturn(Organization.builder()
+                        .uid(Long.valueOf(1))
+                        .build()
+                );
+        when(objectMapper.updateValue(any(OrganizationDetail.class), any(Organization.class)))
+                .thenReturn(OrganizationDetail.builder()
+                        .uid(Optional.ofNullable(Long.valueOf(1)))
+                        .build()
+                );
     }
 
     @Test
-    public void create_positive_whenNameNotNull_thenSuccessfulCreated() throws JsonMappingException {
+    public void create_positive_whenRequestIsValid_thenSuccessfulCreated() throws JsonMappingException {
         OrganizationDetail createOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
                 .build();
@@ -87,7 +103,7 @@ public class OrganizationServiceTest {
     }
 
     @Test
-    public void update_positive_whenNameNotNull_thenSuccessfulUpdated() throws JsonMappingException {
+    public void update_positive_RequestIsValid_thenSuccessfulUpdated() throws JsonMappingException {
         Long uidOrganization = 1L;
         OrganizationDetail updateOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
@@ -108,5 +124,22 @@ public class OrganizationServiceTest {
                 organizationResponse.getUid().orElse(null).equals(Long.valueOf(1)),
                 "Иденьтификаторы разные"
         );
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException() throws JsonMappingException {
+        Long uidOrganization = 2L;
+        OrganizationDetail updateOrganizationRequest = OrganizationDetail.builder()
+                .name(Optional.of("WCorp"))
+                .build();
+
+        log.info("Создали ДТО `Организация` - {}", updateOrganizationRequest);
+
+        OrganizationDetail organizationResponse = this.organizationService.update(
+                uidOrganization,
+                updateOrganizationRequest
+        );
+
+        verify(organizationRepository).findById(uidOrganization);
     }
 }

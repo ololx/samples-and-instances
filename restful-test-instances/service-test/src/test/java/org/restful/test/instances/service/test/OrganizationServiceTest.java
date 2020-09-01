@@ -60,7 +60,7 @@ public class OrganizationServiceTest {
     }
 
     @Test
-    public void createPositiveTest() throws JsonMappingException {
+    public void create_positive_whenNameNotNull_thenSuccessfulSaved() {
         OrganizationDetail organizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
                 .build();

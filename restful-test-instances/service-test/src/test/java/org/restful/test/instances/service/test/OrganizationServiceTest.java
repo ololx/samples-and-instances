@@ -24,6 +24,7 @@ import java.util.Optional;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -57,17 +58,49 @@ public class OrganizationServiceTest {
                         .uid(Long.valueOf(1))
                         .build()
                 );
+        when(organizationRepository.findById(anyLong()))
+                .thenReturn(Optional.ofNullable(Organization.builder()
+                        .uid(Long.valueOf(1))
+                        .build())
+                );
+        when(organizationRepository.findById(2L))
+                .thenReturn(null);
     }
 
     @Test
-    public void create_positive_whenNameNotNull_thenSuccessfulSaved() {
-        OrganizationDetail organizationRequest = OrganizationDetail.builder()
+    public void create_positive_whenNameNotNull_thenSuccessfulCreated() throws JsonMappingException {
+        OrganizationDetail createOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
                 .build();
 
-        log.info("Создали ДТО `Организация` - {}", organizationRequest);
+        log.info("Создали ДТО `Организация` - {}", createOrganizationRequest);
 
-        OrganizationDetail organizationResponse = this.organizationService.create(organizationRequest);
+        OrganizationDetail organizationResponse = this.organizationService.create(createOrganizationRequest);
+
+        verify(organizationRepository).save(any(Organization.class));
+        assertNotNull(organizationResponse, "Что-то пошло не так");
+        assertNotNull(organizationResponse.getUid().orElse(null), "Иденьтификатор null");
+        assertTrue(
+                organizationResponse.getUid().orElse(null).equals(Long.valueOf(1)),
+                "Иденьтификаторы разные"
+        );
+    }
+
+    @Test
+    public void update_positive_whenNameNotNull_thenSuccessfulUpdated() throws JsonMappingException {
+        Long uidOrganization = 1L;
+        OrganizationDetail updateOrganizationRequest = OrganizationDetail.builder()
+                .name(Optional.of("WCorp"))
+                .build();
+
+        log.info("Создали ДТО `Организация` - {}", updateOrganizationRequest);
+
+        OrganizationDetail organizationResponse = this.organizationService.update(
+                uidOrganization,
+                updateOrganizationRequest
+        );
+
+        verify(organizationRepository).findById(uidOrganization);
         verify(organizationRepository).save(any(Organization.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
         assertNotNull(organizationResponse.getUid().orElse(null), "Иденьтификатор null");

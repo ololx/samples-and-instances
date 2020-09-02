@@ -17,10 +17,12 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @project restful-test-instances
- * @created 2020-04-25 13:46
+ * The type Custom specification builder.
  * <p>
+ * @param <ENTITY> the type parameter
  * @author Alexander A. Kropotin
+ * @project restful -test-instances
+ * @created 2020 -04-25 13:46
  */
 @Slf4j
 @NoArgsConstructor
@@ -28,7 +30,7 @@ import java.util.List;
         level = AccessLevel.PRIVATE
 )
 @Service
-public class CustomSpecificationBuilder<ENTITY extends Object> {
+public class CustomSpecificationBuilder<ENTITY extends Object> implements SpecificationBuilder<ENTITY> {
 
     public static CustomSpecificationBuilder getInstance() {
         return new CustomSpecificationBuilder();

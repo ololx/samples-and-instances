@@ -45,4 +45,8 @@ public class OrganizationDetail implements Serializable {
 
     @JsonProperty("address")
     Optional<String> address;
+
+    public Optional<String> getAddress() {
+        return this.address;
+    }
 }

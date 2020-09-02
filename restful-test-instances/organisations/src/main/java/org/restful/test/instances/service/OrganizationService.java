@@ -10,6 +10,7 @@ import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.service.specification.CustomSpecificationBuilder;
+import org.restful.test.instances.service.specification.SpecificationBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public final class OrganizationService {
     OrganizationRepository organizationRepository;
 
     ObjectMapper objectMapper;
+
+    SpecificationBuilder<Organization> specificationBuilder;
 
     public OrganizationDetail create(OrganizationDetail createOrganizationRequest) throws JsonMappingException {
         log.info("Получили запрос на создание сущности - {}", createOrganizationRequest);
@@ -119,7 +122,7 @@ public final class OrganizationService {
                 );
 
         List<Organization> organizations = this.organizationRepository.findAll(
-                CustomSpecificationBuilder.<Organization>getInstance()
+                this.specificationBuilder
                         .withIn("uid", uid)
                         .withIn("name", name)
                         .withIn("inn", inn)

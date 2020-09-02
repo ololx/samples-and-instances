@@ -13,6 +13,7 @@ import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.service.OrganizationService;
+import org.restful.test.instances.service.mapping.CustomModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -67,7 +68,7 @@ public class OrganizationServiceTest {
     }
 
     @Test
-    public void create_positive_whenRequestIsValid_thenSuccessfulCreated() throws JsonMappingException {
+    public void create_positive_whenRequestIsValid_thenSuccessfulCreated() throws CustomModelMapper.MappingException {
         OrganizationDetail createOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
                 .build();
@@ -86,7 +87,7 @@ public class OrganizationServiceTest {
     }
 
     @Test
-    public void update_positive_RequestIsValid_thenSuccessfulUpdated() throws JsonMappingException {
+    public void update_positive_RequestIsValid_thenSuccessfulUpdated() throws CustomModelMapper.MappingException {
         Long uidOrganization = 1L;
         OrganizationDetail updateOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
@@ -110,7 +111,8 @@ public class OrganizationServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException() throws JsonMappingException {
+    public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException()
+            throws CustomModelMapper.MappingException {
         Long uidOrganization = 2L;
         OrganizationDetail updateOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))

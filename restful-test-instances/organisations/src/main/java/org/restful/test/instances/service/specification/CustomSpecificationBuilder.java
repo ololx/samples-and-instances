@@ -30,12 +30,20 @@ import java.util.List;
         level = AccessLevel.PRIVATE
 )
 @Service
-public class CustomSpecificationBuilder<ENTITY extends Object> implements SpecificationBuilder<ENTITY> {
+public class CustomSpecificationBuilder<ENTITY extends Object> {
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CustomSpecificationBuilder getInstance() {
         return new CustomSpecificationBuilder();
     }
 
+    /**
+     * The type Custom criteria.
+     */
     @Data
     @FieldDefaults(
             level = AccessLevel.PRIVATE,
@@ -43,16 +51,27 @@ public class CustomSpecificationBuilder<ENTITY extends Object> implements Specif
     )
     class CustomCriteria {
 
-        /** The operand (entity field) */
+        /**
+         * The operand (entity field)
+         */
         String key;
 
-        /** The operation */
+        /**
+         * The operation
+         */
         String operation;
 
-        /** The value of operand */
+        /**
+         * The value of operand
+         */
         Object value;
     }
 
+    /**
+     * The type Custom specification.
+     *
+     * @param <ENTITY> the type parameter
+     */
     @Data
     @FieldDefaults(
             level = AccessLevel.PRIVATE,
@@ -60,8 +79,19 @@ public class CustomSpecificationBuilder<ENTITY extends Object> implements Specif
     )
     class CustomSpecification<ENTITY> implements Specification<ENTITY> {
 
+        /**
+         * The Criteria.
+         */
         CustomCriteria criteria;
 
+        /**
+         * To predicate predicate.
+         *
+         * @param detail  the detail
+         * @param query   the query
+         * @param builder the builder
+         * @return the predicate
+         */
         @Override
         public Predicate toPredicate(Root<ENTITY> detail, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
@@ -99,6 +129,9 @@ public class CustomSpecificationBuilder<ENTITY extends Object> implements Specif
         }
     }
 
+    /**
+     * The Custom specifications.
+     */
     private final List<CustomSpecification> customSpecifications;
 
     {
@@ -106,12 +139,28 @@ public class CustomSpecificationBuilder<ENTITY extends Object> implements Specif
     }
 
 
+    /**
+     * With custom specification builder.
+     *
+     * @param key       the key
+     * @param operation the operation
+     * @param value     the value
+     * @return the custom specification builder
+     */
     public CustomSpecificationBuilder with(String key, String operation, Object value) {
         customSpecifications.add(new CustomSpecification(new CustomCriteria(key, operation, value)));
 
         return this;
     }
 
+    /**
+     * With not null custom specification builder.
+     *
+     * @param key       the key
+     * @param operation the operation
+     * @param value     the value
+     * @return the custom specification builder
+     */
     public CustomSpecificationBuilder withNotNull(String key, String operation, Object value) {
 
         if (value != null) {
@@ -128,22 +177,55 @@ public class CustomSpecificationBuilder<ENTITY extends Object> implements Specif
         return this;
     }
 
+    /**
+     * With in custom specification builder.
+     *
+     * @param key   the key
+     * @param value the value
+     * @return the custom specification builder
+     */
     public CustomSpecificationBuilder withIn(String key, Object value) {
         return this.withNotNull(key, "in", value);
     }
 
+    /**
+     * With equals custom specification builder.
+     *
+     * @param key   the key
+     * @param value the value
+     * @return the custom specification builder
+     */
     public CustomSpecificationBuilder withEquals(String key, Object value) {
         return this.withNotNull(key, ":", value);
     }
 
+    /**
+     * With more custom specification builder.
+     *
+     * @param key   the key
+     * @param value the value
+     * @return the custom specification builder
+     */
     public CustomSpecificationBuilder withMore(String key, Object value) {
         return this.withNotNull(key, ">", value);
     }
 
+    /**
+     * With less custom specification builder.
+     *
+     * @param key   the key
+     * @param value the value
+     * @return the custom specification builder
+     */
     public CustomSpecificationBuilder withLess(String key, Object value) {
         return this.withNotNull(key, "<", value);
     }
 
+    /**
+     * Build specification.
+     *
+     * @return the specification
+     */
     public Specification<ENTITY> build() {
 
         if (customSpecifications.size() == 0) return null;

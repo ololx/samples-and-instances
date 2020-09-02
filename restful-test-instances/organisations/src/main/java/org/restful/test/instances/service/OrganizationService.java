@@ -1,7 +1,6 @@
 package org.restful.test.instances.service;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -9,8 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
+import org.restful.test.instances.service.mapping.CustomModelMapper;
+import org.restful.test.instances.service.mapping.OrganizationModelMapper;
 import org.restful.test.instances.service.specification.CustomSpecificationBuilder;
-import org.restful.test.instances.service.specification.SpecificationBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,23 +37,22 @@ public final class OrganizationService {
 
     OrganizationRepository organizationRepository;
 
-    ObjectMapper objectMapper;
+    OrganizationModelMapper organizationModelMapper;
 
-    SpecificationBuilder<Organization> specificationBuilder;
-
-    public OrganizationDetail create(OrganizationDetail createOrganizationRequest) throws JsonMappingException {
+    public OrganizationDetail create(OrganizationDetail createOrganizationRequest)
+            throws CustomModelMapper.MappingException {
         log.info("Получили запрос на создание сущности - {}", createOrganizationRequest);
 
         assertNotNull(createOrganizationRequest, "Организация не может быть null");
-        Organization organization = this.objectMapper.updateValue(new Organization(), createOrganizationRequest);
+        Organization organization = this.organizationModelMapper.map(createOrganizationRequest, new Organization());
         log.info("Создали сущность организации - {}", organization);
 
         organization = this.organizationRepository.save(organization);
         assertNotNull(organization.getUid(), "Не получилось сохранить организацию");
 
-        OrganizationDetail createOrganizationResponse = this.objectMapper.updateValue(
-                new OrganizationDetail(),
-                organization
+        OrganizationDetail createOrganizationResponse = this.organizationModelMapper.map(
+                organization,
+                new OrganizationDetail()
         );
         log.info("Возвращаем ответ - {}", createOrganizationResponse);
 
@@ -61,7 +60,7 @@ public final class OrganizationService {
     }
 
     public OrganizationDetail update(Long uidOrganization, OrganizationDetail updateOrganizationRequest)
-            throws JsonMappingException {
+            throws CustomModelMapper.MappingException {
         log.info(
                 "Получили запрос на обновлении сущности - {}\n с идентификатором - {}",
                 updateOrganizationRequest,
@@ -74,19 +73,19 @@ public final class OrganizationService {
         );
         log.info("Получили сущность организации - {}", organization);
 
-        objectMapper.updateValue(organization, updateOrganizationRequest);
+        organization = this.organizationModelMapper.map(updateOrganizationRequest, organization);
         organizationRepository.save(organization);
 
-        OrganizationDetail updateOrganizationResponse = this.objectMapper.updateValue(
-                new OrganizationDetail(),
-                organization
+        OrganizationDetail updateOrganizationResponse = this.organizationModelMapper.map(
+                organization,
+                new OrganizationDetail()
         );
         log.info("Возвращаем ответ - {}", updateOrganizationResponse);
 
         return updateOrganizationResponse;
     }
 
-    public OrganizationDetail delete(Long uidOrganization) throws JsonMappingException {
+    public OrganizationDetail delete(Long uidOrganization) throws CustomModelMapper.MappingException {
         log.info("Получили запрос на удаление сущности с идентификатором - {}", uidOrganization);
 
         Organization organization = this.organizationRepository.findById(uidOrganization).orElse(null);
@@ -98,9 +97,9 @@ public final class OrganizationService {
 
         organizationRepository.delete(organization);
 
-        OrganizationDetail deleteOrganizationResponse = this.objectMapper.updateValue(
-                new OrganizationDetail(),
-                organization
+        OrganizationDetail deleteOrganizationResponse = this.organizationModelMapper.map(
+                organization,
+                new OrganizationDetail()
         );
         log.info("Возвращаем ответ - {}", deleteOrganizationResponse);
 
@@ -111,7 +110,7 @@ public final class OrganizationService {
                                    List<String> name,
                                    List<String> inn,
                                    List<String> kpp,
-                                   List<String> address) throws JsonMappingException {
+                                   List<String> address) throws CustomModelMapper.MappingException {
         log.info(
                 "Получили запрос на выборку сущностей:\nuid - {}\nname - {}\ninn - {}\nkpp - {}\naddress - {}",
                 uid,
@@ -122,7 +121,7 @@ public final class OrganizationService {
                 );
 
         List<Organization> organizations = this.organizationRepository.findAll(
-                this.specificationBuilder
+                CustomSpecificationBuilder.getInstance()
                         .withIn("uid", uid)
                         .withIn("name", name)
                         .withIn("inn", inn)
@@ -134,11 +133,10 @@ public final class OrganizationService {
 
         if (organizations == null) return Collections.emptyList();
 
-        List<OrganizationDetail> findOrganizationResponse = new ArrayList<>(){{
-            for (Organization organization : organizations) {
-                this.add(objectMapper.updateValue(new OrganizationDetail(), organization));
-            }
-        }};
+        List<OrganizationDetail> findOrganizationResponse = this.organizationModelMapper.map(
+                organizations,
+                OrganizationDetail.class
+        );
         log.info("Возвращаем ответ - {}", findOrganizationResponse);
 
         return findOrganizationResponse;

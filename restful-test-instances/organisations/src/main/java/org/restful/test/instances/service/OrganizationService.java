@@ -1,6 +1,5 @@
 package org.restful.test.instances.service;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,7 +12,6 @@ import org.restful.test.instances.service.mapping.OrganizationModelMapper;
 import org.restful.test.instances.service.specification.CustomSpecificationBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

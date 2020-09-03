@@ -1,6 +1,5 @@
 package org.restful.test.instances.service.test;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +13,7 @@ import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.service.OrganizationService;
 import org.restful.test.instances.service.mapping.CustomModelMapper;
+import org.restful.test.instances.service.mapping.OrganizationModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,10 +29,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * @project restful-test-instances
- * @created 2020-04-25 14:09
- * <p>
+ * The type Organization service test.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -test-instances
+ * @created 2020 -04-25 14:09 <p>
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -44,15 +45,32 @@ import static org.mockito.Mockito.when;
 )
 public class OrganizationServiceTest {
 
+    /**
+     * The Organization repository.
+     */
     @MockBean
     OrganizationRepository organizationRepository;
 
+    /**
+     * The Organization model mapper.
+     */
+    @MockBean
+    OrganizationModelMapper organizationModelMapper;
+
+    /**
+     * The Organization service.
+     */
     @InjectMocks
     @Autowired
     OrganizationService organizationService;
 
+    /**
+     * Before each test.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
     @Before
-    public void beforeEachTest() throws JsonMappingException {
+    public void beforeEachTest() throws CustomModelMapper.MappingException {
         when(organizationRepository.save(any(Organization.class)))
                 .thenReturn(Organization.builder()
                         .uid(Long.valueOf(1))
@@ -65,8 +83,23 @@ public class OrganizationServiceTest {
                 );
         when(organizationRepository.findById(Long.valueOf(2)))
                 .thenReturn(Optional.ofNullable(null));
+        when(organizationModelMapper.map(any(OrganizationDetail.class), any(Organization.class)))
+                .thenReturn(Organization.builder()
+                        .uid(Long.valueOf(1))
+                        .build()
+                );
+        when(organizationModelMapper.map(any(Organization.class), any(OrganizationDetail.class)))
+                .thenReturn(OrganizationDetail.builder()
+                        .uid(Optional.ofNullable(Long.valueOf(1)))
+                        .build()
+                );
     }
 
+    /**
+     * Create positive when request is valid then successful created.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
     @Test
     public void create_positive_whenRequestIsValid_thenSuccessfulCreated() throws CustomModelMapper.MappingException {
         OrganizationDetail createOrganizationRequest = OrganizationDetail.builder()
@@ -77,6 +110,8 @@ public class OrganizationServiceTest {
 
         OrganizationDetail organizationResponse = this.organizationService.create(createOrganizationRequest);
 
+        verify(organizationModelMapper).map(any(OrganizationDetail.class), any(Organization.class));
+        verify(organizationModelMapper).map(any(Organization.class), any(OrganizationDetail.class));
         verify(organizationRepository).save(any(Organization.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
         assertNotNull(organizationResponse.getUid().orElse(null), "Иденьтификатор null");
@@ -86,6 +121,11 @@ public class OrganizationServiceTest {
         );
     }
 
+    /**
+     * Update positive request is valid then successful updated.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
     @Test
     public void update_positive_RequestIsValid_thenSuccessfulUpdated() throws CustomModelMapper.MappingException {
         Long uidOrganization = 1L;
@@ -100,6 +140,8 @@ public class OrganizationServiceTest {
                 updateOrganizationRequest
         );
 
+        verify(organizationModelMapper).map(any(OrganizationDetail.class), any(Organization.class));
+        verify(organizationModelMapper).map(any(Organization.class), any(OrganizationDetail.class));
         verify(organizationRepository).findById(uidOrganization);
         verify(organizationRepository).save(any(Organization.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
@@ -110,6 +152,11 @@ public class OrganizationServiceTest {
         );
     }
 
+    /**
+     * Update negative when entity with specified uid is not exists then failure with throw exception.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
     @Test(expected = IllegalArgumentException.class)
     public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException()
             throws CustomModelMapper.MappingException {

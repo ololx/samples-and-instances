@@ -1,7 +1,5 @@
 package org.restful.test.instances.service.mapping;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 import java.util.Collection;
 import java.util.List;
 

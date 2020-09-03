@@ -67,7 +67,7 @@ public class OrganizationServiceTest {
     /**
      * Before each test.
      *
-     * @throws MappingException the mapping exception
+     * throws CustomModelMapper.MappingException the mapping exception
      */
     @Before
     public void beforeEachTest() throws CustomModelMapper.MappingException {
@@ -98,7 +98,7 @@ public class OrganizationServiceTest {
     /**
      * Create positive when request is valid then successful created.
      *
-     * @throws MappingException the mapping exception
+     * throws CustomModelMapper.MappingException the mapping exception
      */
     @Test
     public void create_positive_whenRequestIsValid_thenSuccessfulCreated() throws CustomModelMapper.MappingException {
@@ -123,7 +123,7 @@ public class OrganizationServiceTest {
     /**
      * Update positive request is valid then successful updated.
      *
-     * @throws MappingException the mapping exception
+     * throws CustomModelMapper.MappingException the mapping exception
      */
     @Test
     public void update_positive_RequestIsValid_thenSuccessfulUpdated() throws CustomModelMapper.MappingException {
@@ -153,7 +153,7 @@ public class OrganizationServiceTest {
     /**
      * Update negative when entity with specified uid is not exists then failure with throw exception.
      *
-     * @throws MappingException the mapping exception
+     * throws CustomModelMapper.MappingException the mapping exception
      */
     @Test(expected = IllegalArgumentException.class)
     public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException()

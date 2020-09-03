@@ -77,7 +77,7 @@ public class OrganizationModelMapperTest {
      * @throws JsonMappingException the json mapping exception
      */
     @Test
-    public void map_positive_whenSourceAndDestinationIsObjectAndNotNull_thenSuccessfulMapped()
+    public void map_positive_whenMapDetailIntoEntityAndBoothIsNotNull_thenSuccessfulMapped()
             throws CustomModelMapper.MappingException, JsonMappingException {
         OrganizationDetail source = OrganizationDetail.builder()
                 .uid(Optional.ofNullable(Long.valueOf(1)))
@@ -99,6 +99,39 @@ public class OrganizationModelMapperTest {
         verify(objectMapper).updateValue(any(Organization.class), any(OrganizationDetail.class));
         assertTrue(
                 destination.getUid().equals(source.getUid().orElse(null)),
+                "Сущности разные - свойства не скопировались"
+        );
+    }
+
+    /**
+     * Map positive when source and destination is object and not null then successful mapped.
+     *
+     * @throws CustomModelMapper.MappingException     the mapping exception
+     * @throws JsonMappingException the json mapping exception
+     */
+    @Test
+    public void map_positive_whenMapEntityIntoDetailAndBoothIsNotNull_thenSuccessfulMapped()
+            throws CustomModelMapper.MappingException, JsonMappingException {
+        Organization source = Organization.builder()
+                .uid(Long.valueOf(1))
+                .build();
+        OrganizationDetail destination = new OrganizationDetail();
+        log.info(
+                "Created source and destination objects:\nsource - {}\ndestination - {}",
+                source,
+                destination
+        );
+
+        destination = this.organizationModelMapper.map(source, destination);
+        log.info(
+                "Mapped source into destination objects:\nsource - {}\ndestination - {}",
+                source,
+                destination
+        );
+
+        verify(objectMapper).updateValue(any(OrganizationDetail.class), any(Organization.class));
+        assertTrue(
+                destination.getUid().orElse(null).equals(source.getUid()),
                 "Сущности разные - свойства не скопировались"
         );
     }

@@ -10,6 +10,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 - The tests for other organisation service methods.
 
+## [0.6.0] - 2020-07-14
+
+### Changed
+
+- The organization DTO (define fields as `optional`);
+- The organization models mapping (use ObjectMapper).
+
+### Added
+
+- The tests of CRD organisation service methods for the organization updating, deleting or finding;
+- The tests of organisation model mapper.
+
 ## [0.5.0] - 2020-07-14
 
 ### Added

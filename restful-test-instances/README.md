@@ -2,7 +2,7 @@
 
 This project presents a several examples of the tests usage in relation to a spring rest service grouped by modules. Each module presents a small simple test instance of the rest service layer.
 
-[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-Jule_14,_2020-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
+[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-September_05,_2020-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
 
 [![license](https://img.shields.io/badge/license-MIT-informational?style=flat-square)](LICENSE)
 
@@ -19,7 +19,7 @@ This project presents a several examples of the tests usage in relation to a spr
 
 ##  📖 About
 
-This is a collection of small and focused instances - each covering a single and well defined approach in the area of the java application development grouped by modeules. Each module is supposed to provide a separate simple instance. 
+This is a collection of small and focused instances - each covering a single and well defined approach in the area of the java application development grouped by modules. Each module is supposed to provide a separate simple instance.
 In this project each module presents a small simple instance of the unit test for the one java technology.
 For instance, configuration files, db layer tests, service layer tests, controller layser tests and integration tests.
 A strong focus of these is, of course, the different test approaches of the `spring-boot` RESTful API.

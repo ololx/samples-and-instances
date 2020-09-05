@@ -95,10 +95,7 @@ public final class OrganizationService {
 
         organizationRepository.delete(organization);
 
-        OrganizationDetail deleteOrganizationResponse = this.organizationModelMapper.map(
-                organization,
-                new OrganizationDetail()
-        );
+        OrganizationDetail deleteOrganizationResponse = new OrganizationDetail();
         log.info("Возвращаем ответ - {}", deleteOrganizationResponse);
 
         return deleteOrganizationResponse;

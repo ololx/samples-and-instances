@@ -67,7 +67,7 @@ public class OrganizationServiceTest {
     /**
      * Before each test.
      *
-     * throws CustomModelMapper.MappingException the mapping exception
+     * @throws CustomModelMapper.MappingException the mapping exception
      */
     @Before
     public void beforeEachTest() throws CustomModelMapper.MappingException {
@@ -98,7 +98,7 @@ public class OrganizationServiceTest {
     /**
      * Create positive when request is valid then successful created.
      *
-     * throws CustomModelMapper.MappingException the mapping exception
+     * @throws CustomModelMapper.MappingException the mapping exception
      */
     @Test
     public void create_positive_whenRequestIsValid_thenSuccessfulCreated() throws CustomModelMapper.MappingException {
@@ -113,7 +113,7 @@ public class OrganizationServiceTest {
         verify(organizationModelMapper).map(any(Organization.class), any(OrganizationDetail.class));
         verify(organizationRepository).save(any(Organization.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
-        assertNotNull(organizationResponse.getUid().orElse(null), "Иденьтификатор null");
+        assertNotNull(organizationResponse.getUid().orElse(null), "Идентификатор null");
         assertTrue(
                 organizationResponse.getUid().orElse(null).equals(Long.valueOf(1)),
                 "Иденьтификаторы разные"
@@ -123,10 +123,10 @@ public class OrganizationServiceTest {
     /**
      * Update positive request is valid then successful updated.
      *
-     * throws CustomModelMapper.MappingException the mapping exception
+     * @throws CustomModelMapper.MappingException the mapping exception
      */
     @Test
-    public void update_positive_RequestIsValid_thenSuccessfulUpdated() throws CustomModelMapper.MappingException {
+    public void update_positive_whenRequestIsValid_thenSuccessfulUpdated() throws CustomModelMapper.MappingException {
         Long uidOrganization = 1L;
         OrganizationDetail updateOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
@@ -143,7 +143,7 @@ public class OrganizationServiceTest {
         verify(organizationRepository).findById(uidOrganization);
         verify(organizationRepository).save(any(Organization.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
-        assertNotNull(organizationResponse.getUid().orElse(null), "Иденьтификатор null");
+        assertNotNull(organizationResponse.getUid().orElse(null), "Идентификатор null");
         assertTrue(
                 organizationResponse.getUid().orElse(null).equals(Long.valueOf(1)),
                 "Иденьтификаторы разные"
@@ -153,7 +153,7 @@ public class OrganizationServiceTest {
     /**
      * Update negative when entity with specified uid is not exists then failure with throw exception.
      *
-     * throws CustomModelMapper.MappingException the mapping exception
+     * @throws CustomModelMapper.MappingException the mapping exception
      */
     @Test(expected = IllegalArgumentException.class)
     public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException()
@@ -164,11 +164,31 @@ public class OrganizationServiceTest {
                 .build();
         log.info("Создали ДТО `Организация` - {}", updateOrganizationRequest);
 
-        OrganizationDetail organizationResponse = this.organizationService.update(
+        this.organizationService.update(
                 uidOrganization,
                 updateOrganizationRequest
         );
 
         verify(organizationRepository).findById(uidOrganization);
+    }
+
+    /**
+     * Delete positive when request is valid then successful updated.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    @Test
+    public void delete_positive_whenRequestIsValid_thenSuccessfulUpdated() throws CustomModelMapper.MappingException {
+        Long uidOrganization = 1L;
+        log.info("Будем использовать идентификатор - {}", uidOrganization);
+
+        OrganizationDetail organizationResponse = this.organizationService.delete(
+                uidOrganization
+        );
+
+        verify(organizationRepository).findById(uidOrganization);
+        verify(organizationRepository).delete(any(Organization.class));
+        assertNotNull(organizationResponse, "Что-то пошло не так");
+        assertTrue(organizationResponse.getUid() == null, "Идентификатор не null - сущность не удалена");
     }
 }

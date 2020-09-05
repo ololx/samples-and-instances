@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 - The tests for other organisation service methods.
 
-## [0.6.0] - 2020-07-14
+## [0.6.0] - 2020-09-05
 
 ### Changed
 

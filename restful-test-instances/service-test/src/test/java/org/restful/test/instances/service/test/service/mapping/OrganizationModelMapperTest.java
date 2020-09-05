@@ -17,6 +17,8 @@ import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.service.mapping.CustomModelMapper;
 import org.restful.test.instances.service.mapping.OrganizationModelMapper;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
@@ -84,14 +86,14 @@ public class OrganizationModelMapperTest {
                 .build();
         Organization destination = new Organization();
         log.info(
-                "Created source and destination objects:\nsource - {}\ndestination - {}",
+                "Создали сущность источника и результата копирования:\nистоник - {}\nрезультат - {}",
                 source,
                 destination
         );
 
         destination = this.organizationModelMapper.map(source, destination);
         log.info(
-                "Mapped source into destination objects:\nsource - {}\ndestination - {}",
+                "Скопировали свойства из источника:\nистоник - {}\nрезультат - {}",
                 source,
                 destination
         );
@@ -117,14 +119,14 @@ public class OrganizationModelMapperTest {
                 .build();
         OrganizationDetail destination = new OrganizationDetail();
         log.info(
-                "Created source and destination objects:\nsource - {}\ndestination - {}",
+                "Создали сущность источника и результата копирования:\nистоник - {}\nрезультат - {}",
                 source,
                 destination
         );
 
         destination = this.organizationModelMapper.map(source, destination);
         log.info(
-                "Mapped source into destination objects:\nsource - {}\ndestination - {}",
+                "Скопировали свойства из источника:\nистоник - {}\nрезультат - {}",
                 source,
                 destination
         );
@@ -133,6 +135,41 @@ public class OrganizationModelMapperTest {
         assertTrue(
                 destination.getUid().orElse(null).equals(source.getUid()),
                 "Сущности разные - свойства не скопировались"
+        );
+    }
+
+    /**
+     * Map positive when map entity collection into detail collection and booth is not null then successful mapped.
+     *
+     * @throws CustomModelMapper.MappingException     the mapping exception
+     * @throws JsonMappingException the json mapping exception
+     */
+    @Test
+    public void map_positive_whenMapEntityCollectionIntoDetailCollectionAndBoothIsNotNull_thenSuccessfulMapped()
+            throws CustomModelMapper.MappingException, JsonMappingException {
+        List<Organization> sources = Collections.singletonList(
+                Organization.builder()
+                        .uid(Long.valueOf(1))
+                        .build()
+        );
+        List<OrganizationDetail> destinations = Collections.EMPTY_LIST;
+        log.info(
+                "Создали сущности источника и результата копирования:\nистоник - {}\nрезультат - {}",
+                sources,
+                destinations
+        );
+
+        destinations = this.organizationModelMapper.map(sources, OrganizationDetail.class);
+        log.info(
+                "Скопировали свойства из источника:\nистоник - {}\nрезультат - {}",
+                sources,
+                destinations
+        );
+
+        verify(objectMapper).updateValue(any(OrganizationDetail.class), any(Organization.class));
+        assertTrue(
+                destinations.size() == sources.size(),
+                "Количества сущностей разные - свойства не скопировались"
         );
     }
 }

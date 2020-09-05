@@ -128,6 +128,7 @@ public class OrganizationServiceTest {
     @Test
     public void update_positive_whenRequestIsValid_thenSuccessfulUpdated() throws CustomModelMapper.MappingException {
         Long uidOrganization = 1L;
+        log.info("Будем использовать идентификатор - {}", uidOrganization);
         OrganizationDetail updateOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
                 .build();
@@ -159,6 +160,7 @@ public class OrganizationServiceTest {
     public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException()
             throws CustomModelMapper.MappingException {
         Long uidOrganization = 2L;
+        log.info("Будем использовать идентификатор - {}", uidOrganization);
         OrganizationDetail updateOrganizationRequest = OrganizationDetail.builder()
                 .name(Optional.of("WCorp"))
                 .build();
@@ -173,12 +175,12 @@ public class OrganizationServiceTest {
     }
 
     /**
-     * Delete positive when request is valid then successful updated.
+     * Delete positive when request is valid then successful deleted.
      *
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     @Test
-    public void delete_positive_whenRequestIsValid_thenSuccessfulUpdated() throws CustomModelMapper.MappingException {
+    public void delete_positive_whenRequestIsValid_thenSuccessfulDeleted() throws CustomModelMapper.MappingException {
         Long uidOrganization = 1L;
         log.info("Будем использовать идентификатор - {}", uidOrganization);
 
@@ -190,5 +192,23 @@ public class OrganizationServiceTest {
         verify(organizationRepository).delete(any(Organization.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
         assertTrue(organizationResponse.getUid() == null, "Идентификатор не null - сущность не удалена");
+    }
+
+    /**
+     * Delete negative when entity with specified uid is not exists then failure with throw exception.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void delete_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException()
+            throws CustomModelMapper.MappingException {
+        Long uidOrganization = 2L;
+        log.info("Будем использовать идентификатор - {}", uidOrganization);
+
+        this.organizationService.delete(
+                uidOrganization
+        );
+
+        verify(organizationRepository).findById(uidOrganization);
     }
 }

@@ -173,6 +173,11 @@ public class OrganizationModelMapperTest {
         );
     }
 
+    /**
+     * Map negative when map entity collection into detail collection and type class is null then failure throws exception.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
     @Test(expected = CustomModelMapper.MappingException.class)
     public void map_negative_whenMapEntityCollectionIntoDetailCollectionAndTypeClassISNull_thenFailureThrowsException()
             throws CustomModelMapper.MappingException {

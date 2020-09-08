@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>restful-test-instances</artifactId>
+        <groupId>org.restful.test.instances</groupId>
+        <version>${revision}${sha1}${changelist}</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+
+    <artifactId>controller-test</artifactId>
+    <name>controller-test</name>
+    <description>
+        This module presents unit and integration tests of the API controller layer.
+    </description>
+
+    <dependencies>
+        <!--<organisations-->
+        <dependency>
+            <groupId>org.restful.test.instances</groupId>
+            <artifactId>organisations</artifactId>
+        </dependency>
+        <!--organisations/>-->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--<surefire-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <includes>
+                        <include>**Test*</include>
+                    </includes>
+                    <excludes>
+                        <exclude></exclude>
+                    </excludes>
+                    <excludedGroups></excludedGroups>
+                </configuration>
+            </plugin>
+            <!--surefire>-->
+        </plugins>
+    </build>
+
+</project>

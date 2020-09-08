@@ -1,4 +1,4 @@
-package org.restful.test.instances.service.test.service.mapping;
+package org.restful.test.instances.controller.test.controller.mapping;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

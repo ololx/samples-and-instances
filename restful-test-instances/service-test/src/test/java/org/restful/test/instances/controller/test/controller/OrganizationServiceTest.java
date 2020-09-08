@@ -1,4 +1,4 @@
-package org.restful.test.instances.service.test.service;
+package org.restful.test.instances.controller.test.controller;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,6 @@ import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.service.OrganizationService;
 import org.restful.test.instances.service.mapping.CustomModelMapper;
 import org.restful.test.instances.service.mapping.OrganizationModelMapper;
-import org.restful.test.instances.service.specification.CustomSpecificationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

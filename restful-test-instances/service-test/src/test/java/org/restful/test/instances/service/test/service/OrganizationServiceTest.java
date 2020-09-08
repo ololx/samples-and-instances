@@ -14,6 +14,7 @@ import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.service.OrganizationService;
 import org.restful.test.instances.service.mapping.CustomModelMapper;
 import org.restful.test.instances.service.mapping.OrganizationModelMapper;
+import org.restful.test.instances.service.specification.CustomSpecificationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -87,6 +88,12 @@ public class OrganizationServiceTest {
         when(organizationRepository.findById(Long.valueOf(2)))
                 .thenReturn(Optional.ofNullable(null));
         when(organizationRepository.findAll((Specification<Organization>) null))
+                .thenReturn(Collections.singletonList(
+                        Organization.builder()
+                                .uid(Long.valueOf(1))
+                                .build()
+                ));
+        when(organizationRepository.findAll(any(Specification.class)))
                 .thenReturn(Collections.singletonList(
                         Organization.builder()
                                 .uid(Long.valueOf(1))
@@ -245,6 +252,41 @@ public class OrganizationServiceTest {
         verify(organizationRepository).findAll((Specification<Organization>) null);
         verify(organizationModelMapper).map(anyCollection(), eq(OrganizationDetail.class));
         assertNotNull(organizationResponse, "Что-то пошло не так");
-        assertTrue(!organizationResponse.isEmpty(), "В ответе нчиег онет");
+        assertTrue(!organizationResponse.isEmpty(), "В ответе ничего нет");
+    }
+
+    /**
+     * Find positive when request params is not null then successful find all by params.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    @Test
+    public void find_positive_whenRequestParamsIsNotNull_thenSuccessfulFindAllByParams()
+            throws CustomModelMapper.MappingException {
+        List<Long> uid = Collections.singletonList(1L);
+        List<String> name = Collections.singletonList("WCorp");
+        List<String> inn = Collections.singletonList("01");
+        List<String> kpp = Collections.singletonList("01");
+        List<String> address = Collections.singletonList(".ell road");
+        log.info(
+                "Создали параметры для запроса:\nuids - {}\nname - {}\ninn - {}\nkpp - {}\naddress - {}",
+                uid,
+                name,
+                inn,
+                kpp,
+                address
+                );
+
+        List<OrganizationDetail> organizationResponse = this.organizationService.find(
+                uid,
+                name,
+                inn,
+                kpp,
+                address
+        );
+        verify(organizationRepository).findAll(any(Specification.class));
+        verify(organizationModelMapper).map(anyCollection(), eq(OrganizationDetail.class));
+        assertNotNull(organizationResponse, "Что-то пошло не так");
+        assertTrue(!organizationResponse.isEmpty(), "В ответе нчиего нет");
     }
 }

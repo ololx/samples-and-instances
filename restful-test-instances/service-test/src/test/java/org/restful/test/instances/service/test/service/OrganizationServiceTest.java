@@ -1,4 +1,4 @@
-package org.restful.test.instances.controller.test.controller;
+package org.restful.test.instances.service.test.service;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

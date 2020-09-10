@@ -29,7 +29,7 @@ import java.util.Optional;
         level = AccessLevel.PRIVATE
 )
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class OrganizationDetail implements Serializable {
+public final class OrganizationDetail implements Serializable {
 
     @JsonProperty("uid")
     Optional<Long> uid;

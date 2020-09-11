@@ -71,10 +71,54 @@ public class OrganizationController {
                     value = "Данные для сущности \"Организация\"",
                     required = true
             )
-            @RequestBody OrganizationDetail organizationDetail) throws CustomModelMapper.MappingException {
+            @RequestBody
+                    OrganizationDetail organizationDetail) throws CustomModelMapper.MappingException {
 
         log.info("Получили запрос - {}", organizationDetail);
 
         return this.organizationService.create(organizationDetail);
+    }
+
+    @ApiOperation(
+            value = "Изменить организацию",
+            notes = "Метод принимает запрос на изменение данных организации"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Операция выполнена успешно",
+                    response = OrganizationDetail.class
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "Операция не выполнена - проверьте корректность данных",
+                    response = ExceptionDetail.class
+            )
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping(
+            value = "/{uid}"
+    )
+    public OrganizationDetail update(
+            @ApiParam(
+                    name="uid",
+                    value = "Идентификатор сущности \"Организация\"",
+                    example = "1",
+                    required = true
+            )
+            @PathVariable
+                    Long uid,
+            @ApiParam(
+                    name="organizationDetail",
+                    value = "Данные для сущности \"Организация\"",
+                    example = "{\"name\": \"WCorp\"}",
+                    required = true
+            )
+            @RequestBody
+                    OrganizationDetail organizationDetail) throws CustomModelMapper.MappingException {
+
+        log.info("Получили запрос - {}", organizationDetail);
+
+        return this.organizationService.update(uid, organizationDetail);
     }
 }

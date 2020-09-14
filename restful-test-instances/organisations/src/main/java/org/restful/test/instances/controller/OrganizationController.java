@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @project restful-test-instances
  * @created 09.09.2020 15:24
@@ -139,7 +141,7 @@ public class OrganizationController {
             )
     })
     @ResponseStatus(HttpStatus.OK)
-    @PatchMapping(
+    @DeleteMapping(
             value = "/{uid}"
     )
     public OrganizationDetail delete(
@@ -155,5 +157,99 @@ public class OrganizationController {
         log.info("Получили запрос - {}", uid);
 
         return this.organizationService.delete(uid);
+    }
+
+    @ApiOperation(
+            value = "Выбрать организации",
+            notes = "Метод принимает запрос на выборку данных организаций"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Операция выполнена успешно",
+                    response = OrganizationDetail.class,
+                    responseContainer = "List"
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "Операция не выполнена - проверьте корректность данных",
+                    response = ExceptionDetail.class
+            )
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public List<OrganizationDetail> find(
+            @ApiParam(
+                    name="uid",
+                    value = "Идентификатор сущности \"Организация\"",
+                    example = "1",
+                    required = false
+            )
+            @RequestParam(
+                    value = "uid",
+                    required = false
+            )
+                    List<Long> uid,
+            @ApiParam(
+                    name="name",
+                    value = "Наименование сущности \"Организация\"",
+                    example = "1",
+                    required = false
+            )
+            @RequestParam(
+                    value = "name",
+                    required = false
+            )
+                    List<String> name,
+            @ApiParam(
+                    name="inn",
+                    value = "ИНН сущности \"Организация\"",
+                    example = "1",
+                    required = false
+            )
+            @RequestParam(
+                    value = "inn",
+                    required = false
+            )
+                    List<String> inn,
+            @ApiParam(
+                    name="kpp",
+                    value = "КПП сущности \"Организация\"",
+                    example = "1",
+                    required = false
+            )
+            @RequestParam(
+                    value = "kpp",
+                    required = false
+            )
+                    List<String> kpp,
+            @ApiParam(
+                    name="address",
+                    value = "Адрес сущности \"Организация\"",
+                    example = "1",
+                    required = false
+            )
+            @RequestParam(
+                    value = "address",
+                    required = false
+            )
+                    List<String> address) throws CustomModelMapper.MappingException {
+
+        log.info(
+                "Получили запрос:\nuid - {}\nname - {}\ninn - {}\nkpp - {}\naddress - {}",
+                uid,
+                name,
+                inn,
+                kpp,
+                address
+        );
+
+        return this.organizationService.find(
+                uid,
+                name,
+                inn,
+                kpp,
+                address
+        );
     }
 }

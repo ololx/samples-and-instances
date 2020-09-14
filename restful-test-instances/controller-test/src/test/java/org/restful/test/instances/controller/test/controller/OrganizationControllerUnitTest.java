@@ -22,8 +22,10 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -99,6 +101,47 @@ public class OrganizationControllerUnitTest {
 
         verify(organizationService).create(any(OrganizationDetail.class));
         verify(organizationService).create(expectedOrganizationRequest);
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
+        assertNotNull(actualOrganizationResponse.getUid().orElse(null), "Идентификатор null");
+        assertTrue(
+                actualOrganizationResponse.equals(expectedOrganizationResponse),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    /**
+     * Update positive when request is valid then successful updated.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void update_positive_whenRequestIsValid_thenSuccessfulUpdated() throws Exception {
+        Long expectedOrganizationUidRequest = 1L;
+        OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
+                .uid(java.util.Optional.of(expectedOrganizationUidRequest))
+                .name(java.util.Optional.of("WCorp"))
+                .build();
+        OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
+                .uid(java.util.Optional.of(1L))
+                .name(java.util.Optional.of("WCorp"))
+                .build();
+        when(organizationService.update(expectedOrganizationUidRequest, expectedOrganizationRequest))
+                .thenReturn(expectedOrganizationResponse);
+
+        MvcResult mvcResult = mvc.perform(
+                patch(String.format("/organizations/%d", expectedOrganizationUidRequest))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(expectedOrganizationRequest))
+        )
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+        OrganizationDetail actualOrganizationResponse = this.objectMapper.readValue(
+                mvcResult.getResponse().getContentAsString(),
+                OrganizationDetail.class
+        );
+
+        verify(organizationService).update(anyLong(), any(OrganizationDetail.class));
+        verify(organizationService).update(expectedOrganizationUidRequest, expectedOrganizationRequest);
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
         assertNotNull(actualOrganizationResponse.getUid().orElse(null), "Идентификатор null");
         assertTrue(

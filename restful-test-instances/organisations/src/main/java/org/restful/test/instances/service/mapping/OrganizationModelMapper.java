@@ -26,7 +26,7 @@ import java.util.List;
         makeFinal = true
 )
 @Service
-public final class OrganizationModelMapper implements CustomModelMapper {
+public class OrganizationModelMapper implements CustomModelMapper {
 
     ObjectMapper objectMapper;
 

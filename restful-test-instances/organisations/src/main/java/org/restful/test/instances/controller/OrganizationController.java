@@ -119,7 +119,7 @@ public class OrganizationController {
             @RequestBody
                     OrganizationDetail organizationDetail) throws CustomModelMapper.MappingException {
 
-        log.info("Получили запрос - {}", organizationDetail);
+        log.info("Получили запрос:\nuid - {}\norganization - {}", uid, organizationDetail);
 
         return this.organizationService.update(uid, organizationDetail);
     }

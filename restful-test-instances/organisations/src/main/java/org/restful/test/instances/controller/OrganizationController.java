@@ -121,4 +121,39 @@ public class OrganizationController {
 
         return this.organizationService.update(uid, organizationDetail);
     }
+
+    @ApiOperation(
+            value = "Удалить организацию",
+            notes = "Метод принимает запрос на удаление данных организации"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Операция выполнена успешно",
+                    response = OrganizationDetail.class
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "Операция не выполнена - проверьте корректность данных",
+                    response = ExceptionDetail.class
+            )
+    })
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping(
+            value = "/{uid}"
+    )
+    public OrganizationDetail delete(
+            @ApiParam(
+                    name="uid",
+                    value = "Идентификатор сущности \"Организация\"",
+                    example = "1",
+                    required = true
+            )
+            @PathVariable
+                    Long uid) throws CustomModelMapper.MappingException {
+
+        log.info("Получили запрос - {}", uid);
+
+        return this.organizationService.delete(uid);
+    }
 }

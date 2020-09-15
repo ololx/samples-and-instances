@@ -25,8 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -102,7 +101,6 @@ public class OrganizationControllerUnitTest {
         verify(organizationService).create(any(OrganizationDetail.class));
         verify(organizationService).create(expectedOrganizationRequest);
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
-        assertNotNull(actualOrganizationResponse.getUid().orElse(null), "Идентификатор null");
         assertTrue(
                 actualOrganizationResponse.equals(expectedOrganizationResponse),
                 "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
@@ -143,7 +141,40 @@ public class OrganizationControllerUnitTest {
         verify(organizationService).update(anyLong(), any(OrganizationDetail.class));
         verify(organizationService).update(expectedOrganizationUidRequest, expectedOrganizationRequest);
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
-        assertNotNull(actualOrganizationResponse.getUid().orElse(null), "Идентификатор null");
+        assertTrue(
+                actualOrganizationResponse.equals(expectedOrganizationResponse),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    /**
+     * Delete positive when request is valid then successful deleted.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void update_positive_whenRequestIsValid_thenSuccessfulDeleted() throws Exception {
+        Long expectedOrganizationUidRequest = 1L;
+        OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
+                .uid(null)
+                .name(null)
+                .build();
+        when(organizationService.delete(expectedOrganizationUidRequest))
+                .thenReturn(expectedOrganizationResponse);
+
+        MvcResult mvcResult = mvc.perform(
+                delete(String.format("/organizations/%d", expectedOrganizationUidRequest))
+        )
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+        OrganizationDetail actualOrganizationResponse = this.objectMapper.readValue(
+                mvcResult.getResponse().getContentAsString(),
+                OrganizationDetail.class
+        );
+
+        verify(organizationService).delete(anyLong());
+        verify(organizationService).delete(expectedOrganizationUidRequest);
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
         assertTrue(
                 actualOrganizationResponse.equals(expectedOrganizationResponse),
                 "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"

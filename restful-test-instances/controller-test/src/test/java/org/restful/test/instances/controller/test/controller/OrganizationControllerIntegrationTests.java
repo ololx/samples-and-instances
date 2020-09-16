@@ -1,56 +1,36 @@
 package org.restful.test.instances.controller.test.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import liquibase.Liquibase;
-import liquibase.exception.DatabaseException;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.restful.test.instances.controller.OrganizationController;
+import org.restful.test.instances.model.detail.ExceptionDetail;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * @project restful-test-instances
- * @created 16.09.2020 14:45
- * <p>
+ * The type Organization controller integration tests.
+ *
  * @author Alexander A. Kropotin
+ * @project restful -test-instances
+ * @created 16.09.2020 14:45 <p>
  */
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
@@ -62,15 +42,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 public class OrganizationControllerIntegrationTests {
 
+    /**
+     * The Port.
+     */
     @LocalServerPort
     int port;
 
+    /**
+     * The Rest template.
+     */
     @Autowired
     TestRestTemplate restTemplate;
 
+    /**
+     * The Organization controller.
+     */
     @Autowired
     OrganizationController organizationController;
 
+    /**
+     * Create positive when request is valid then successful created.
+     */
     @Test
     public void create_positive_whenRequestIsValid_thenSuccessfulCreated() {
         OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
@@ -89,11 +81,33 @@ public class OrganizationControllerIntegrationTests {
         );
         OrganizationDetail actualOrganizationResponse = response.getBody();
 
-        log.info(String.valueOf(actualOrganizationResponse));
-
+        assertTrue(response.getStatusCode().equals(HttpStatus.CREATED), "Код статуса не 201 - что-то пошло не так!");
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
         assertTrue(
                 actualOrganizationResponse.equals(expectedOrganizationResponse),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    /**
+     * Create negative when name is null then failure with throw exception.
+     */
+    @Test
+    public void create_negative_whenNameIsNull_thenFailureWithThrowException() {
+        OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
+                .build();
+        ResponseEntity<ExceptionDetail> response = this.restTemplate.exchange(
+                String.format("http://localhost:%d/organizations", port),
+                HttpMethod.POST,
+                new HttpEntity<OrganizationDetail>(expectedOrganizationRequest),
+                ExceptionDetail.class
+        );
+        ExceptionDetail actualOrganizationResponse = response.getBody();
+
+        assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST), "Код статуса не 400 - что-то пошло не так!");
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
+        assertTrue(
+                actualOrganizationResponse.getMessage().contains("Наименование организации должно быть задано"),
                 "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
         );
     }

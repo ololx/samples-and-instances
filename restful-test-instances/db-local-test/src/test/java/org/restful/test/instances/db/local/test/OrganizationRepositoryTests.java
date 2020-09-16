@@ -36,7 +36,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  */
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 @DirtiesContext
 @Slf4j
 @NoArgsConstructor

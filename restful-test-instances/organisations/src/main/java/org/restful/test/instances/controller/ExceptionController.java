@@ -2,6 +2,7 @@ package org.restful.test.instances.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.restful.test.instances.model.detail.ExceptionDetail;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -276,7 +277,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
-            SQLException.class
+            SQLException.class,
+            DataIntegrityViolationException.class
     })
     public ResponseEntity<Object> handleSqlException(MethodArgumentTypeMismatchException e,
                                                                    WebRequest request) {

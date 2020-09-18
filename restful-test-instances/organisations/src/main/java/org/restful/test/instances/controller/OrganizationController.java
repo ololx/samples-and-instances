@@ -65,7 +65,7 @@ public class OrganizationController {
                     response = ExceptionDetail.class
             )
     })
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public OrganizationDetail create(
             @ApiParam(

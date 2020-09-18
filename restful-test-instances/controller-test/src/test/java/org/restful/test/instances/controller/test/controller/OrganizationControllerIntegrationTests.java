@@ -9,21 +9,28 @@ import org.junit.runner.RunWith;
 import org.restful.test.instances.controller.OrganizationController;
 import org.restful.test.instances.model.detail.ExceptionDetail;
 import org.restful.test.instances.model.detail.OrganizationDetail;
+import org.restful.test.instances.model.entity.Organization;
+import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * The type Organization controller integration tests.
@@ -59,6 +66,9 @@ public class OrganizationControllerIntegrationTests {
      */
     @Autowired
     OrganizationController organizationController;
+
+    @Autowired
+    OrganizationRepository organizationRepository;
 
     /**
      * Create positive when request is valid then successful created.
@@ -108,6 +118,42 @@ public class OrganizationControllerIntegrationTests {
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
         assertTrue(
                 actualOrganizationResponse.getMessage().contains("Наименование организации должно быть задано"),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    @Test
+    public void update_positive_whenRequestIsValid_thenSuccessfulUpdated() {
+        Long expectedOrganizationUidRequest = 1L;
+        OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
+                .uid(Optional.of(expectedOrganizationUidRequest))
+                .name(Optional.of("WCorp"))
+                .build();
+        OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
+                .uid(Optional.of(1L))
+                .name(Optional.of("WCorp"))
+                .build();
+        Organization storedOrganization = Organization.builder()
+                .uid(1L)
+                .name("CCorp")
+                .build();
+        this.organizationRepository.save(storedOrganization);
+
+        ResponseEntity<OrganizationDetail> response = this.restTemplate.exchange(
+                String.format("http://localhost:%d/organizations/{uid}", port),
+                HttpMethod.PATCH,
+                new HttpEntity<OrganizationDetail>(expectedOrganizationRequest),
+                OrganizationDetail.class,
+                new HashMap<String, Long>(){{
+                    put("uid", expectedOrganizationUidRequest);
+                }}
+        );
+        OrganizationDetail actualOrganizationResponse = response.getBody();
+
+        assertTrue(response.getStatusCode().equals(HttpStatus.OK), "Код статуса не 200 - что-то пошло не так!");
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
+        assertTrue(
+                actualOrganizationResponse.equals(expectedOrganizationResponse),
                 "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
         );
     }

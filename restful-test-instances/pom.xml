@@ -48,12 +48,13 @@
         <module>db-testcontainers-test</module>
         <module>db-embedded-test</module>
         <module>service-test</module>
+        <module>controller-test</module>
         <module>controller-testcontainers-test</module>
     </modules>
 
     <properties>
         <!--<project versioning-->
-        <revision>0.4.0</revision>
+        <revision>0.7.0</revision>
         <changelist></changelist>
         <sha1/>
         <!--project versioning>-->
@@ -88,6 +89,11 @@
             <dependency>
                 <groupId>org.restful.test.instances</groupId>
                 <artifactId>service-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.restful.test.instances</groupId>
+                <artifactId>controller-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -223,6 +229,7 @@
                 </executions>
             </plugin>
             <!--flatten pom>-->
+            <!--<surefire-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -237,6 +244,7 @@
                     <excludedGroups></excludedGroups>
                 </configuration>
             </plugin>
+            <!--surefire>-->
             <!--<compiler-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

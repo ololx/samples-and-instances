@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,13 +56,17 @@ public class OrganizationModelMapper implements CustomModelMapper {
      */
     @Override
     public <T, R> List<T> map(Collection<R> sources, Class<T> destinationTypeClass) throws MappingException {
+        if (sources == null) return Collections.emptyList();
+
         try {
+            T destination = destinationTypeClass.newInstance();
+
             return new ArrayList<>(){{
                 for (R source : sources) {
-                    add(map(source, destinationTypeClass.newInstance()));
+                    add(map(source, destination));
                 }
             }};
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException | NullPointerException e) {
             throw new MappingException(e);
         }
     }

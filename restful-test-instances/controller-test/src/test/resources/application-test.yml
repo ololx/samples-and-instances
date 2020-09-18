@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5434/organisations_test
+    username: postgres
+    password: postgres
+
+  liquibase:
+    drop-first: true

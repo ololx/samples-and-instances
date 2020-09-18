@@ -9,8 +9,8 @@
 - [x] Add tests for service layer.
 - [x] Add other CRUD methods on the service layer.
 - [x] Add tests for CRD methods of service layer.
-- [ ] Add tests for other service layer.
-- [ ] Add tests for controller layer.
+- [x] Add tests for other service layer.
+- [x] Add tests for controller layer.
 - [ ] Add tests for controller layer via docker test containers.
 
 ---

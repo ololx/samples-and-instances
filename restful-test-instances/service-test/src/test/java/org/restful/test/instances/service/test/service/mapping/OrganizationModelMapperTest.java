@@ -172,4 +172,27 @@ public class OrganizationModelMapperTest {
                 "Количества сущностей разные - свойства не скопировались"
         );
     }
+
+    /**
+     * Map negative when map entity collection into detail collection and type class is null then failure throws exception.
+     *
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    @Test(expected = CustomModelMapper.MappingException.class)
+    public void map_negative_whenMapEntityCollectionIntoDetailCollectionAndTypeClassISNull_thenFailureThrowsException()
+            throws CustomModelMapper.MappingException {
+        List<Organization> sources = Collections.singletonList(
+                Organization.builder()
+                        .uid(Long.valueOf(1))
+                        .build()
+        );
+        List<OrganizationDetail> destinations = Collections.EMPTY_LIST;
+        log.info(
+                "Создали сущности источника и результата копирования:\nистоник - {}\nрезультат - {}",
+                sources,
+                destinations
+        );
+
+        this.organizationModelMapper.map(sources, null);
+    }
 }

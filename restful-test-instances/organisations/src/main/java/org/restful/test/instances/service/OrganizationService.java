@@ -31,7 +31,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
         makeFinal = true
 )
 @Service
-public final class OrganizationService {
+public class OrganizationService {
 
     OrganizationRepository organizationRepository;
 

@@ -29,7 +29,7 @@ import java.io.Serializable;
 )
 @Entity(name = "Organization")
 @Table(name = "organization")
-public class Organization implements Serializable {
+public final class Organization implements Serializable {
 
     @Id
     @GeneratedValue(

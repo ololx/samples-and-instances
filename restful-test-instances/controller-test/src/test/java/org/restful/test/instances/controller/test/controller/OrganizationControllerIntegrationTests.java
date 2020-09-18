@@ -15,22 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.HashMap;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * The type Organization controller integration tests.
@@ -67,6 +63,9 @@ public class OrganizationControllerIntegrationTests {
     @Autowired
     OrganizationController organizationController;
 
+    /**
+     * The Organization repository.
+     */
     @Autowired
     OrganizationRepository organizationRepository;
 
@@ -122,6 +121,9 @@ public class OrganizationControllerIntegrationTests {
         );
     }
 
+    /**
+     * Update positive when request is valid then successful updated.
+     */
     @Test
     public void update_positive_whenRequestIsValid_thenSuccessfulUpdated() {
         Long expectedOrganizationUidRequest = 1L;
@@ -143,6 +145,39 @@ public class OrganizationControllerIntegrationTests {
                 String.format("http://localhost:%d/organizations/{uid}", port),
                 HttpMethod.PATCH,
                 new HttpEntity<OrganizationDetail>(expectedOrganizationRequest),
+                OrganizationDetail.class,
+                new HashMap<String, Long>(){{
+                    put("uid", expectedOrganizationUidRequest);
+                }}
+        );
+        OrganizationDetail actualOrganizationResponse = response.getBody();
+
+        assertTrue(response.getStatusCode().equals(HttpStatus.OK), "Код статуса не 200 - что-то пошло не так!");
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
+        assertTrue(
+                actualOrganizationResponse.equals(expectedOrganizationResponse),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    /**
+     * Delete positive when request is valid then successful deleted.
+     */
+    @Test
+    public void delete_positive_whenRequestIsValid_thenSuccessfulDeleted() {
+        Long expectedOrganizationUidRequest = 1L;
+        OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
+                .build();
+        Organization storedOrganization = Organization.builder()
+                .uid(1L)
+                .name("CCorp")
+                .build();
+        this.organizationRepository.save(storedOrganization);
+
+        ResponseEntity<OrganizationDetail> response = this.restTemplate.exchange(
+                String.format("http://localhost:%d/organizations/{uid}", port),
+                HttpMethod.DELETE,
+                null,
                 OrganizationDetail.class,
                 new HashMap<String, Long>(){{
                     put("uid", expectedOrganizationUidRequest);

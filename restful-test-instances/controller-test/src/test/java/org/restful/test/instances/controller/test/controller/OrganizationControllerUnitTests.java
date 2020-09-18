@@ -157,7 +157,7 @@ public class OrganizationControllerUnitTests {
      * @throws Exception the exception
      */
     @Test
-    public void update_positive_whenRequestIsValid_thenSuccessfulDeleted() throws Exception {
+    public void delete_positive_whenRequestIsValid_thenSuccessfulDeleted() throws Exception {
         Long expectedOrganizationUidRequest = 1L;
         OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
                 .uid(null)

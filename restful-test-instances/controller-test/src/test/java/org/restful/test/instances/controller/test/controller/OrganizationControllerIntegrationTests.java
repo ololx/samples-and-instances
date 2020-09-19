@@ -1,6 +1,5 @@
 package org.restful.test.instances.controller.test.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,19 +22,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * The type Organization controller integration tests.
@@ -203,10 +195,10 @@ public class OrganizationControllerIntegrationTests {
     }
 
     /**
-     * Find positive when request is valid then successful deleted.
+     * Find positive when request is valid then successful found.
      */
     @Test
-    public void find_positive_whenRequestIsValid_thenSuccessfulDeleted() {
+    public void find_positive_whenRequestIsValid_thenSuccessfulFound() {
         List<Long> expectedUidRequest = Collections.singletonList(1L);
         List<String> expectedNameRequest = Collections.singletonList("WCorp");
         List<String> expectedInnRequest = Collections.singletonList("01");
@@ -222,30 +214,40 @@ public class OrganizationControllerIntegrationTests {
                         .build()
         );
 
-        Organization storedOrganization = Organization.builder()
-                .uid(expectedUidRequest.get(0))
-                .name(expectedNameRequest.get(0))
-                .inn(expectedInnRequest.get(0))
-                .kpp(expectedKppRequest.get(0))
-                .address(expectedAddressRequest.get(0))
-                .build();
-        this.organizationRepository.save(storedOrganization);
+        List<Organization> storedOrganizations = Arrays.asList(
+                Organization.builder()
+                        .uid(expectedUidRequest.get(0))
+                        .name(expectedNameRequest.get(0))
+                        .inn(expectedInnRequest.get(0))
+                        .kpp(expectedKppRequest.get(0))
+                        .address(expectedAddressRequest.get(0))
+                        .build(),
+                Organization.builder()
+                        .uid(2L)
+                        .name("CCorp")
+                        .inn("02")
+                        .kpp("02")
+                        .address("noname str")
+                        .build()
+        );
+        this.organizationRepository.saveAll(storedOrganizations);
 
         ResponseEntity<List<OrganizationDetail>> response = this.restTemplate.exchange(
-                String.format("http://localhost:%d/organizations", port),
+                UriComponentsBuilder.fromHttpUrl(String.format("http://localhost:%d/organizations", port))
+                        .queryParam("uid", expectedUidRequest.stream().map(u -> String.valueOf(u)).toArray(String[]::new))
+                        .queryParam("name", expectedNameRequest.stream().toArray(String[]::new))
+                        .queryParam("inn", expectedInnRequest.stream().toArray(String[]::new))
+                        .queryParam("kpp", expectedKppRequest.stream().toArray(String[]::new))
+                        .queryParam("address", expectedAddressRequest.stream().toArray(String[]::new))
+                        .build()
+                        .encode()
+                        .toUri(),
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<OrganizationDetail>>() {},
-                new HashMap<String, Object>() {{
-                    put("uid", expectedUidRequest);
-                    put("name", expectedNameRequest);
-                    put("inn", expectedInnRequest);
-                    put("kpp", expectedKppRequest);
-                    put("address", expectedAddressRequest);
-                }}
+                new ParameterizedTypeReference<List<OrganizationDetail>>() {}
         );
         List<OrganizationDetail> actualOrganizationResponse = response.getBody();
-
+        log.info(String.valueOf(actualOrganizationResponse));
         assertTrue(response.getStatusCode().equals(HttpStatus.OK), "Код статуса не 200 - что-то пошло не так!");
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
         assertTrue(

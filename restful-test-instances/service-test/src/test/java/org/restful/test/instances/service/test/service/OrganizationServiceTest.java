@@ -239,7 +239,7 @@ public class OrganizationServiceTest {
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     @Test
-    public void find_positive_whenAllRequestParamsIsNull_thenSuccessfulFound()
+    public void find_positive_whenAllRequestParamsIsNull_thenSuccessfulFoundAll()
             throws CustomModelMapper.MappingException {
         List<OrganizationDetail> organizationResponse = this.organizationService.find(
                 null,

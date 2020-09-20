@@ -124,7 +124,7 @@ public class OrganizationService {
                         .withIn("address", address)
                         .build()
         );
-        log.info("Получили сущность организации - {}", organizations);
+        log.info("Получили организации - {}", organizations);
 
         if (organizations == null) return Collections.emptyList();
 

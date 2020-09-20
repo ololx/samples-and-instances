@@ -206,21 +206,21 @@ public class OrganizationControllerIntegrationTests {
         List<String> expectedAddressRequest = Collections.singletonList(".ell road");
         List<OrganizationDetail> expectedOrganizationResponse = Collections.singletonList(
                 OrganizationDetail.builder()
-                        .uid(Optional.ofNullable(expectedUidRequest.get(0)))
-                        .name(Optional.ofNullable(expectedNameRequest.get(0)))
-                        .inn(Optional.ofNullable(expectedInnRequest.get(0)))
-                        .kpp(Optional.ofNullable(expectedKppRequest.get(0)))
-                        .address(Optional.ofNullable(expectedAddressRequest.get(0)))
+                        .uid(Optional.of(1L))
+                        .name(Optional.of("CCorp"))
+                        .inn(Optional.of("01"))
+                        .kpp(Optional.of("01"))
+                        .address(Optional.of(".ell road"))
                         .build()
         );
 
         List<Organization> storedOrganizations = Arrays.asList(
                 Organization.builder()
-                        .uid(expectedUidRequest.get(0))
-                        .name(expectedNameRequest.get(0))
-                        .inn(expectedInnRequest.get(0))
-                        .kpp(expectedKppRequest.get(0))
-                        .address(expectedAddressRequest.get(0))
+                        .uid(1L)
+                        .name("CCorp")
+                        .inn("01")
+                        .kpp("01")
+                        .address(".ell road")
                         .build(),
                 Organization.builder()
                         .uid(2L)
@@ -239,6 +239,70 @@ public class OrganizationControllerIntegrationTests {
                         .queryParam("inn", expectedInnRequest.stream().toArray(String[]::new))
                         .queryParam("kpp", expectedKppRequest.stream().toArray(String[]::new))
                         .queryParam("address", expectedAddressRequest.stream().toArray(String[]::new))
+                        .build()
+                        .encode()
+                        .toUri(),
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<OrganizationDetail>>() {}
+        );
+        List<OrganizationDetail> actualOrganizationResponse = response.getBody();
+        log.info(String.valueOf(actualOrganizationResponse));
+        assertTrue(response.getStatusCode().equals(HttpStatus.OK), "Код статуса не 200 - что-то пошло не так!");
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
+        assertTrue(
+                actualOrganizationResponse.equals(expectedOrganizationResponse),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    /**
+     * Find positive when all request params is null then successful found all.
+     */
+    @Test
+    public void find_positive_whenAllRequestParamsIsNull_thenSuccessfulFoundAll() {
+        List<Long> expectedUidRequest = null;
+        List<String> expectedNameRequest = null;
+        List<String> expectedInnRequest = null;
+        List<String> expectedKppRequest = null;
+        List<String> expectedAddressRequest = null;
+        List<OrganizationDetail> expectedOrganizationResponse = Arrays.asList(
+                OrganizationDetail.builder()
+                        .uid(Optional.of(1L))
+                        .name(Optional.of("WCorp"))
+                        .inn(Optional.of("01"))
+                        .kpp(Optional.of("01"))
+                        .address(Optional.of(".ell road"))
+                        .build(),
+                OrganizationDetail.builder()
+                        .uid(Optional.of(2L))
+                        .name(Optional.of("CCorp"))
+                        .inn(Optional.of("02"))
+                        .kpp(Optional.of("02"))
+                        .address(Optional.of("noname str"))
+                        .build()
+        );
+
+        List<Organization> storedOrganizations = Arrays.asList(
+                Organization.builder()
+                        .uid(1L)
+                        .name("WCorp")
+                        .inn("01")
+                        .kpp("01")
+                        .address(".ell road")
+                        .build(),
+                Organization.builder()
+                        .uid(2L)
+                        .name("CCorp")
+                        .inn("02")
+                        .kpp("02")
+                        .address("noname str")
+                        .build()
+        );
+        this.organizationRepository.saveAll(storedOrganizations);
+
+        ResponseEntity<List<OrganizationDetail>> response = this.restTemplate.exchange(
+                UriComponentsBuilder.fromHttpUrl(String.format("http://localhost:%d/organizations", port))
                         .build()
                         .encode()
                         .toUri(),

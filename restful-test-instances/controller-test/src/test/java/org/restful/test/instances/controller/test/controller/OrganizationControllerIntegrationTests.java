@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.restful.test.instances.controller.OrganizationController;
@@ -70,17 +72,27 @@ public class OrganizationControllerIntegrationTests {
     @Autowired
     OrganizationRepository organizationRepository;
 
+    @Before
+    public void beforeEachTest() {
+        this.cleanDb();
+    }
+
+    @After
+    public void afterEachTest() {
+        this.cleanDb();
+    }
+
     /**
      * Create positive when request is valid then successful created.
      */
     @Test
     public void create_positive_whenRequestIsValid_thenSuccessfulCreated() {
         OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
-                .name(Optional.of("WCorp"))
+                .name(Optional.ofNullable("WCorp"))
                 .build();
         OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
-                .uid(Optional.of(1L))
-                .name(Optional.of("WCorp"))
+                .uid(Optional.ofNullable(1L))
+                .name(Optional.ofNullable("WCorp"))
                 .build();
 
         ResponseEntity<OrganizationDetail> response = this.restTemplate.exchange(
@@ -127,20 +139,19 @@ public class OrganizationControllerIntegrationTests {
      */
     @Test
     public void update_positive_whenRequestIsValid_thenSuccessfulUpdated() {
-        Long expectedOrganizationUidRequest = 1L;
-        OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
-                .uid(Optional.of(expectedOrganizationUidRequest))
-                .name(Optional.of("WCorp"))
-                .build();
-        OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
-                .uid(Optional.of(1L))
-                .name(Optional.of("WCorp"))
-                .build();
         Organization storedOrganization = Organization.builder()
-                .uid(expectedOrganizationUidRequest)
                 .name("CCorp")
                 .build();
         this.organizationRepository.save(storedOrganization);
+        Long expectedOrganizationUidRequest = storedOrganization.getUid();
+
+        OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
+                .name(Optional.ofNullable("WCorp"))
+                .build();
+        OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
+                .uid(Optional.ofNullable(expectedOrganizationUidRequest))
+                .name(Optional.ofNullable("WCorp"))
+                .build();
 
         ResponseEntity<OrganizationDetail> response = this.restTemplate.exchange(
                 String.format("http://localhost:%d/organizations/{uid}", port),
@@ -166,14 +177,13 @@ public class OrganizationControllerIntegrationTests {
      */
     @Test
     public void delete_positive_whenRequestIsValid_thenSuccessfulDeleted() {
-        Long expectedOrganizationUidRequest = 1L;
-        OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
-                .build();
         Organization storedOrganization = Organization.builder()
-                .uid(1L)
-                .name("CCorp")
+                .name("WCorp")
                 .build();
         this.organizationRepository.save(storedOrganization);
+        Long expectedOrganizationUidRequest = storedOrganization.getUid();
+        OrganizationDetail expectedOrganizationResponse = OrganizationDetail.builder()
+                .build();
 
         ResponseEntity<OrganizationDetail> response = this.restTemplate.exchange(
                 String.format("http://localhost:%d/organizations/{uid}", port),
@@ -199,31 +209,14 @@ public class OrganizationControllerIntegrationTests {
      */
     @Test
     public void find_positive_whenRequestIsValid_thenSuccessfulFound() {
-        List<Long> expectedUidRequest = Collections.singletonList(1L);
-        List<String> expectedNameRequest = Collections.singletonList("WCorp");
-        List<String> expectedInnRequest = Collections.singletonList("01");
-        List<String> expectedKppRequest = Collections.singletonList("01");
-        List<String> expectedAddressRequest = Collections.singletonList(".ell road");
-        List<OrganizationDetail> expectedOrganizationResponse = Collections.singletonList(
-                OrganizationDetail.builder()
-                        .uid(Optional.of(1L))
-                        .name(Optional.of("CCorp"))
-                        .inn(Optional.of("01"))
-                        .kpp(Optional.of("01"))
-                        .address(Optional.of(".ell road"))
-                        .build()
-        );
-
         List<Organization> storedOrganizations = Arrays.asList(
                 Organization.builder()
-                        .uid(1L)
-                        .name("CCorp")
+                        .name("WCorp")
                         .inn("01")
                         .kpp("01")
                         .address(".ell road")
                         .build(),
                 Organization.builder()
-                        .uid(2L)
                         .name("CCorp")
                         .inn("02")
                         .kpp("02")
@@ -231,6 +224,21 @@ public class OrganizationControllerIntegrationTests {
                         .build()
         );
         this.organizationRepository.saveAll(storedOrganizations);
+
+        List<Long> expectedUidRequest = Collections.singletonList(storedOrganizations.get(0).getUid());
+        List<String> expectedNameRequest = Collections.singletonList(storedOrganizations.get(0).getName());
+        List<String> expectedInnRequest = Collections.singletonList(storedOrganizations.get(0).getInn());
+        List<String> expectedKppRequest = Collections.singletonList(storedOrganizations.get(0).getKpp());
+        List<String> expectedAddressRequest = Collections.singletonList(storedOrganizations.get(0).getAddress());
+        List<OrganizationDetail> expectedOrganizationResponse = Collections.singletonList(
+                OrganizationDetail.builder()
+                        .uid(Optional.ofNullable(storedOrganizations.get(0).getUid()))
+                        .name(Optional.ofNullable(storedOrganizations.get(0).getName()))
+                        .inn(Optional.ofNullable(storedOrganizations.get(0).getInn()))
+                        .kpp(Optional.ofNullable(storedOrganizations.get(0).getKpp()))
+                        .address(Optional.ofNullable(storedOrganizations.get(0).getAddress()))
+                        .build()
+        );
 
         ResponseEntity<List<OrganizationDetail>> response = this.restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(String.format("http://localhost:%d/organizations", port))
@@ -261,28 +269,6 @@ public class OrganizationControllerIntegrationTests {
      */
     @Test
     public void find_positive_whenAllRequestParamsIsNull_thenSuccessfulFoundAll() {
-        List<Long> expectedUidRequest = null;
-        List<String> expectedNameRequest = null;
-        List<String> expectedInnRequest = null;
-        List<String> expectedKppRequest = null;
-        List<String> expectedAddressRequest = null;
-        List<OrganizationDetail> expectedOrganizationResponse = Arrays.asList(
-                OrganizationDetail.builder()
-                        .uid(Optional.of(1L))
-                        .name(Optional.of("WCorp"))
-                        .inn(Optional.of("01"))
-                        .kpp(Optional.of("01"))
-                        .address(Optional.of(".ell road"))
-                        .build(),
-                OrganizationDetail.builder()
-                        .uid(Optional.of(2L))
-                        .name(Optional.of("CCorp"))
-                        .inn(Optional.of("02"))
-                        .kpp(Optional.of("02"))
-                        .address(Optional.of("noname str"))
-                        .build()
-        );
-
         List<Organization> storedOrganizations = Arrays.asList(
                 Organization.builder()
                         .uid(1L)
@@ -301,6 +287,28 @@ public class OrganizationControllerIntegrationTests {
         );
         this.organizationRepository.saveAll(storedOrganizations);
 
+        List<Long> expectedUidRequest = null;
+        List<String> expectedNameRequest = null;
+        List<String> expectedInnRequest = null;
+        List<String> expectedKppRequest = null;
+        List<String> expectedAddressRequest = null;
+        List<OrganizationDetail> expectedOrganizationResponse = Arrays.asList(
+                OrganizationDetail.builder()
+                        .uid(Optional.ofNullable(1L))
+                        .name(Optional.ofNullable("WCorp"))
+                        .inn(Optional.ofNullable("01"))
+                        .kpp(Optional.ofNullable("01"))
+                        .address(Optional.ofNullable(".ell road"))
+                        .build(),
+                OrganizationDetail.builder()
+                        .uid(Optional.ofNullable(2L))
+                        .name(Optional.ofNullable("CCorp"))
+                        .inn(Optional.ofNullable("02"))
+                        .kpp(Optional.ofNullable("02"))
+                        .address(Optional.ofNullable("noname str"))
+                        .build()
+        );
+
         ResponseEntity<List<OrganizationDetail>> response = this.restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(String.format("http://localhost:%d/organizations", port))
                         .build()
@@ -318,5 +326,22 @@ public class OrganizationControllerIntegrationTests {
                 actualOrganizationResponse.equals(expectedOrganizationResponse),
                 "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
         );
+    }
+
+    private void cleanDb() {
+
+        if (log.isInfoEnabled())
+            log.info(
+                    "В таблице было {} записей",
+                    organizationRepository.count()
+            );
+
+        organizationRepository.deleteAll();
+
+        if (log.isInfoEnabled())
+            log.info(
+                    "В таблице стало {} записей",
+                    organizationRepository.count()
+            );
     }
 }

@@ -25,7 +25,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @EqualsAndHashCode(
         of = {
-                "uid",
                 "name"
         },
         doNotUseGetters = true

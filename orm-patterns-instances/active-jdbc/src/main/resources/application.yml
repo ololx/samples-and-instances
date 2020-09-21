@@ -1,0 +1,36 @@
+logging:
+  file:
+    max-size: 100MB
+    path: .
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: INFO
+    org.springframework.web: INFO
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  datasource:
+    driver: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/persons
+    username: postgres
+    password: postgres
+
+  main:
+    allow-bean-definition-overriding: true
+
+  liquibase:
+    change-log: classpath:db-migrations/changelog.xml
+    enabled: true
+
+development:
+  driver: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5433/persons
+  username: postgres
+  password: postgres

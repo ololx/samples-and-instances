@@ -12,8 +12,8 @@
     </parent>
 
 
-    <artifactId>active-jpa</artifactId>
-    <name>active-jpa</name>
+    <artifactId>active-jdbc</artifactId>
+    <name>active-jdbc</name>
     <description>
         conning soon
     </description>

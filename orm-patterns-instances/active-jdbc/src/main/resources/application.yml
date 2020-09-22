@@ -28,9 +28,3 @@ spring:
   liquibase:
     change-log: classpath:db-migrations/changelog.xml
     enabled: true
-
-development:
-  driver: org.postgresql.Driver
-  url: jdbc:postgresql://localhost:5433/persons
-  username: postgres
-  password: postgres

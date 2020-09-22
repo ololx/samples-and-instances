@@ -19,7 +19,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @EqualsAndHashCode(
         of = {
-                "uid"
+                "id"
         },
         doNotUseGetters = true
 )
@@ -36,8 +36,8 @@ public final class PersonDetail implements Serializable {
             notes = "Идентификатор",
             example = "1"
     )
-    @JsonProperty("uid")
-    Optional<Long> uid;
+    @JsonProperty("id")
+    Optional<Long> id;
 
     @ApiModelProperty(
             position = 2,

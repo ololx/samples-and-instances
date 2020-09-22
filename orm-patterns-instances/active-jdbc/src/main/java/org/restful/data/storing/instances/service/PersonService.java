@@ -16,6 +16,8 @@ import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
@@ -44,8 +46,6 @@ public class PersonService {
     public PersonDetail create(PersonDetail createPersonRequest)
             throws CustomModelMapper.MappingException {
         log.info("Получили запрос на создание сущности - {}", createPersonRequest);
-        Base.open("org.postgresql.Driver", "jdbc:postgresql://localhost:5433/persons", "postgres", "postgres");
-        assertNotNull(createPersonRequest, "Организация не может быть null");
         Person person = new Person().fromMap(
                 this.personModelMapper.map(createPersonRequest, new Person().toMap())
         );
@@ -60,35 +60,35 @@ public class PersonService {
         );
         log.info("Возвращаем ответ - {}", createPersonResponse);
 
-        Base.close();
-
         return createPersonResponse;
     }
 
     /**
      * Update person detail.
      *
-     * @param uidPerson           the uid person
+     * @param idPerson           the uid person
      * @param updatePersonRequest the update person request
      * @return the person detail
      * @throws CustomModelMapper.MappingException the mapping exception
      */
-    public PersonDetail update(Long uidPerson, PersonDetail updatePersonRequest)
+    public PersonDetail update(Long idPerson, PersonDetail updatePersonRequest)
             throws CustomModelMapper.MappingException {
         log.info(
                 "Получили запрос на обновлении сущности - {}\n с идентификатором - {}",
                 updatePersonRequest,
-                uidPerson);
+                idPerson);
 
-        Person person = Person.findById(uidPerson);
+        Person person = Person.findById(idPerson);
         assertNotNull(
                 person,
-                String.format("Сущности с таким идентификатором - {} не существует", uidPerson)
+                String.format("Сущности с таким идентификатором - {} не существует", idPerson)
         );
         log.info("Получили сущность - {}", person);
 
-        person = this.personModelMapper.map(updatePersonRequest, person);
-        boolean isUpdated = person.save();
+        person.fromMap(
+                this.personModelMapper.map(updatePersonRequest, person.toMap())
+        );
+        boolean isUpdated = person.saveIt();
         assertTrue(isUpdated, "Не получилось обновить сущность");
 
         PersonDetail updatePersonResponse = this.personModelMapper.map(
@@ -103,24 +103,26 @@ public class PersonService {
     /**
      * Delete person detail.
      *
-     * @param uidPerson the uid person
+     * @param idPerson the uid person
      * @return the person detail
      * @throws CustomModelMapper.MappingException the mapping exception
      */
-    public PersonDetail delete(Long uidPerson) throws CustomModelMapper.MappingException {
-        log.info("Получили запрос на удаление сущности с идентификатором - {}", uidPerson);
+    public PersonDetail delete(Long idPerson) {
+        log.info("Получили запрос на удаление сущности с идентификатором - {}", idPerson);
 
-        Person person = Person.findById(uidPerson);
+        Person person = Person.findById(idPerson);
         assertNotNull(
                 person,
-                String.format("Сущности с таким идентификатором - {} не существует", uidPerson)
+                String.format("Сущности с таким идентификатором - {} не существует", idPerson)
         );
         log.info("Получили сущность - {}", person);
 
         boolean isDeleted = person.delete();
         assertTrue(isDeleted, "Не получилось удалить сущность");
 
-        PersonDetail deletePersonResponse = new PersonDetail();
+        PersonDetail deletePersonResponse = PersonDetail.builder()
+                .id(Optional.ofNullable(idPerson))
+                .build();
         log.info("Возвращаем ответ - {}", deletePersonResponse);
 
         return deletePersonResponse;
@@ -129,28 +131,18 @@ public class PersonService {
     /**
      * Find list.
      *
-     * @param uid     the uid
-     * @param name    the name
-     * @param inn     the inn
-     * @param kpp     the kpp
-     * @param address the address
      * @return the list
      * @throws CustomModelMapper.MappingException the mapping exception
      */
-    public List<PersonDetail> find(List<Long> uid,
-                                   List<String> name,
-                                   List<String> inn,
-                                   List<String> kpp,
-                                   List<String> address) throws CustomModelMapper.MappingException {
-        log.info(
-                "Получили запрос на выборку сущностей:\nuid - {}\nname - {}\ninn - {}\nkpp - {}\naddress - {}",
-                uid,
-                name,
-                inn,
-                kpp,
-                address
-                );
+    public List<PersonDetail> find() throws CustomModelMapper.MappingException {
 
-        return Collections.emptyList();
+        List<Person> persons = Person.findAll();
+        List<PersonDetail> findPersonResponse = this.personModelMapper.map(
+                persons.stream().map(p -> p.toMap()).collect(Collectors.toList()),
+                PersonDetail.class
+        );
+        log.info("Возвращаем ответ - {}", findPersonResponse);
+
+        return findPersonResponse;
     }
 }

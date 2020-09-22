@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.javalite.activejdbc.Base;
 import org.restful.data.storing.instances.model.detail.ExceptionDetail;
 import org.restful.data.storing.instances.model.detail.PersonDetail;
 import org.restful.data.storing.instances.service.PersonService;
@@ -82,13 +83,14 @@ public class PersonController {
 
         log.info("Получили запрос - {}", organizationDetail);
 
+        Base.open("org.postgresql.Driver", "jdbc:postgresql://localhost:5433/persons", "postgres", "postgres");
         return this.organizationService.create(organizationDetail);
     }
 
     /**
      * Update organization detail.
      *
-     * @param uid                the uid
+     * @param id                the id
      * @param organizationDetail the organization detail
      * @return the organization detail
      * @throwCustoms ModelMapper.MappingException the mapping exception
@@ -111,17 +113,17 @@ public class PersonController {
     })
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping(
-            value = "/{uid}"
+            value = "/{id}"
     )
     public PersonDetail update(
             @ApiParam(
-                    name="uid",
+                    name="id",
                     value = "Идентификатор сущности \"Person\"",
                     example = "1",
                     required = true
             )
             @PathVariable
-                    Long uid,
+                    Long id,
             @ApiParam(
                     name="organizationDetail",
                     value = "Данные для сущности \"Person\"",
@@ -131,15 +133,16 @@ public class PersonController {
             @RequestBody
                     PersonDetail organizationDetail) throws CustomModelMapper.MappingException {
 
-        log.info("Получили запрос:\nuid - {}\norganization - {}", uid, organizationDetail);
+        log.info("Получили запрос:\nid - {}\norganization - {}", id, organizationDetail);
 
-        return this.organizationService.update(uid, organizationDetail);
+        Base.open("org.postgresql.Driver", "jdbc:postgresql://localhost:5433/persons", "postgres", "postgres");
+        return this.organizationService.update(id, organizationDetail);
     }
 
     /**
      * Delete organization detail.
      *
-     * @param uid the uid
+     * @param id the id
      * @return the organization detail
      * @throwCustoms ModelMapper.MappingException the mapping exception
      */
@@ -161,31 +164,27 @@ public class PersonController {
     })
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(
-            value = "/{uid}"
+            value = "/{id}"
     )
     public PersonDetail delete(
             @ApiParam(
-                    name="uid",
+                    name="id",
                     value = "Идентификатор сущности \"Person\"",
                     example = "1",
                     required = true
             )
             @PathVariable
-                    Long uid) throws CustomModelMapper.MappingException {
+                    Long id) {
 
-        log.info("Получили запрос - {}", uid);
+        log.info("Получили запрос - {}", id);
 
-        return this.organizationService.delete(uid);
+        Base.open("org.postgresql.Driver", "jdbc:postgresql://localhost:5433/persons", "postgres", "postgres");
+        return this.organizationService.delete(id);
     }
 
     /**
      * Find list.
      *
-     * @param uid     the uid
-     * @param name    the name
-     * @param inn     the inn
-     * @param kpp     the kpp
-     * @param address the address
      * @return the list
      * @throwCustoms ModelMapper.MappingException the mapping exception
      */
@@ -208,78 +207,11 @@ public class PersonController {
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<PersonDetail> find(
-            @ApiParam(
-                    name="uid",
-                    value = "Идентификатор сущности \"Person\"",
-                    example = "1",
-                    required = false
-            )
-            @RequestParam(
-                    value = "uid",
-                    required = false
-            )
-                    List<Long> uid,
-            @ApiParam(
-                    name="name",
-                    value = "Наименование сущности \"Person\"",
-                    example = "1",
-                    required = false
-            )
-            @RequestParam(
-                    value = "name",
-                    required = false
-            )
-                    List<String> name,
-            @ApiParam(
-                    name="inn",
-                    value = "ИНН сущности \"Person\"",
-                    example = "1",
-                    required = false
-            )
-            @RequestParam(
-                    value = "inn",
-                    required = false
-            )
-                    List<String> inn,
-            @ApiParam(
-                    name="kpp",
-                    value = "КПП сущности \"Person\"",
-                    example = "1",
-                    required = false
-            )
-            @RequestParam(
-                    value = "kpp",
-                    required = false
-            )
-                    List<String> kpp,
-            @ApiParam(
-                    name="address",
-                    value = "Адрес сущности \"Person\"",
-                    example = "1",
-                    required = false
-            )
-            @RequestParam(
-                    value = "address",
-                    required = false
-            )
-                    List<String> address) throws CustomModelMapper.MappingException {
+    public List<PersonDetail> find() throws CustomModelMapper.MappingException {
 
-        log.info(
-                "Получили запрос:\nuid - {}\nname - {}\ninn - {}\nkpp - {}\naddress - {}",
-                uid,
-                name,
-                inn,
-                kpp,
-                address
-        );
+        log.info("Получили запросна выборку сущностей");
 
-        return this.organizationService.find(
-                uid,
-                name,
-                inn,
-                kpp,
-                address
-        );
+        Base.open("org.postgresql.Driver", "jdbc:postgresql://localhost:5433/persons", "postgres", "postgres");
+        return this.organizationService.find();
     }
 }

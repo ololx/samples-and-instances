@@ -27,6 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
@@ -168,6 +169,38 @@ public class OrganizationControllerIntegrationTests {
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
         assertTrue(
                 actualOrganizationResponse.equals(expectedOrganizationResponse),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    @Test
+    public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException() {
+        Organization storedOrganization = Organization.builder()
+                .name("CCorp")
+                .build();
+        this.organizationRepository.save(storedOrganization);
+        Long expectedOrganizationUidRequest = storedOrganization.getUid();
+        this.organizationRepository.deleteById(expectedOrganizationUidRequest);
+
+        OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
+                .name(Optional.ofNullable("WCorp"))
+                .build();
+
+        ResponseEntity<ExceptionDetail> response = this.restTemplate.exchange(
+                String.format("http://localhost:%d/organizations/{uid}", port),
+                HttpMethod.PATCH,
+                new HttpEntity<OrganizationDetail>(expectedOrganizationRequest),
+                ExceptionDetail.class,
+                new HashMap<String, Long>(){{
+                    put("uid", expectedOrganizationUidRequest);
+                }}
+        );
+        ExceptionDetail actualOrganizationResponse = response.getBody();
+
+        assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST), "Код статуса не 400 - что-то пошло не так!");
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
+        assertTrue(
+                actualOrganizationResponse.getMessage().contains("не существует"),
                 "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
         );
     }

@@ -27,7 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
@@ -215,29 +214,6 @@ public class OrganizationControllerIntegrationTests {
     }
 
     /**
-     * Update negative when name is null then failure with throw exception.
-     */
-    @Test
-    public void update_negative_whenNameIsNull_thenFailureWithThrowException() {
-        OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
-                .build();
-        ResponseEntity<ExceptionDetail> response = this.restTemplate.exchange(
-                String.format("http://localhost:%d/organizations", port),
-                HttpMethod.POST,
-                new HttpEntity<OrganizationDetail>(expectedOrganizationRequest),
-                ExceptionDetail.class
-        );
-        ExceptionDetail actualOrganizationResponse = response.getBody();
-
-        assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST), "Код статуса не 400 - что-то пошло не так!");
-        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
-        assertTrue(
-                actualOrganizationResponse.getMessage().contains("Наименование организации должно быть задано"),
-                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
-        );
-    }
-
-    /**
      * Delete positive when request is valid then successful deleted.
      */
     @Test
@@ -265,6 +241,34 @@ public class OrganizationControllerIntegrationTests {
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
         assertTrue(
                 actualOrganizationResponse.equals(expectedOrganizationResponse),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    @Test
+    public void delete_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException() {
+        Organization storedOrganization = Organization.builder()
+                .name("CCorp")
+                .build();
+        this.organizationRepository.save(storedOrganization);
+        Long expectedOrganizationUidRequest = storedOrganization.getUid();
+        this.organizationRepository.deleteById(expectedOrganizationUidRequest);
+
+        ResponseEntity<ExceptionDetail> response = this.restTemplate.exchange(
+                String.format("http://localhost:%d/organizations/{uid}", port),
+                HttpMethod.DELETE,
+                null,
+                ExceptionDetail.class,
+                new HashMap<String, Long>(){{
+                    put("uid", expectedOrganizationUidRequest);
+                }}
+        );
+        ExceptionDetail actualOrganizationResponse = response.getBody();
+
+        assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST), "Код статуса не 400 - что-то пошло не так!");
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
+        assertTrue(
+                actualOrganizationResponse.getMessage().contains("не существует"),
                 "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
         );
     }

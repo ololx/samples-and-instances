@@ -73,11 +73,17 @@ public class OrganizationControllerIntegrationTests {
     @Autowired
     OrganizationRepository organizationRepository;
 
+    /**
+     * Before each test.
+     */
     @Before
     public void beforeEachTest() {
         this.cleanDb();
     }
 
+    /**
+     * After each test.
+     */
     @After
     public void afterEachTest() {
         this.cleanDb();
@@ -173,6 +179,9 @@ public class OrganizationControllerIntegrationTests {
         );
     }
 
+    /**
+     * Update negative when entity with specified uid is not exists then failure with throw exception.
+     */
     @Test
     public void update_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException() {
         Organization storedOrganization = Organization.builder()
@@ -201,6 +210,29 @@ public class OrganizationControllerIntegrationTests {
         assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
         assertTrue(
                 actualOrganizationResponse.getMessage().contains("не существует"),
+                "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
+        );
+    }
+
+    /**
+     * Update negative when name is null then failure with throw exception.
+     */
+    @Test
+    public void update_negative_whenNameIsNull_thenFailureWithThrowException() {
+        OrganizationDetail expectedOrganizationRequest = OrganizationDetail.builder()
+                .build();
+        ResponseEntity<ExceptionDetail> response = this.restTemplate.exchange(
+                String.format("http://localhost:%d/organizations", port),
+                HttpMethod.POST,
+                new HttpEntity<OrganizationDetail>(expectedOrganizationRequest),
+                ExceptionDetail.class
+        );
+        ExceptionDetail actualOrganizationResponse = response.getBody();
+
+        assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST), "Код статуса не 400 - что-то пошло не так!");
+        assertNotNull(actualOrganizationResponse, "Что-то пошло не так");
+        assertTrue(
+                actualOrganizationResponse.getMessage().contains("Наименование организации должно быть задано"),
                 "Ожидаемый и фактический результаты отличаются - что-то пошло не так!"
         );
     }
@@ -361,6 +393,9 @@ public class OrganizationControllerIntegrationTests {
         );
     }
 
+    /**
+     * Clean db.
+     */
     private void cleanDb() {
 
         if (log.isInfoEnabled())

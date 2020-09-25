@@ -9,7 +9,6 @@ logging:
 
   level:
     root: INFO
-    org.springframework.web: INFO
 
 spring:
   output:
@@ -21,9 +20,6 @@ spring:
     url: jdbc:postgresql://localhost:5433/persons
     username: postgres
     password: postgres
-
-  main:
-    allow-bean-definition-overriding: true
 
   liquibase:
     change-log: classpath:db-migrations/changelog.xml

@@ -245,6 +245,9 @@ public class OrganizationControllerIntegrationTests {
         );
     }
 
+    /**
+     * Delete negative when entity with specified uid is not exists then failure with throw exception.
+     */
     @Test
     public void delete_negative_whenEntityWithSpecifiedUidIsNotExists_thenFailureWithThrowException() {
         Organization storedOrganization = Organization.builder()

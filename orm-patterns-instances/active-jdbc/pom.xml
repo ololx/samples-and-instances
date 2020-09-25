@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>restful-data-storing-instances</artifactId>
-        <groupId>org.restful.data.storing.instances</groupId>
+        <artifactId>orm-patterns-instances</artifactId>
+        <groupId>org.orm.patterns.instances</groupId>
         <version>${revision}${sha1}${changelist}</version>
         <relativePath>../</relativePath>
     </parent>

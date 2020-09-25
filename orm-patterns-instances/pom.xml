@@ -11,10 +11,10 @@
         <relativePath />
     </parent>
 
-    <groupId>org.restful.data.storing.instances</groupId>
-    <artifactId>restful-data-storing-instances</artifactId>
+    <groupId>org.orm.patterns.instances</groupId>
+    <artifactId>orm-patterns-instances</artifactId>
     <version>${revision}${sha1}${changelist}</version>
-    <name>restful-data-storing-instances</name>
+    <name>orm-patterns-instances</name>
     <description>
         -
     </description>
@@ -61,7 +61,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.restful.data.storing.instances</groupId>
+                <groupId>org.orm.patterns.instances</groupId>
                 <artifactId>active-jdbc</artifactId>
                 <version>${project.version}</version>
             </dependency>

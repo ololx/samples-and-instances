@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.restful.data.storing.instances.model.detail;
+package org.orm.patterns.instances.active.jdbc.model.detail;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

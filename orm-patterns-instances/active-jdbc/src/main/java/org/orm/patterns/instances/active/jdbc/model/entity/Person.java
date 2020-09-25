@@ -1,12 +1,7 @@
-package org.restful.data.storing.instances.model.entity;
+package org.orm.patterns.instances.active.jdbc.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
-
-import java.io.Serializable;
 
 @Table("person")
 public class Person extends Model {

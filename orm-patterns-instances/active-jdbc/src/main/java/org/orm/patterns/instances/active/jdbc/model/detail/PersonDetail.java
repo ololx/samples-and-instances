@@ -1,4 +1,4 @@
-package org.restful.data.storing.instances.model.detail;
+package org.orm.patterns.instances.active.jdbc.model.detail;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package org.restful.data.storing.instances.controller;
+package org.orm.patterns.instances.active.jdbc.controller;
 
 import io.swagger.annotations.*;
 import lombok.AccessLevel;
@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.javalite.activejdbc.Base;
-import org.restful.data.storing.instances.model.detail.ExceptionDetail;
-import org.restful.data.storing.instances.model.detail.PersonDetail;
-import org.restful.data.storing.instances.service.PersonService;
-import org.restful.data.storing.instances.service.mapping.CustomModelMapper;
+import org.orm.patterns.instances.active.jdbc.model.detail.ExceptionDetail;
+import org.orm.patterns.instances.active.jdbc.model.detail.PersonDetail;
+import org.orm.patterns.instances.active.jdbc.service.PersonService;
+import org.orm.patterns.instances.active.jdbc.service.mapping.CustomModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

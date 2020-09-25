@@ -1,8 +1,5 @@
-package org.restful.data.storing.instances;
+package org.orm.patterns.instances.active.jdbc;
 
-import org.javalite.activejdbc.Base;
-import org.javalite.activejdbc.DB;
-import org.restful.data.storing.instances.model.entity.Person;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,11 +7,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * The type Main configuration.
+ * The type ActiveJdbc configuration.
  */
 @EnableSwagger2
 @SpringBootApplication
-public class MainConfiguration extends SpringBootServletInitializer {
+public class ActiveJdbc extends SpringBootServletInitializer {
 
     /**
      * The entry point of application.
@@ -23,7 +20,7 @@ public class MainConfiguration extends SpringBootServletInitializer {
      * @throws Exception the exception
      */
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(MainConfiguration.class, args);
+        SpringApplication.run(ActiveJdbc.class, args);
     }
 
     /**
@@ -34,6 +31,6 @@ public class MainConfiguration extends SpringBootServletInitializer {
      */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(MainConfiguration.class);
+        return application.sources(ActiveJdbc.class);
     }
 }

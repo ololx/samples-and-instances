@@ -1,4 +1,4 @@
-package org.restful.data.storing.instances.configuration;
+package org.orm.patterns.instances.active.jdbc.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

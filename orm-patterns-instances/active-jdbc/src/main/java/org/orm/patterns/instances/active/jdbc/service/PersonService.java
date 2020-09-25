@@ -1,21 +1,16 @@
-package org.restful.data.storing.instances.service;
+package org.orm.patterns.instances.active.jdbc.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.javalite.activejdbc.Base;
-import org.restful.data.storing.instances.model.detail.PersonDetail;
-import org.restful.data.storing.instances.model.entity.Person;
-import org.restful.data.storing.instances.service.mapping.CustomModelMapper;
-import org.restful.data.storing.instances.service.mapping.PersonModelMapper;
+import org.orm.patterns.instances.active.jdbc.model.detail.PersonDetail;
+import org.orm.patterns.instances.active.jdbc.model.entity.Person;
+import org.orm.patterns.instances.active.jdbc.service.mapping.CustomModelMapper;
+import org.orm.patterns.instances.active.jdbc.service.mapping.PersonModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

@@ -1,7 +1,7 @@
-package org.restful.data.storing.instances.controller;
+package org.orm.patterns.instances.active.jdbc.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.restful.data.storing.instances.model.detail.ExceptionDetail;
+import org.orm.patterns.instances.active.jdbc.model.detail.ExceptionDetail;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

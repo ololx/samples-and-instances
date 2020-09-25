@@ -1,4 +1,4 @@
-package org.restful.data.storing.instances.service.mapping;
+package org.orm.patterns.instances.active.jdbc.service.mapping;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

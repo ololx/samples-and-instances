@@ -61,12 +61,6 @@ public class OrganizationControllerIntegrationTests {
     TestRestTemplate restTemplate;
 
     /**
-     * The Organization controller.
-     */
-    @Autowired
-    OrganizationController organizationController;
-
-    /**
      * The Organization repository.
      */
     @Autowired
@@ -359,11 +353,7 @@ public class OrganizationControllerIntegrationTests {
         );
         this.organizationRepository.saveAll(storedOrganizations);
 
-        List<Long> expectedUidRequest = null;
-        List<String> expectedNameRequest = null;
-        List<String> expectedInnRequest = null;
-        List<String> expectedKppRequest = null;
-        List<String> expectedAddressRequest = null;
+
         List<OrganizationDetail> expectedOrganizationResponse = Arrays.asList(
                 OrganizationDetail.builder()
                         .uid(Optional.ofNullable(1L))

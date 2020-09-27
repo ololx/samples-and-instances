@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.restful.test.instances.commons.categories.IntegrationTestOnReal;
 import org.restful.test.instances.model.detail.ExceptionDetail;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
@@ -37,6 +39,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  * @project restful -test-instances
  * @created 16.09.2020 14:45 <p>
  */
+@Category(IntegrationTestOnReal.class)
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

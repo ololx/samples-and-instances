@@ -1,4 +1,4 @@
-package categories;
+package org.restful.test.instances.commons.categories;
 
 /**
  * @project restful-test-instances
@@ -6,5 +6,5 @@ package categories;
  * <p>
  * @author Alexander A. Kropotin
  */
-public interface IntegrationTest extends TestCase {
+public interface UnitTest extends TestCase {
 }

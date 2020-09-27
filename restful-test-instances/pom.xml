@@ -44,6 +44,7 @@
 
     <modules>
         <module>organisations</module>
+        <module>commons</module>
         <module>db-local-test</module>
         <module>db-testcontainers-test</module>
         <module>db-embedded-test</module>
@@ -69,6 +70,11 @@
             <dependency>
                 <groupId>org.restful.test.instances</groupId>
                 <artifactId>organisations</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.restful.test.instances</groupId>
+                <artifactId>commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -236,12 +242,11 @@
                 <version>3.0.0-M3</version>
                 <configuration>
                     <includes>
-                        <include>**Test*</include>
+                        <include>**/*Suite*</include>
                     </includes>
-                    <excludes>
-                        <exclude></exclude>
-                    </excludes>
-                    <excludedGroups></excludedGroups>
+                    <excludedGroups>
+                        IntegrationTest
+                    </excludedGroups>
                 </configuration>
             </plugin>
             <!--surefire>-->

@@ -25,6 +25,12 @@
             <artifactId>organisations</artifactId>
         </dependency>
         <!--organisations/>-->
+        <!--<organisations-->
+        <dependency>
+            <groupId>org.restful.test.instances</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+        <!--organisations/>-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -41,12 +47,11 @@
                 <version>3.0.0-M3</version>
                 <configuration>
                     <includes>
-                        <include>**Test*</include>
+                        <include>**/*Suite*</include>
                     </includes>
-                    <excludes>
-                        <exclude></exclude>
-                    </excludes>
-                    <excludedGroups></excludedGroups>
+                    <excludedGroups>
+                        IntegrationTest
+                    </excludedGroups>
                 </configuration>
             </plugin>
             <!--surefire>-->

@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;

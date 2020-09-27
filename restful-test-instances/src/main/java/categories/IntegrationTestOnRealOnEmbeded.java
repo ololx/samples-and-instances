@@ -1,4 +1,4 @@
-package org.restful.test.instances.categories;
+package categories;
 
 /**
  * @project restful-test-instances

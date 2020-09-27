@@ -14,14 +14,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @EnableSwagger2
 @SpringBootApplication
-public class MainConfiguration extends SpringBootServletInitializer {
+public class OrganizationsApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(MainConfiguration.class, args);
+        SpringApplication.run(OrganizationsApplication.class, args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(MainConfiguration.class);
+        return application.sources(OrganizationsApplication.class);
     }
 }

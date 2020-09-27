@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.restful.test.instances.controller.OrganizationController;
 import org.restful.test.instances.model.detail.ExceptionDetail;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;

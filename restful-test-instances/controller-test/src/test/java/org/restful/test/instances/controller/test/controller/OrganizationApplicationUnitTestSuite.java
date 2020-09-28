@@ -10,16 +10,16 @@ import org.restful.test.instances.commons.categories.IntegrationTest;
 import org.restful.test.instances.commons.categories.UnitTest;
 
 @RunWith(Categories.class)
-@IncludeCategory(IntegrationTest.class)
-@ExcludeCategory(UnitTest.class)
+@IncludeCategory(UnitTest.class)
+@ExcludeCategory(IntegrationTest.class)
 @SuiteClasses({
-        OrganizationControllerIntegrationTests.class
+        OrganizationControllerUnitTests.class
 })
 @Slf4j
-public class OrganizationApplicationControllerIntegrationTestSuite {
+public class OrganizationApplicationUnitTestSuite {
 
     public void main() {
-        log.info("Started application tests on real controller");
+        log.info("Started application tests on emulated controller");
     }
 
 }

@@ -20,7 +20,7 @@ import org.restful.test.instances.commons.categories.UnitTest;
         OrganizationRepositoryTests.class
 })
 @Slf4j
-public class OrganizationApplicationRepositoryIntegrationTestSuite {
+public class OrganizationApplicationIntegrationTestSuite {
 
     public void main() {
         log.info("Started application tests on emulated database");

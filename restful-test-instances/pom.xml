@@ -245,7 +245,8 @@
                         <include>**/*Suite*</include>
                     </includes>
                     <excludedGroups>
-                        IntegrationTest
+                        IntegrationTest,
+                        IntegrationTestOnReal
                     </excludedGroups>
                 </configuration>
             </plugin>

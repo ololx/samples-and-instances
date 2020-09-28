@@ -7,7 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.restful.test.instances.commons.categories.IntegrationTestOnEmbedded;
+import org.restful.test.instances.commons.categories.UnitTest;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  * <p>
  * @author Alexander A. Kropotin
  */
+@Category(IntegrationTestOnEmbedded.class)
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest

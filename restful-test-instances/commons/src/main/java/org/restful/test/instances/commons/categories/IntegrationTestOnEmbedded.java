@@ -6,6 +6,6 @@ package org.restful.test.instances.commons.categories;
  * <p>
  * @author Alexander A. Kropotin
  */
-public interface IntegrationTestOnRealOnEmbeded extends IntegrationTest {
+public interface IntegrationTestOnEmbedded extends IntegrationTest {
 
 }

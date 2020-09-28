@@ -25,38 +25,17 @@
             <artifactId>organisations</artifactId>
         </dependency>
         <!--organisations/>-->
-        <!--<organisations-->
+        <!--<commons-->
         <dependency>
             <groupId>org.restful.test.instances</groupId>
             <artifactId>commons</artifactId>
         </dependency>
-        <!--organisations/>-->
+        <!--commons/>-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.4.1</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <!--<surefire-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Suite*</include>
-                    </includes>
-                    <excludedGroups>
-                        IntegrationTest,
-                        IntegrationTestOnReal
-                    </excludedGroups>
-                </configuration>
-            </plugin>
-            <!--surefire>-->
-        </plugins>
-    </build>
 
 </project>

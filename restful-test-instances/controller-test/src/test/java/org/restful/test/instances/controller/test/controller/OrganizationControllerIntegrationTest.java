@@ -48,7 +48,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-public class OrganizationControllerIntegrationTests {
+public class OrganizationControllerIntegrationTest {
 
     /**
      * The Port.

@@ -50,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-public class OrganizationControllerUnitTests {
+public class OrganizationControllerUnitTest {
 
     /**
      * The Mvc.

@@ -13,7 +13,7 @@ import org.restful.test.instances.commons.categories.UnitTest;
 @IncludeCategory(UnitTest.class)
 @ExcludeCategory(IntegrationTest.class)
 @SuiteClasses({
-        OrganizationControllerUnitTests.class
+        OrganizationControllerUnitTest.class
 })
 @Slf4j
 public class OrganizationApplicationUnitTestSuite {

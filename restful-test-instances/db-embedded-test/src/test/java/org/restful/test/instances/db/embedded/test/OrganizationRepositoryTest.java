@@ -1,4 +1,4 @@
-package org.restful.test.instances.db.local.test;
+package org.restful.test.instances.db.embedded.test;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -9,12 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.restful.test.instances.commons.categories.IntegrationTestOnReal;
+import org.restful.test.instances.commons.categories.IntegrationTestOnEmbedded;
+import org.restful.test.instances.commons.categories.UnitTest;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.DirtiesContext;
@@ -35,17 +37,19 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  * <p>
  * @author Alexander A. Kropotin
  */
-@Category(IntegrationTestOnReal.class)
+@Category(IntegrationTestOnEmbedded.class)
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext
+@AutoConfigureTestDatabase
+@AutoConfigureDataJpa
 @Slf4j
 @NoArgsConstructor
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-public class OrganizationRepositoryTests {
+public class OrganizationRepositoryTest {
 
     @Autowired
     OrganizationRepository organizationRepository;
@@ -63,7 +67,7 @@ public class OrganizationRepositoryTests {
     @Test
     public void save_positive_whenNameNotNull_thenSuccessfulSaved() {
         Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
 
@@ -110,23 +114,6 @@ public class OrganizationRepositoryTests {
         organizationRepository.save(organizationOrigin);
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
-    public void save_negative_whenNameDuplicate_thenFailureWithThrowException() {
-        Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
-                .build();
-        log.info("Создали сущность `Организация` - {}", organizationOrigin);
-        organizationRepository.save(organizationOrigin);
-        log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
-
-        Organization organizationOriginDuplicate = Organization.builder()
-                .name("GCorp")
-                .build();
-        log.info("Создали сущность-дубликат `Организация` - {}", organizationOriginDuplicate);
-
-        organizationRepository.save(organizationOriginDuplicate);
-    }
-
     @Test(expected = Exception.class)
     public void save_negative_whenNameLong_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
@@ -143,7 +130,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = Exception.class)
     public void save_negative_whenInnLong_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
+                .name("WCorp")
                 .inn(Stream.iterate(1,  i -> i++)
                         .limit(11)
                         .map(eachIterator -> "*")
@@ -157,7 +144,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = Exception.class)
     public void save_negative_whenKppLong_thenFailureWithThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
+                .name("WCorp")
                 .kpp(Stream.iterate(1,  i -> i++)
                         .limit(9)
                         .map(eachIterator -> "*")
@@ -171,7 +158,7 @@ public class OrganizationRepositoryTests {
     @Test
     public void update_positive_Name_thenSuccessfulUpdated() {
         Organization organizationOrigin = Organization.builder()
-                .name("WCorp")
+                .name("GCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
@@ -180,7 +167,7 @@ public class OrganizationRepositoryTests {
         Organization organizationSaved = this.organizationRepository
                 .findById(organizationOrigin.getUid())
                 .orElse(null);
-        organizationSaved.setName("GCorp");
+        organizationSaved.setName("WCorp");
         this.organizationRepository.save(organizationSaved);
         log.info("Обновили сущность `Организация` - {}", organizationSaved);
 
@@ -200,7 +187,7 @@ public class OrganizationRepositoryTests {
     @Test
     public void findById_positive_whenIdNotNullAndOrganizationExists_thenSuccessfulReturnOrganization() {
         Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
@@ -227,7 +214,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = InvalidDataAccessApiUsageException.class)
     public void findById_negative_whenIdNull_thenFailureThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
@@ -284,7 +271,7 @@ public class OrganizationRepositoryTests {
     @Test
     public void deleteById_positive_whenIdNotNull_thenSuccessfulDeleteOrganization() {
         Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
@@ -304,7 +291,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = EmptyResultDataAccessException.class)
     public void deleteById_positive_whenIdNotNullButNotExists_thenFailureThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);
@@ -316,7 +303,7 @@ public class OrganizationRepositoryTests {
     @Test(expected = InvalidDataAccessApiUsageException.class)
     public void deleteById_negative_whenIdNull_thenFailureThrowException() {
         Organization organizationOrigin = Organization.builder()
-                .name("GCorp")
+                .name("WCorp")
                 .build();
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
         organizationRepository.save(organizationOrigin);

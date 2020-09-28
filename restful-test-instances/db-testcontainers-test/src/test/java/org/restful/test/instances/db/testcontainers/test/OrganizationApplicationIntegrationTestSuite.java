@@ -17,7 +17,7 @@ import org.restful.test.instances.commons.categories.UnitTest;
         IntegrationTestOnEmbedded.class
 })
 @SuiteClasses({
-        OrganizationRepositoryTests.class
+        OrganizationRepositoryTest.class
 })
 @Slf4j
 public class OrganizationApplicationIntegrationTestSuite {

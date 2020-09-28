@@ -9,7 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.restful.test.instances.commons.categories.IntegrationTestOnReal;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  * <p>
  * @author Alexander A. Kropotin
  */
+@Category(IntegrationTestOnReal.class)
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest

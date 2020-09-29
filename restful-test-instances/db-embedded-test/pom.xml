@@ -25,6 +25,12 @@
             <artifactId>organisations</artifactId>
         </dependency>
         <!--organisations/>-->
+        <!--<commons-->
+        <dependency>
+            <groupId>org.restful.test.instances</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+        <!--commons/>-->
         <!--<database-->
         <dependency>
             <groupId>com.h2database</groupId>

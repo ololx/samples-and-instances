@@ -6,8 +6,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.restful.test.instances.commons.categories.IntegrationTestOnReal;
+import org.restful.test.instances.commons.categories.UnitTest;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
@@ -38,6 +41,7 @@ import static org.mockito.Mockito.when;
  * @project restful -test-instances
  * @created 2020 -04-25 14:09 <p>
  */
+@Category(UnitTest.class)
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext
@@ -239,7 +243,7 @@ public class OrganizationServiceTest {
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     @Test
-    public void find_positive_whenAllRequestParamsIsNull_thenSuccessfulFound()
+    public void find_positive_whenAllRequestParamsIsNull_thenSuccessfulFoundAll()
             throws CustomModelMapper.MappingException {
         List<OrganizationDetail> organizationResponse = this.organizationService.find(
                 null,

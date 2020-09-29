@@ -10,6 +10,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 - The tests for other organisation service methods.
 
+## [0.8.0] - 2020-09-29
+
+### Added
+
+- The Integration Controller tests;
+- The test categories.
+
 ## [0.7.0] - 2020-09-05
 
 ### Added

@@ -59,10 +59,9 @@ public class OrganizationModelMapper implements CustomModelMapper {
         if (sources == null) return Collections.emptyList();
 
         try {
-            T destination = destinationTypeClass.newInstance();
-
             return new ArrayList<>(){{
                 for (R source : sources) {
+                    T destination = destinationTypeClass.newInstance();
                     add(map(source, destination));
                 }
             }};

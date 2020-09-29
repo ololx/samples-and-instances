@@ -12,25 +12,12 @@
     </parent>
 
 
-    <artifactId>service-test</artifactId>
-    <name>service-test</name>
+    <artifactId>commons</artifactId>
+    <name>commons</name>
     <description>
-        This module presents unit tests of the API service layer.
+        This is a commons classes used in othe test instances projects.
     </description>
 
-    <dependencies>
-        <!--<organisations-->
-        <dependency>
-            <groupId>org.restful.test.instances</groupId>
-            <artifactId>organisations</artifactId>
-        </dependency>
-        <!--organisations/>-->
-        <!--<commons-->
-        <dependency>
-            <groupId>org.restful.test.instances</groupId>
-            <artifactId>commons</artifactId>
-        </dependency>
-        <!--commons/>-->
-    </dependencies>
+    <packaging>jar</packaging>
 
 </project>

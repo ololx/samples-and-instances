@@ -7,11 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.restful.test.instances.commons.categories.IntegrationTestOnReal;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -34,6 +35,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  * <p>
  * @author Alexander A. Kropotin
  */
+@Category(IntegrationTestOnReal.class)
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,7 +45,7 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-public class OrganizationRepositoryTests {
+public class OrganizationRepositoryTest {
 
     @Autowired
     OrganizationRepository organizationRepository;

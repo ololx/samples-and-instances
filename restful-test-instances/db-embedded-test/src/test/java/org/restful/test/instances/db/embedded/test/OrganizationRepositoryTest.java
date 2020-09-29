@@ -1,26 +1,27 @@
-package org.restful.test.instances.db.testcontainers.test;
+package org.restful.test.instances.db.embedded.test;
 
-import configuration.OrganizationDbContainer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.restful.test.instances.commons.categories.IntegrationTestOnEmbedded;
+import org.restful.test.instances.commons.categories.UnitTest;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,19 +37,19 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  * <p>
  * @author Alexander A. Kropotin
  */
+@Category(IntegrationTestOnEmbedded.class)
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext
+@AutoConfigureTestDatabase
+@AutoConfigureDataJpa
 @Slf4j
 @NoArgsConstructor
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-public class OrganizationRepositoryTests {
-
-    @ClassRule
-    public static PostgreSQLContainer postgreSQLContainer = OrganizationDbContainer.getInstance();
+public class OrganizationRepositoryTest {
 
     @Autowired
     OrganizationRepository organizationRepository;
@@ -111,23 +112,6 @@ public class OrganizationRepositoryTests {
         log.info("Создали сущность `Организация` - {}", organizationOrigin);
 
         organizationRepository.save(organizationOrigin);
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
-    public void save_negative_whenNameDuplicate_thenFailureWithThrowException() {
-        Organization organizationOrigin = Organization.builder()
-                .name("WCorp")
-                .build();
-        log.info("Создали сущность `Организация` - {}", organizationOrigin);
-        organizationRepository.save(organizationOrigin);
-        log.info("Сохранили сущность `Организация` - {}", organizationOrigin);
-
-        Organization organizationOriginDuplicate = Organization.builder()
-                .name("WCorp")
-                .build();
-        log.info("Создали сущность-дубликат `Организация` - {}", organizationOriginDuplicate);
-
-        organizationRepository.save(organizationOriginDuplicate);
     }
 
     @Test(expected = Exception.class)

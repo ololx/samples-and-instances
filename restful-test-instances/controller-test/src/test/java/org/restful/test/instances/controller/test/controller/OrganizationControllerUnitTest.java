@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.restful.test.instances.commons.categories.UnitTest;
 import org.restful.test.instances.controller.OrganizationController;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.service.OrganizationService;
@@ -40,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * The type Organization controller unit test.
  */
+@Category(UnitTest.class)
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrganizationController.class)
 @Slf4j
@@ -47,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-public class OrganizationControllerUnitTests {
+public class OrganizationControllerUnitTest {
 
     /**
      * The Mvc.

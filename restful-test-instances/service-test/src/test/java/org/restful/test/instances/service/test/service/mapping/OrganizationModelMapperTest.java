@@ -8,10 +8,12 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.restful.test.instances.commons.categories.UnitTest;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.service.mapping.CustomModelMapper;
@@ -33,6 +35,7 @@ import static org.mockito.Mockito.when;
  * @project restful -test-instances
  * @created 03.09.2020 10:39 <p>
  */
+@Category(UnitTest.class)
 @RunWith(MockitoJUnitRunner.class)
 @Slf4j
 @NoArgsConstructor

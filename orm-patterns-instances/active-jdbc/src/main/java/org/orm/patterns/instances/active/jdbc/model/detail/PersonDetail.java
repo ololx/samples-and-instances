@@ -8,6 +8,9 @@ import lombok.experimental.FieldDefaults;
 import java.io.Serializable;
 import java.util.Optional;
 
+/**
+ * The type Person detail.
+ */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,15 +27,27 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public final class PersonDetail implements Serializable {
 
+    /**
+     * The Id.
+     */
     @JsonProperty("id")
     Optional<Long> id;
 
+    /**
+     * The First name.
+     */
     @JsonProperty("first_name")
     Optional<String> firstName;
 
+    /**
+     * The Last name.
+     */
     @JsonProperty("last_name")
     Optional<String> lastName;
 
+    /**
+     * The Age.
+     */
     @JsonProperty("age")
     Optional<Integer> age;
 }

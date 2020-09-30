@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * The type ActiveJdbc configuration.
  */
 @SpringBootApplication
-public class ActiveJdbc extends SpringBootServletInitializer {
+public class ActiveJdbcApplication extends SpringBootServletInitializer {
 
     /**
      * The entry point of application.
@@ -18,7 +18,7 @@ public class ActiveJdbc extends SpringBootServletInitializer {
      * @throws Exception the exception
      */
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(ActiveJdbc.class, args);
+        SpringApplication.run(ActiveJdbcApplication.class, args);
     }
 
     /**
@@ -29,6 +29,6 @@ public class ActiveJdbc extends SpringBootServletInitializer {
      */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ActiveJdbc.class);
+        return application.sources(ActiveJdbcApplication.class);
     }
 }

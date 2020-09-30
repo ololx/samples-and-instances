@@ -13,6 +13,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The type Person model mapper.
+ */
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(

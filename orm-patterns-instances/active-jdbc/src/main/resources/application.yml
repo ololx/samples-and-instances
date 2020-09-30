@@ -21,6 +21,17 @@ spring:
     username: postgres
     password: postgres
 
+  jpa:
+    properties:
+      hibernate:
+        connection:
+          characterEncoding: utf-8
+          CharSet: utf-8
+          useUnicode: true
+        temp:
+          use_jdbc_metadata_defaults: false
+
   liquibase:
     change-log: classpath:db-migrations/changelog.xml
     enabled: true
+    drop-first: true

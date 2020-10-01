@@ -44,6 +44,7 @@
 
     <modules>
         <module>active-jdbc</module>
+        <module>hibernate-jpa</module>
     </modules>
 
     <properties>
@@ -65,6 +66,11 @@
                 <artifactId>active-jdbc</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.orm.patterns.instances</groupId>
+                <artifactId>hibernate-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -72,10 +78,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <!--Database & ORM-->
         <dependency>

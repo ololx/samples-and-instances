@@ -33,5 +33,5 @@ spring:
 
   liquibase:
     change-log: classpath:db-migrations/changelog.xml
-    enabled: false
+    enabled: true
     drop-first: true

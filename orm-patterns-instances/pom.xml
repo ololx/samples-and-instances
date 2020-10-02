@@ -43,6 +43,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>commons</module>
         <module>active-jdbc</module>
         <module>hibernate-jpa</module>
     </modules>
@@ -61,6 +62,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.orm.patterns.instances</groupId>
+                <artifactId>commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.orm.patterns.instances</groupId>
                 <artifactId>active-jdbc</artifactId>

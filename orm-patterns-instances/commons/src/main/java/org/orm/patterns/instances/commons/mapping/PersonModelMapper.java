@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.active.jdbc.service.mapping;
+package org.orm.patterns.instances.commons.mapping;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

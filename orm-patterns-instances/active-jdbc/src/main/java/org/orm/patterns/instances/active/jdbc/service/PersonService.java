@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.active.jdbc.model.detail.PersonDetail;
 import org.orm.patterns.instances.active.jdbc.model.entity.Person;
-import org.orm.patterns.instances.active.jdbc.service.mapping.CustomModelMapper;
+import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

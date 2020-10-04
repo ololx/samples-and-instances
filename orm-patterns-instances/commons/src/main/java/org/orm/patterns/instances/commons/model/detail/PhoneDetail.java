@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The type Person detail.
+ * The type Phone detail.
  */
 @Builder
 @NoArgsConstructor
@@ -26,7 +26,7 @@ import java.util.Optional;
         level = AccessLevel.PRIVATE
 )
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public final class PersonDetail implements Serializable {
+public final class PhoneDetail implements Serializable {
 
     /**
      * The Id.
@@ -35,20 +35,14 @@ public final class PersonDetail implements Serializable {
     Optional<Long> id;
 
     /**
-     * The First name.
+     * The Person id.
      */
-    @JsonProperty("first_name")
-    Optional<String> firstName;
+    @JsonProperty("person_id")
+    Optional<Long> personId;
 
     /**
-     * The Last name.
+     * The Number.
      */
-    @JsonProperty("last_name")
-    Optional<String> lastName;
-
-    /**
-     * The Age.
-     */
-    @JsonProperty("age")
-    Optional<Integer> age;
+    @JsonProperty("number")
+    Optional<String> number;
 }

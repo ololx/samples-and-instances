@@ -23,7 +23,7 @@ import java.util.List;
         makeFinal = true
 )
 @Service
-public class PersonModelMapper implements CustomModelMapper {
+public class SimpleModelMapper implements CustomModelMapper {
 
     /**
      * The Object mapper.

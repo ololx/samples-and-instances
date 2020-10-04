@@ -6,12 +6,14 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
+import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * The type Person service execution.
@@ -31,12 +33,18 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
     PersonService personService;
 
     /**
+     * The Phone service.
+     */
+    PhoneService phoneService;
+
+    /**
      * On application event.
      *
      * @param event the event
      */
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
+
         //create new
         this.createExecution();
         this.findExecution();
@@ -48,7 +56,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
         //get all
         this.findExecution();
 
-        //delete one
+        //delete exists
         this.deleteExecution();
         this.findExecution();
 
@@ -61,12 +69,19 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
     private void createExecution() {
         try {
             PersonDetail createPersonRequest = PersonDetail.builder()
-                    .firstName(java.util.Optional.of("Person"))
-                    .lastName(java.util.Optional.of("Personson"))
-                    .age(java.util.Optional.of(12))
+                    .firstName(Optional.ofNullable("Person"))
+                    .lastName(Optional.ofNullable("Personson"))
+                    .age(Optional.ofNullable(12))
                     .build();
             PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
-            log.warn("Receive the created Person data - {}", createPersonResponse);
+            log.info("\u001B[35m" + "Receive the created Person data - {}", createPersonResponse);
+
+            PhoneDetail createPhoneRequest = PhoneDetail.builder()
+                    .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
+                    .number(Optional.ofNullable("88000088080"))
+                    .build();
+            PhoneDetail createPhoneResponse = this.phoneService.create(createPhoneRequest);
+            log.info("\u001B[35m" + "Receive the created Phone data - {}", createPhoneResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't create the new Person, because - {}", e.getMessage());
         }
@@ -78,20 +93,20 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
     private void updateExecution() {
         try {
             PersonDetail createPersonRequest = PersonDetail.builder()
-                    .firstName(java.util.Optional.of("Person"))
-                    .lastName(java.util.Optional.of("Personson"))
-                    .age(java.util.Optional.of(12))
+                    .firstName(Optional.ofNullable("Person"))
+                    .lastName(Optional.ofNullable("Personson"))
+                    .age(Optional.ofNullable(12))
                     .build();
             PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
             Long updatePersonIdRequest = createPersonResponse.getId().get();
 
             PersonDetail updatePersonRequest = PersonDetail.builder()
-                    .firstName(java.util.Optional.of("NoPerson"))
-                    .lastName(java.util.Optional.of("NoPersonson"))
-                    .age(java.util.Optional.of(21))
+                    .firstName(Optional.ofNullable("NoPerson"))
+                    .lastName(Optional.ofNullable("NoPersonson"))
+                    .age(Optional.ofNullable(21))
                     .build();
             PersonDetail updatePersonResponse = this.personService.update(updatePersonIdRequest, updatePersonRequest);
-            log.warn("Receive the updated Person data - {}", updatePersonResponse);
+            log.info("\u001B[35m" + "Receive the updated Person data - {}", updatePersonResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't update the Person, because - {}", e.getMessage());
         }
@@ -103,7 +118,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
     private void findExecution() {
         try {
             Collection<PersonDetail> findPersonResponse = this.personService.find();
-            log.warn("Receive the collection of Persons data - {}", findPersonResponse);
+            log.info("\u001B[35m" + "Receive the collection of Persons data - {}", findPersonResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't find any Person, because - {}", e.getMessage());
         }
@@ -117,9 +132,9 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
             Collection<PersonDetail> findPersonResponse = new ArrayList<>();
             if ((findPersonResponse = this.personService.find()).isEmpty()) {
                 PersonDetail createPersonRequest = PersonDetail.builder()
-                        .firstName(java.util.Optional.of("Person"))
-                        .lastName(java.util.Optional.of("Personson"))
-                        .age(java.util.Optional.of(12))
+                        .firstName(Optional.ofNullable("Person"))
+                        .lastName(Optional.ofNullable("Personson"))
+                        .age(Optional.ofNullable(12))
                         .build();
                 findPersonResponse.add(this.personService.create(createPersonRequest));
             }
@@ -128,7 +143,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
                     .forEach(person -> {
                         Long deletePersonIdRequest = person.getId().get();
                         PersonDetail deletePersonResponse = this.personService.delete(deletePersonIdRequest);
-                        log.warn("Receive the deleted Person data - {}", deletePersonResponse);
+                        log.info("\u001B[35m" + "Receive the deleted Person data - {}", deletePersonResponse);
                     });
         } catch (Exception e) {
             log.debug("Couldn't delete the Person, because - {}", e.getMessage());

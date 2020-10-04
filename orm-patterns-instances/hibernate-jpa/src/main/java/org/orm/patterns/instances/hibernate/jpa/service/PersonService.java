@@ -1,20 +1,19 @@
-package org.orm.patterns.instances.active.jdbc.service;
+package org.orm.patterns.instances.hibernate.jpa.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.orm.patterns.instances.active.jdbc.model.entity.Person;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
+import org.orm.patterns.instances.hibernate.jpa.entity.Person;
+import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 
 /**
  * The type Person service.
@@ -33,10 +32,10 @@ public class PersonService {
      */
     CustomModelMapper personModelMapper;
 
-    /**
-     * The Connection wrapper.
+    /*
+     * The Person repository
      */
-    ConnectionWrapper connectionWrapper;
+    PersonRepository personRepository;
 
     /**
      * Create person detail.
@@ -47,23 +46,17 @@ public class PersonService {
      */
     public PersonDetail create(PersonDetail createPersonRequest)
             throws CustomModelMapper.MappingException {
-        connectionWrapper.open();
         log.info("Получили запрос на создание сущности - {}", createPersonRequest);
-        Person person = new Person().fromMap(
-                this.personModelMapper.map(createPersonRequest, new Person().toMap())
-        );
+        Person person = this.personModelMapper.map(createPersonRequest, new Person());
         log.info("Создали сущность - {}", person);
 
-        boolean isSaved = person.insert();
-        assertTrue(isSaved, "Не получилось сохранить сущность");
+        this.personRepository.save(person);
 
         PersonDetail createPersonResponse = this.personModelMapper.map(
-                person.toMap(),
+                person,
                 new PersonDetail()
         );
         log.info("Возвращаем ответ - {}", createPersonResponse);
-
-        connectionWrapper.close();
 
         return createPersonResponse;
     }
@@ -78,32 +71,26 @@ public class PersonService {
      */
     public PersonDetail update(Long idPerson, PersonDetail updatePersonRequest)
             throws CustomModelMapper.MappingException {
-        connectionWrapper.open();
         log.info(
                 "Получили запрос на обновлении сущности - {}\n с идентификатором - {}",
                 updatePersonRequest,
                 idPerson);
 
-        Person person = Person.findById(idPerson);
+        Person person = this.personRepository.findById(idPerson).orElse(null);
         assertNotNull(
                 person,
                 String.format("Сущности с таким идентификатором - {} не существует", idPerson)
         );
         log.info("Получили сущность - {}", person);
 
-        person.fromMap(
-                this.personModelMapper.map(updatePersonRequest, person.toMap())
-        );
-        boolean isUpdated = person.saveIt();
-        assertTrue(isUpdated, "Не получилось обновить сущность");
+        person = this.personModelMapper.map(updatePersonRequest, person);
+        this.personRepository.save(person);
 
         PersonDetail updatePersonResponse = this.personModelMapper.map(
-                person.toMap(),
+                person,
                 new PersonDetail()
         );
         log.info("Возвращаем ответ - {}", updatePersonResponse);
-
-        connectionWrapper.close();
 
         return updatePersonResponse;
     }
@@ -116,25 +103,21 @@ public class PersonService {
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     public PersonDetail delete(Long idPerson) {
-        connectionWrapper.open();
         log.info("Получили запрос на удаление сущности с идентификатором - {}", idPerson);
 
-        Person person = Person.findById(idPerson);
+        Person person = this.personRepository.findById(idPerson).orElse(null);
         assertNotNull(
                 person,
                 String.format("Сущности с таким идентификатором - {} не существует", idPerson)
         );
         log.info("Получили сущность - {}", person);
 
-        boolean isDeleted = person.delete();
-        assertTrue(isDeleted, "Не получилось удалить сущность");
+        this.personRepository.delete(person);
 
         PersonDetail deletePersonResponse = PersonDetail.builder()
                 .id(Optional.ofNullable(idPerson))
                 .build();
         log.info("Возвращаем ответ - {}", deletePersonResponse);
-
-        connectionWrapper.close();
 
         return deletePersonResponse;
     }
@@ -146,15 +129,12 @@ public class PersonService {
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     public List<PersonDetail> find() throws CustomModelMapper.MappingException {
-        connectionWrapper.open();
-        List<Person> persons = Person.findAll();
+        List<Person> persons = this.personRepository.findAll();
         List<PersonDetail> findPersonResponse = this.personModelMapper.map(
-                persons.stream().map(p -> p.toMap()).collect(Collectors.toList()),
+                persons,
                 PersonDetail.class
         );
         log.info("Возвращаем ответ - {}", findPersonResponse);
-
-        connectionWrapper.close();
 
         return findPersonResponse;
     }

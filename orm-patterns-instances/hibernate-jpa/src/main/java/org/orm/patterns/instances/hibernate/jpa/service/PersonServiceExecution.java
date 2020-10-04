@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.active.jdbc.service;
+package org.orm.patterns.instances.hibernate.jpa.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

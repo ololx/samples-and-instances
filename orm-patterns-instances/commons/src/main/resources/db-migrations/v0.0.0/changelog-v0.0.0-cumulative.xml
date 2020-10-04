@@ -8,4 +8,6 @@
         logicalFilePath="">
 
     <include file = "2020-09-21-persons-scheme-init.xml" relativeToChangelogFile="true"/>
+    <include file = "2020-10-04-pnones-scheme-init.xml" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

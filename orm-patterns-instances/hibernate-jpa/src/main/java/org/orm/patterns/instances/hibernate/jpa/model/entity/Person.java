@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.hibernate.jpa.entity;
+package org.orm.patterns.instances.hibernate.jpa.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

@@ -1,13 +1,13 @@
-package org.orm.patterns.instances.active.jdbc;
+package org.orm.patterns.instances.commons;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * The type ActiveJdbc configuration.
+ * The type Commons Application.
  */
 @SpringBootApplication
-public class ActiveJdbcApplication {
+public class CommonsApplication {
 
     /**
      * The entry point of application.
@@ -16,6 +16,6 @@ public class ActiveJdbcApplication {
      * @throws Exception the exception
      */
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(ActiveJdbcApplication.class, args);
+        SpringApplication.run(CommonsApplication.class, args);
     }
 }

@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 
 /**
- * The type Person.
+ * The type Phone.
  */
 @Builder
 @NoArgsConstructor
@@ -22,9 +22,9 @@ import javax.persistence.*;
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-@Entity(name = "Person")
-@Table(name = "person")
-public class Person {
+@Entity(name = "Phone")
+@Table(name = "phone")
+public class Phone {
 
     @JsonProperty("id")
     @Id
@@ -36,24 +36,16 @@ public class Person {
     )
     Long id;
 
-    @JsonProperty("first_name")
     @Column(
-            name = "first_name",
+            name = "person_id",
             nullable = false
     )
-    String firstName;
+    Long personId;
 
-    @JsonProperty("last_name")
+    @JsonProperty("number")
     @Column(
-            name = "last_name",
+            name = "number",
             nullable = false
     )
-    String lastName;
-
-    @JsonProperty("age")
-    @Column(
-            name = "age",
-            nullable = false
-    )
-    Integer age;
+    String number;
 }

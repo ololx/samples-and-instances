@@ -36,6 +36,7 @@ public class Phone {
     )
     Long id;
 
+    @JsonProperty("person_id")
     @Column(
             name = "person_id",
             nullable = false

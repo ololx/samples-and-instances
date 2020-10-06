@@ -8,4 +8,18 @@ import org.javalite.activejdbc.annotations.Table;
  */
 @Table("person")
 public class Person extends Model {
+
+    static {
+        validatePresenceOf("first_name", "last_name")
+                .message("The Person name is missing");
+
+        validateRange("age", 0, 101)
+                .message("The Person agу is amazing");
+
+        validateNumericalityOf("age")
+                .allowNull(false)
+                .greaterThan(-1)
+                .lessThan(101)
+                .message("The Person agу is amazing");
+    }
 }

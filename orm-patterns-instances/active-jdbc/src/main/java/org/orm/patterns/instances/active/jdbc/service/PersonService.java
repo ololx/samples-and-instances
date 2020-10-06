@@ -54,7 +54,7 @@ public class PersonService {
         );
         log.info("Создали сущность - {}", person);
 
-        boolean isSaved = person.insert();
+        boolean isSaved = person.saveIt();
         assertTrue(isSaved, "Не получилось сохранить сущность");
 
         PersonDetail createPersonResponse = this.personModelMapper.map(

@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.orm.patterns.instances.active.jdbc.model.entity.Person;
 import org.orm.patterns.instances.active.jdbc.model.entity.Phone;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
@@ -58,8 +57,6 @@ public class PhoneService {
                 new PhoneDetail()
         );
         log.info("Возвращаем ответ - {}", createPhoneResponse);
-
-        log.info("\u001B[35m" + "The Person data with Phone data - {}", Person.findAll());
 
         connectionWrapper.close();
 

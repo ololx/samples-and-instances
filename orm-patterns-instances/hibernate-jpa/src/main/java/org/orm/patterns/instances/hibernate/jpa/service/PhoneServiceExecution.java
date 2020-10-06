@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.*;
+
 /**
  * The type Person service execution.
  */
@@ -62,14 +64,14 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
                     .age(Optional.ofNullable(12))
                     .build();
             PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
-            log.info("\u001B[35m" + "Receive the created Person data - {}", createPersonResponse);
+            log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
 
             PhoneDetail createPhoneRequest = PhoneDetail.builder()
                     .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
                     .number(Optional.ofNullable("88000088080"))
                     .build();
             PhoneDetail createPhoneResponse = this.phoneService.create(createPhoneRequest);
-            log.info("\u001B[35m" + "Receive the created Phone data - {}", createPhoneResponse);
+            log.info(ANSI_CYAN_BACKGROUND + "Receive the created Phone data - {}" + ANSI_RESET, createPhoneResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't create the new Person, because - {}", e.getMessage());
         }

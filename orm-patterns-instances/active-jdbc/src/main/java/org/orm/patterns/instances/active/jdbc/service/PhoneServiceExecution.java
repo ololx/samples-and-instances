@@ -13,9 +13,10 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
+
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_CYAN_BACKGROUND;
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_RESET;
 
 /**
  * The type Person service execution.
@@ -70,18 +71,18 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
                     .age(Optional.ofNullable(12))
                     .build();
             PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
-            log.info("\u001B[35m" + "Receive the created Person data - {}", createPersonResponse);
+            log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
 
             PhoneDetail createPhoneRequest = PhoneDetail.builder()
                     .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
                     .number(Optional.ofNullable("88000088080"))
                     .build();
             PhoneDetail createPhoneResponse = this.phoneService.create(createPhoneRequest);
-            log.info("\u001B[35m" + "Receive the created Phone data - {}", createPhoneResponse);
+            log.info(ANSI_CYAN_BACKGROUND + "Receive the created Phone data - {}" + ANSI_RESET, createPhoneResponse);
 
             connectionWrapper.open();
             Person.findAll().forEach(p -> {
-                log.info("\u001B[35m" + "Receive the created PP data - {}", p.getAll(Phone.class));
+                log.info(ANSI_CYAN_BACKGROUND + "Receive the created PP data - {}" + ANSI_RESET, p.getAll(Phone.class));
             });
             connectionWrapper.close();
 

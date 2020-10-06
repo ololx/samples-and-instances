@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
-import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -14,6 +13,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_PURPLE_BACKGROUND;
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_RESET;
 
 /**
  * The type Person service execution.
@@ -31,11 +33,6 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
      * The Person service.
      */
     PersonService personService;
-
-    /**
-     * The Phone service.
-     */
-    PhoneService phoneService;
 
     /**
      * On application event.
@@ -74,14 +71,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
                     .age(Optional.ofNullable(12))
                     .build();
             PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
-            log.info("\u001B[35m" + "Receive the created Person data - {}", createPersonResponse);
-
-            PhoneDetail createPhoneRequest = PhoneDetail.builder()
-                    .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
-                    .number(Optional.ofNullable("88000088080"))
-                    .build();
-            PhoneDetail createPhoneResponse = this.phoneService.create(createPhoneRequest);
-            log.info("\u001B[35m" + "Receive the created Phone data - {}", createPhoneResponse);
+            log.info(ANSI_PURPLE_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't create the new Person, because - {}", e.getMessage());
         }
@@ -106,7 +96,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
                     .age(Optional.ofNullable(21))
                     .build();
             PersonDetail updatePersonResponse = this.personService.update(updatePersonIdRequest, updatePersonRequest);
-            log.info("\u001B[35m" + "Receive the updated Person data - {}", updatePersonResponse);
+            log.info(ANSI_PURPLE_BACKGROUND + "Receive the updated Person data - {}" + ANSI_RESET, updatePersonResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't update the Person, because - {}", e.getMessage());
         }
@@ -118,7 +108,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
     private void findExecution() {
         try {
             Collection<PersonDetail> findPersonResponse = this.personService.find();
-            log.info("\u001B[35m" + "Receive the collection of Persons data - {}", findPersonResponse);
+            log.info(ANSI_PURPLE_BACKGROUND + "Receive the collection of Persons data - {}" + ANSI_RESET, findPersonResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't find any Person, because - {}", e.getMessage());
         }
@@ -143,7 +133,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
                     .forEach(person -> {
                         Long deletePersonIdRequest = person.getId().get();
                         PersonDetail deletePersonResponse = this.personService.delete(deletePersonIdRequest);
-                        log.info("\u001B[35m" + "Receive the deleted Person data - {}", deletePersonResponse);
+                        log.info(ANSI_PURPLE_BACKGROUND + "Receive the deleted Person data - {}" + ANSI_RESET, deletePersonResponse);
                     });
         } catch (Exception e) {
             log.debug("Couldn't delete the Person, because - {}", e.getMessage());

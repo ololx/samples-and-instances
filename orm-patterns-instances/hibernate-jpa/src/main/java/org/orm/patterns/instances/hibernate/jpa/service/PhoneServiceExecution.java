@@ -11,11 +11,10 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 
-import static org.orm.patterns.instances.commons.util.OutColorsUtils.*;
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_CYAN_BACKGROUND;
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_RESET;
 
 /**
  * The type Person service execution.
@@ -67,7 +66,7 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
 
             PhoneDetail createPhoneRequest = PhoneDetail.builder()
-                    .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
+                    .person(Optional.ofNullable(createPersonResponse))
                     .number(Optional.ofNullable("88000088080"))
                     .build();
             PhoneDetail createPhoneResponse = this.phoneService.create(createPhoneRequest);

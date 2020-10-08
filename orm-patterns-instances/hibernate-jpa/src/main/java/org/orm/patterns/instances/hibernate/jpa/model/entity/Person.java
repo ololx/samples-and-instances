@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * The type Person.
@@ -56,4 +57,10 @@ public class Person {
             nullable = false
     )
     Integer age;
+
+    @JsonProperty("phones")
+    @OneToMany(mappedBy = "person",
+            fetch = FetchType.EAGER
+    )
+    List<Phone> phones;
 }

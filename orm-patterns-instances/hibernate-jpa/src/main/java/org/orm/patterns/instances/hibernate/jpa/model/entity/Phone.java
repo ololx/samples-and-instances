@@ -10,14 +10,17 @@ import javax.persistence.*;
  * The type Phone.
  */
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@ToString(
+        exclude = "person"
+)
 @EqualsAndHashCode(
         of = {
                 "id"
         },
         doNotUseGetters = true
 )
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @FieldDefaults(
         level = AccessLevel.PRIVATE
@@ -36,12 +39,9 @@ public class Phone {
     )
     Long id;
 
-    @JsonProperty("person_id")
-    @Column(
-            name = "person_id",
-            nullable = false
-    )
-    Long personId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id")
+    Person person;
 
     @JsonProperty("number")
     @Column(

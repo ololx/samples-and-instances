@@ -18,8 +18,6 @@ public class Person extends Model {
 
         validateNumericalityOf("age")
                 .allowNull(false)
-                .greaterThan(-1)
-                .lessThan(101)
                 .message("The Person agу is amazing");
     }
 }

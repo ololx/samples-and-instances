@@ -35,6 +35,12 @@ public final class PhoneDetail implements Serializable {
     Optional<Long> id;
 
     /**
+     * The Person ID.
+     */
+    @JsonProperty("person_id")
+    Optional<Long> personId;
+
+    /**
      * The Person.
      */
     @JsonProperty("person")

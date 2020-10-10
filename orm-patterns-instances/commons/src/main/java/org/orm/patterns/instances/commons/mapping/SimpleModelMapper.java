@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * The type Person model mapper.
+ * The type Simple model mapper.
  */
 @Slf4j
 @RequiredArgsConstructor

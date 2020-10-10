@@ -66,7 +66,7 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
 
             PhoneDetail createPhoneRequest = PhoneDetail.builder()
-                    .person(Optional.ofNullable(createPersonResponse))
+                    .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
                     .number(Optional.ofNullable("88000088080"))
                     .build();
             PhoneDetail createPhoneResponse = this.phoneService.create(createPhoneRequest);

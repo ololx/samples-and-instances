@@ -6,7 +6,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
+import org.orm.patterns.instances.hibernate.jpa.model.entity.Person;
 import org.orm.patterns.instances.hibernate.jpa.model.entity.Phone;
+import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
 import org.orm.patterns.instances.hibernate.jpa.repository.PhoneRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,11 @@ public class PhoneService {
      */
     PhoneRepository phoneRepository;
 
+    /*
+     * The Person repository
+     */
+    PersonRepository personRepository;
+
     /**
      * Create phone detail.
      *
@@ -43,6 +50,9 @@ public class PhoneService {
             throws CustomModelMapper.MappingException {
         log.info("Получили запрос на создание сущности - {}", createPhoneRequest);
         Phone phone = this.phoneModelMapper.map(createPhoneRequest, new Phone());
+        Person person = this.personRepository.getOne(createPhoneRequest.getPersonId().orElse(null));
+        log.info("Получили сущность - {}");
+        phone.setPerson(person);
         log.info("Создали сущность - {}", phone);
 
         this.phoneRepository.save(phone);

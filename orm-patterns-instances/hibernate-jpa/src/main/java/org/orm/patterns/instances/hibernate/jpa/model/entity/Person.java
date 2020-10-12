@@ -3,8 +3,10 @@ package org.orm.patterns.instances.hibernate.jpa.model.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -38,6 +40,9 @@ public class Person {
     Long id;
 
     @JsonProperty("first_name")
+    @NotNull(
+            message = "The Person name is missing"
+    )
     @Column(
             name = "first_name",
             nullable = false
@@ -45,6 +50,9 @@ public class Person {
     String firstName;
 
     @JsonProperty("last_name")
+    @NotNull(
+            message = "The Person name is missing"
+    )
     @Column(
             name = "last_name",
             nullable = false
@@ -52,6 +60,11 @@ public class Person {
     String lastName;
 
     @JsonProperty("age")
+    @Range(
+            min = 0,
+            max = 101,
+            message = "The Person agу is amazing"
+    )
     @Column(
             name = "age",
             nullable = false

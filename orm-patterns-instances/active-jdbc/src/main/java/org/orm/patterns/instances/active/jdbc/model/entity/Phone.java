@@ -13,4 +13,8 @@ import org.javalite.activejdbc.annotations.Table;
 )
 @Table("phone")
 public class Phone extends Model {
+
+    static {
+        validateRegexpOf("number", "^(\\+\\d{1}( )?){1}((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$").message("123");
+    }
 }

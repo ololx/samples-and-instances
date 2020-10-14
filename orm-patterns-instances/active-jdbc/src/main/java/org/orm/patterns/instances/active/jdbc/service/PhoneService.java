@@ -49,7 +49,7 @@ public class PhoneService {
         );
         log.info("Создали сущность - {}", phone);
 
-        boolean isSaved = phone.insert();
+        boolean isSaved = phone.saveIt();
         assertTrue(isSaved, "Не получилось сохранить сущность");
 
         PhoneDetail createPhoneResponse = this.phoneModelMapper.map(

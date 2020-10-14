@@ -18,6 +18,6 @@ public class Person extends Model {
 
         validateNumericalityOf("age")
                 .allowNull(false)
-                .message("The Person agу is amazing");
+                .message("The Person age is amazing");
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 /**
  * The type Phone.
@@ -44,6 +45,10 @@ public class Phone {
     Person person;
 
     @JsonProperty("number")
+    @Pattern(
+            regexp = "^(\\+\\d{1}( )?){1}((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",
+            message = "123"
+    )
     @Column(
             name = "number",
             nullable = false

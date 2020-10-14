@@ -63,7 +63,7 @@ public class Person {
     @Range(
             min = 0,
             max = 101,
-            message = "The Person agу is amazing"
+            message = "The Person age is amazing"
     )
     @Column(
             name = "age",

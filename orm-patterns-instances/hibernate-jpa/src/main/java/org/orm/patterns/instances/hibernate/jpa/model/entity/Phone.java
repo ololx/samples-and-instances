@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -40,6 +41,9 @@ public class Phone {
     )
     Long id;
 
+    @NotNull(
+            message = "The Person id is missing"
+    )
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     Person person;

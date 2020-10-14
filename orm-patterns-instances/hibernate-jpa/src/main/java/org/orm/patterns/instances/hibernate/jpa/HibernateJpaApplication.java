@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.active.jdbc;
+package org.orm.patterns.instances.hibernate.jpa;
 
 import org.orm.patterns.instances.commons.CommonsApplication;
 import org.springframework.boot.SpringApplication;
@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication(scanBasePackageClasses = {
         CommonsApplication.class,
-        ActiveJdbcApplication.class
+        HibernateJpaApplication.class
 })
-public class ActiveJdbcApplication {
+public class HibernateJpaApplication {
 
     /**
      * The entry point of application.
@@ -20,6 +20,6 @@ public class ActiveJdbcApplication {
      * @throws Exception the exception
      */
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(ActiveJdbcApplication.class, args);
+        SpringApplication.run(HibernateJpaApplication.class, args);
     }
 }

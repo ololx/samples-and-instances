@@ -21,6 +21,12 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!--<commons-->
+        <dependency>
+            <groupId>org.orm.patterns.instances</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+        <!--commons>-->
         <dependency>
             <groupId>org.javalite</groupId>
             <artifactId>activejdbc</artifactId>

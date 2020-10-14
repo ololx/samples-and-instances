@@ -9,10 +9,15 @@ import org.javalite.activejdbc.annotations.Table;
 @Table("person")
 public class Person extends Model {
 
-    {
-        this.set("id", null);
-        this.set("first_name", null);
-        this.set("last_name", null);
-        this.set("age", null);
+    static {
+        validatePresenceOf("first_name", "last_name")
+                .message("The Person name is missing");
+
+        validateRange("age", 0, 101)
+                .message("The Person agу is amazing");
+
+        validateNumericalityOf("age")
+                .allowNull(false)
+                .message("The Person age is amazing");
     }
 }

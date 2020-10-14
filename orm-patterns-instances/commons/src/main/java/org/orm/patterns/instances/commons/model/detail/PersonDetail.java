@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.active.jdbc.model.detail;
+package org.orm.patterns.instances.commons.model.detail;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 /**

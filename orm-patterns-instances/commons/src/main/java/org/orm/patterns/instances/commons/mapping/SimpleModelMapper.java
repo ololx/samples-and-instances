@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.active.jdbc.service.mapping;
+package org.orm.patterns.instances.commons.mapping;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * The type Person model mapper.
+ * The type Simple model mapper.
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ import java.util.List;
         makeFinal = true
 )
 @Service
-public class PersonModelMapper implements CustomModelMapper {
+public class SimpleModelMapper implements CustomModelMapper {
 
     /**
      * The Object mapper.

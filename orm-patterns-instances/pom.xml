@@ -43,6 +43,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>commons</module>
         <module>active-jdbc</module>
         <module>hibernate-jpa</module>
     </modules>
@@ -63,6 +64,11 @@
         <dependencies>
             <dependency>
                 <groupId>org.orm.patterns.instances</groupId>
+                <artifactId>commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.orm.patterns.instances</groupId>
                 <artifactId>active-jdbc</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -79,17 +85,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
-        <!--Database & ORM-->
+        <!--Database-->
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>3.6.3</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
-        <!-->Database & ORM-->
+        <!-->Database-->
         <!--POJO<-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -103,15 +108,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.6.3</version>
-                <configuration>
-                    <propertyFile>src/main/resources/db-migrations/liquibase.yml</propertyFile>
-                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-                </configuration>
-            </plugin>
             <!--<flatten pom-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

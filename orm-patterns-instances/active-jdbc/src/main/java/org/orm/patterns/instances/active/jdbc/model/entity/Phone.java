@@ -15,6 +15,9 @@ import org.javalite.activejdbc.annotations.Table;
 public class Phone extends Model {
 
     static {
-        validateRegexpOf("number", "^(\\+\\d{1}( )?){1}((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$").message("123");
+        validateRange("person_id", 0, 101)
+                .message("The Person id is missing");
+        validateRegexpOf("number", "^(\\+\\d{1}( )?){1}((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$")
+                .message("The Phone number is missing");
     }
 }

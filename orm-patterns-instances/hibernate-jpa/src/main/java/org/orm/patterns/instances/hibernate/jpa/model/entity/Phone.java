@@ -47,7 +47,7 @@ public class Phone {
     @JsonProperty("number")
     @Pattern(
             regexp = "^(\\+\\d{1}( )?){1}((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",
-            message = "123"
+            message = "The Phone number is missing"
     )
     @Column(
             name = "number",

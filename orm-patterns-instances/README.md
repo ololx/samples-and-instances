@@ -1,1 +1,1 @@
-# restful-data-storing-instances
+# orm-patterns-instances

@@ -9,6 +9,7 @@ import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
 import org.springframework.stereotype.Service;
 
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 
 /**
@@ -61,5 +62,45 @@ public class PhoneService {
         connectionWrapper.close();
 
         return createPhoneResponse;
+    }
+
+    /**
+     * Update person detail.
+     *
+     * @param idPhone            the uid person
+     * @param updatePhoneRequest the update person request
+     * @return the person detail
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    public PhoneDetail update(Long idPhone, PhoneDetail updatePhoneRequest)
+            throws CustomModelMapper.MappingException {
+        connectionWrapper.open();
+        log.info(
+                "Получили запрос на обновлении сущности - {}\n с идентификатором - {}",
+                updatePhoneRequest,
+                idPhone);
+
+        Phone person = Phone.findById(idPhone);
+        assertNotNull(
+                person,
+                String.format("Сущности с таким идентификатором - {} не существует", idPhone)
+        );
+        log.info("Получили сущность - {}", person);
+
+        person.fromMap(
+                this.phoneModelMapper.map(updatePhoneRequest, person.toMap())
+        );
+        boolean isUpdated = person.saveIt();
+        assertTrue(isUpdated, "Не получилось обновить сущность");
+
+        PhoneDetail updatePhoneResponse = this.phoneModelMapper.map(
+                person.toMap(),
+                new PhoneDetail()
+        );
+        log.info("Возвращаем ответ - {}", updatePhoneResponse);
+
+        connectionWrapper.close();
+
+        return updatePhoneResponse;
     }
 }

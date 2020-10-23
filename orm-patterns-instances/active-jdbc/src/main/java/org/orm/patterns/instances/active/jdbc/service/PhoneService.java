@@ -4,10 +4,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.orm.patterns.instances.active.jdbc.model.entity.Person;
 import org.orm.patterns.instances.active.jdbc.model.entity.Phone;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
+import org.orm.patterns.instances.commons.model.detail.PersonDetail;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
@@ -102,5 +107,25 @@ public class PhoneService {
         connectionWrapper.close();
 
         return updatePhoneResponse;
+    }
+
+    /**
+     * Find list.
+     *
+     * @return the list
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    public List<PhoneDetail> find() throws CustomModelMapper.MappingException {
+        connectionWrapper.open();
+        List<Phone> phones = Person.findAll();
+        List<PhoneDetail> findPhoneResponse = this.phoneModelMapper.map(
+                phones.stream().map(p -> p.toMap()).collect(Collectors.toList()),
+                PhoneDetail.class
+        );
+        log.info("Возвращаем ответ - {}", findPhoneResponse);
+
+        connectionWrapper.close();
+
+        return findPhoneResponse;
     }
 }

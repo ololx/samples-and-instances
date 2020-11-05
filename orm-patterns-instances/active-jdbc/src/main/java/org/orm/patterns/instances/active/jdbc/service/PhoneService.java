@@ -5,9 +5,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.active.jdbc.model.entity.Phone;
+import org.orm.patterns.instances.active.jdbc.model.entity.Phone;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
+import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
@@ -58,18 +64,17 @@ public class PhoneService {
                 new PhoneDetail()
         );
         log.info("Возвращаем ответ - {}", createPhoneResponse);
-
         connectionWrapper.close();
 
         return createPhoneResponse;
     }
 
     /**
-     * Update person detail.
+     * Update phone detail.
      *
-     * @param idPhone            the uid person
-     * @param updatePhoneRequest the update person request
-     * @return the person detail
+     * @param idPhone            the uid phone
+     * @param updatePhoneRequest the update phone request
+     * @return the phone detail
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     public PhoneDetail update(Long idPhone, PhoneDetail updatePhoneRequest)
@@ -80,27 +85,76 @@ public class PhoneService {
                 updatePhoneRequest,
                 idPhone);
 
-        Phone person = Phone.findById(idPhone);
+        Phone phone = Phone.findById(idPhone);
         assertNotNull(
-                person,
+                phone,
                 String.format("Сущности с таким идентификатором - {} не существует", idPhone)
         );
-        log.info("Получили сущность - {}", person);
+        log.info("Получили сущность - {}", phone);
 
-        person.fromMap(
-                this.phoneModelMapper.map(updatePhoneRequest, person.toMap())
+        phone.fromMap(
+                this.phoneModelMapper.map(updatePhoneRequest, phone.toMap())
         );
-        boolean isUpdated = person.saveIt();
+        boolean isUpdated = phone.saveIt();
         assertTrue(isUpdated, "Не получилось обновить сущность");
 
         PhoneDetail updatePhoneResponse = this.phoneModelMapper.map(
-                person.toMap(),
+                phone.toMap(),
                 new PhoneDetail()
         );
         log.info("Возвращаем ответ - {}", updatePhoneResponse);
-
         connectionWrapper.close();
 
         return updatePhoneResponse;
     }
+
+    /**
+     * Find list.
+     *
+     * @return the list
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    public List<PhoneDetail> find() throws CustomModelMapper.MappingException {
+        connectionWrapper.open();
+        List<Phone> phones = Phone.findAll();
+        List<PhoneDetail> findPhoneResponse = this.phoneModelMapper.map(
+                phones.stream().map(p -> p.toMap()).collect(Collectors.toList()),
+                PhoneDetail.class
+        );
+        log.info("Возвращаем ответ - {}", findPhoneResponse);
+        connectionWrapper.close();
+
+        return findPhoneResponse;
+    }
+
+    /**
+     * Delete phone detail.
+     *
+     * @param idPhone the uid phone
+     * @return the phone detail
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    public PhoneDetail delete(Long idPhone) {
+        connectionWrapper.open();
+        log.info("Получили запрос на удаление сущности с идентификатором - {}", idPhone);
+
+        Phone phone = Phone.findById(idPhone);
+        assertNotNull(
+                phone,
+                String.format("Сущности с таким идентификатором - {} не существует", idPhone)
+        );
+        log.info("Получили сущность - {}", phone);
+
+        boolean isDeleted = phone.delete();
+        assertTrue(isDeleted, "Не получилось удалить сущность");
+
+        PhoneDetail deletePhoneResponse = PhoneDetail.builder()
+                .id(Optional.ofNullable(idPhone))
+                .build();
+        log.info("Возвращаем ответ - {}", deletePhoneResponse);
+        connectionWrapper.close();
+
+        return deletePhoneResponse;
+    }
+
 }

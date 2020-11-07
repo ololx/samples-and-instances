@@ -56,12 +56,18 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
 
         //create new
         this.createExecution();
+        this.findExecution();
 
         //update exists
         this.updateExecution();
+        this.findExecution();
 
         //get all
+        this.findExecution();
+
+        //delete exists
         this.deleteExecution();
+        this.findExecution();
 
         return;
     }
@@ -97,7 +103,7 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             connectionWrapper.close();
 
         } catch (CustomModelMapper.MappingException e) {
-            log.debug("Couldn't create the new Person, because - {}", e.getMessage());
+            log.debug("Couldn't create the new Phone, because - {}", e.getMessage());
         }
     }
 
@@ -129,7 +135,22 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             PhoneDetail updatePhoneResponse = this.phoneService.update(updatePhoneIdRequest, updatePhoneRequest);
             log.info(ANSI_CYAN_BACKGROUND + "Receive the updated Phone data - {}" + ANSI_RESET, updatePhoneResponse);
         } catch (CustomModelMapper.MappingException e) {
-            log.debug("Couldn't create the new Person, because - {}", e.getMessage());
+            log.debug("Couldn't create the new Phone, because - {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Find execution.
+     */
+    private void findExecution() {
+        try {
+            Collection<PhoneDetail> findPhoneResponse = this.phoneService.find();
+            log.info(
+                    ANSI_CYAN_BACKGROUND + "Receive the collection of Phones data - {}" + ANSI_RESET,
+                    findPhoneResponse
+            );
+        } catch (CustomModelMapper.MappingException e) {
+            log.debug("Couldn't find any Phone, because - {}", e.getMessage());
         }
     }
 
@@ -162,7 +183,7 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
                         );
                     });
         } catch (Exception e) {
-            log.debug("Couldn't delete the Person, because - {}", e.getMessage());
+            log.debug("Couldn't delete the Phone, because - {}", e.getMessage());
         }
     }
 }

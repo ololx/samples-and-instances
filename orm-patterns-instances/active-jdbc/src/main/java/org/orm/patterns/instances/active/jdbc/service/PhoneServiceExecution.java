@@ -60,6 +60,9 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
         //update exists
         this.updateExecution();
 
+        //get all
+        this.deleteExecution();
+
         return;
     }
 
@@ -86,7 +89,10 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
 
             connectionWrapper.open();
             Person.findAll().forEach(p -> {
-                log.info(ANSI_CYAN_BACKGROUND + "Receive the created PP data - {}" + ANSI_RESET, p.getAll(Phone.class));
+                log.info(
+                        ANSI_CYAN_BACKGROUND + "Receive the created Person With Phone data (Lazy) - {}" + ANSI_RESET,
+                        p.getAll(Phone.class)
+                );
             });
             connectionWrapper.close();
 
@@ -147,10 +153,13 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             }
 
             this.phoneService.find().stream()
-                    .forEach(person -> {
-                        Long deletePersonIdRequest = person.getId().get();
-                        PersonDetail deletePersonResponse = this.personService.delete(deletePersonIdRequest);
-                        log.info(ANSI_CYAN_BACKGROUND + "Receive the deleted Phone data - {}" + ANSI_RESET, deletePersonResponse);
+                    .forEach(phone -> {
+                        Long deletePhoneIdRequest = phone.getId().get();
+                        PhoneDetail deletePhoneResponse = this.phoneService.delete(deletePhoneIdRequest);
+                        log.info(
+                                ANSI_CYAN_BACKGROUND + "Receive the deleted Phone data - {}" + ANSI_RESET,
+                                deletePhoneResponse
+                        );
                     });
         } catch (Exception e) {
             log.debug("Couldn't delete the Person, because - {}", e.getMessage());

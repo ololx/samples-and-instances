@@ -133,7 +133,10 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
                     .forEach(person -> {
                         Long deletePersonIdRequest = person.getId().get();
                         PersonDetail deletePersonResponse = this.personService.delete(deletePersonIdRequest);
-                        log.info(ANSI_PURPLE_BACKGROUND + "Receive the deleted Person data - {}" + ANSI_RESET, deletePersonResponse);
+                        log.info(
+                                ANSI_PURPLE_BACKGROUND + "Receive the deleted Person data - {}" + ANSI_RESET,
+                                deletePersonResponse
+                        );
                     });
         } catch (Exception e) {
             log.debug("Couldn't delete the Person, because - {}", e.getMessage());

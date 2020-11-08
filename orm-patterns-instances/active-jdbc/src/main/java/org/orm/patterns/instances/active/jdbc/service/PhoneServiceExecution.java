@@ -56,9 +56,18 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
 
         //create new
         this.createExecution();
+        this.findExecution();
 
         //update exists
         this.updateExecution();
+        this.findExecution();
+
+        //get all
+        this.findExecution();
+
+        //delete exists
+        this.deleteExecution();
+        this.findExecution();
 
         return;
     }
@@ -86,12 +95,15 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
 
             connectionWrapper.open();
             Person.findAll().forEach(p -> {
-                log.info(ANSI_CYAN_BACKGROUND + "Receive the created PP data - {}" + ANSI_RESET, p.getAll(Phone.class));
+                log.info(
+                        ANSI_CYAN_BACKGROUND + "Receive the created Person With Phone data (Lazy) - {}" + ANSI_RESET,
+                        p.getAll(Phone.class)
+                );
             });
             connectionWrapper.close();
 
         } catch (CustomModelMapper.MappingException e) {
-            log.debug("Couldn't create the new Person, because - {}", e.getMessage());
+            log.debug("Couldn't create the new Phone, because - {}", e.getMessage());
         }
     }
 
@@ -123,7 +135,22 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             PhoneDetail updatePhoneResponse = this.phoneService.update(updatePhoneIdRequest, updatePhoneRequest);
             log.info(ANSI_CYAN_BACKGROUND + "Receive the updated Phone data - {}" + ANSI_RESET, updatePhoneResponse);
         } catch (CustomModelMapper.MappingException e) {
-            log.debug("Couldn't create the new Person, because - {}", e.getMessage());
+            log.debug("Couldn't create the new Phone, because - {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Find execution.
+     */
+    private void findExecution() {
+        try {
+            Collection<PhoneDetail> findPhoneResponse = this.phoneService.find();
+            log.info(
+                    ANSI_CYAN_BACKGROUND + "Receive the collection of Phones data - {}" + ANSI_RESET,
+                    findPhoneResponse
+            );
+        } catch (CustomModelMapper.MappingException e) {
+            log.debug("Couldn't find any Phone, because - {}", e.getMessage());
         }
     }
 
@@ -147,13 +174,16 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             }
 
             this.phoneService.find().stream()
-                    .forEach(person -> {
-                        Long deletePersonIdRequest = person.getId().get();
-                        PersonDetail deletePersonResponse = this.personService.delete(deletePersonIdRequest);
-                        log.info(ANSI_CYAN_BACKGROUND + "Receive the deleted Phone data - {}" + ANSI_RESET, deletePersonResponse);
+                    .forEach(phone -> {
+                        Long deletePhoneIdRequest = phone.getId().get();
+                        PhoneDetail deletePhoneResponse = this.phoneService.delete(deletePhoneIdRequest);
+                        log.info(
+                                ANSI_CYAN_BACKGROUND + "Receive the deleted Phone data - {}" + ANSI_RESET,
+                                deletePhoneResponse
+                        );
                     });
         } catch (Exception e) {
-            log.debug("Couldn't delete the Person, because - {}", e.getMessage());
+            log.debug("Couldn't delete the Phone, because - {}", e.getMessage());
         }
     }
 }

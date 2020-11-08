@@ -7,16 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.active.jdbc.model.entity.Phone;
 import org.orm.patterns.instances.active.jdbc.model.entity.Phone;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
+import org.orm.patterns.instances.commons.model.detail.PersonDetail;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_PURPLE_BACKGROUND;
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_RESET;
 
 /**
  * The type Phone service.
@@ -156,5 +160,4 @@ public class PhoneService {
 
         return deletePhoneResponse;
     }
-
 }

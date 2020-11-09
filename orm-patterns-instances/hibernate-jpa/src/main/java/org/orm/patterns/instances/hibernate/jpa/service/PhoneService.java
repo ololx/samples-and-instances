@@ -12,6 +12,9 @@ import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
 import org.orm.patterns.instances.hibernate.jpa.repository.PhoneRepository;
 import org.springframework.stereotype.Service;
 
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.hibernate.validator.internal.util.Contracts.assertTrue;
+
 /**
  * The type Phone service.
  */
@@ -64,5 +67,67 @@ public class PhoneService {
         log.info("Возвращаем ответ - {}", createPhoneResponse);
 
         return createPhoneResponse;
+    }
+
+    /**
+     * Update phone detail.
+     *
+     * @param updatePhoneRequest the create phone request
+     * @return the phone detail
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    public PhoneDetail update(PhoneDetail updatePhoneRequest)
+            throws CustomModelMapper.MappingException {
+        log.info("Получили запрос на создание сущности - {}", updatePhoneRequest);
+        Phone phone = this.phoneModelMapper.map(updatePhoneRequest, new Phone());
+        Person person = this.personRepository.getOne(updatePhoneRequest.getPersonId().orElse(null));
+        log.info("Получили сущность - {}");
+        phone.setPerson(person);
+        log.info("Создали сущность - {}", phone);
+
+        this.phoneRepository.save(phone);
+
+        PhoneDetail createPhoneResponse = this.phoneModelMapper.map(
+                phone,
+                new PhoneDetail()
+        );
+        log.info("Возвращаем ответ - {}", createPhoneResponse);
+
+        return createPhoneResponse;
+    }
+
+    /**
+     * Update phone detail.
+     *
+     * @param idPhone            the uid phone
+     * @param updatePhoneRequest the update phone request
+     * @return the phone detail
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    public PhoneDetail update(Long idPhone, PhoneDetail updatePhoneRequest)
+            throws CustomModelMapper.MappingException {
+        log.info(
+                "Получили запрос на обновлении сущности - {}\n с идентификатором - {}",
+                updatePhoneRequest,
+                idPhone);
+
+        Phone phone = this.phoneRepository.getOne(idPhone);
+        assertNotNull(
+                phone,
+                String.format("Сущности с таким идентификатором - {} не существует", idPhone)
+        );
+        log.info("Получили сущность - {}", phone);
+
+        phone = this.phoneModelMapper.map(updatePhoneRequest, phone);
+
+        this.phoneRepository.save(phone);
+
+        PhoneDetail updatePhoneResponse = this.phoneModelMapper.map(
+                phone,
+                new PhoneDetail()
+        );
+        log.info("Возвращаем ответ - {}", updatePhoneResponse);
+
+        return updatePhoneResponse;
     }
 }

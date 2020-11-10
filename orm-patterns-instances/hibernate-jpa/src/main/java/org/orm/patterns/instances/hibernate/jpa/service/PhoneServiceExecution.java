@@ -51,6 +51,10 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
         this.createExecution();
         this.findExecution();
 
+        //update exists
+        this.updateExecution();
+        this.findExecution();
+
         return;
     }
 
@@ -75,6 +79,38 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             log.info(ANSI_CYAN_BACKGROUND + "Receive the created Phone data - {}" + ANSI_RESET, createPhoneResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't create the new Person, because - {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Update execution.
+     */
+    private void updateExecution() {
+        try {
+            PersonDetail createPersonRequest = PersonDetail.builder()
+                    .firstName(Optional.ofNullable("Person"))
+                    .lastName(Optional.ofNullable("Personson"))
+                    .age(Optional.ofNullable(16))
+                    .build();
+            PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
+            log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
+
+
+            PhoneDetail createPhoneRequest = PhoneDetail.builder()
+                    .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
+                    .number(Optional.ofNullable("+7 (999) 999-9999"))
+                    .build();
+            PhoneDetail createPhoneResponse = this.phoneService.create(createPhoneRequest);
+            Long updatePhoneIdRequest = createPhoneResponse.getId().get();
+
+            PhoneDetail updatePhoneRequest = PhoneDetail.builder()
+                    .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
+                    .number(Optional.ofNullable("+7 (111) 111-1111"))
+                    .build();
+            PhoneDetail updatePhoneResponse = this.phoneService.update(updatePhoneIdRequest, updatePhoneRequest);
+            log.info(ANSI_CYAN_BACKGROUND + "Receive the updated Phone data - {}" + ANSI_RESET, updatePhoneResponse);
+        } catch (CustomModelMapper.MappingException e) {
+            log.debug("Couldn't create the new Phone, because - {}", e.getMessage());
         }
     }
 

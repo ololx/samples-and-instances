@@ -57,35 +57,9 @@ public class PhoneService {
             throws CustomModelMapper.MappingException {
         log.info("Получили запрос на создание сущности - {}", createPhoneRequest);
         Phone phone = this.phoneModelMapper.map(createPhoneRequest, new Phone());
-        Person person = this.personRepository.getOne(createPhoneRequest.getPersonId().orElse(null));
-        log.info("Получили сущность - {}");
-        phone.setPerson(person);
-        log.info("Создали сущность - {}", phone);
-
-        this.phoneRepository.save(phone);
-
-        PhoneDetail createPhoneResponse = this.phoneModelMapper.map(
-                phone,
-                new PhoneDetail()
-        );
-        log.info("Возвращаем ответ - {}", createPhoneResponse);
-
-        return createPhoneResponse;
-    }
-
-    /**
-     * Update phone detail.
-     *
-     * @param updatePhoneRequest the create phone request
-     * @return the phone detail
-     * @throws CustomModelMapper.MappingException the mapping exception
-     */
-    public PhoneDetail update(PhoneDetail updatePhoneRequest)
-            throws CustomModelMapper.MappingException {
-        log.info("Получили запрос на создание сущности - {}", updatePhoneRequest);
-        Phone phone = this.phoneModelMapper.map(updatePhoneRequest, new Phone());
-        Person person = this.personRepository.getOne(updatePhoneRequest.getPersonId().orElse(null));
-        log.info("Получили сущность - {}");
+        Person person = this.personRepository.findById(createPhoneRequest.getPersonId().orElse(null))
+                .orElse(null);
+        log.info("Получили сущность - {}", person);
         phone.setPerson(person);
         log.info("Создали сущность - {}", phone);
 
@@ -115,15 +89,14 @@ public class PhoneService {
                 updatePhoneRequest,
                 idPhone);
 
-        Phone phone = this.phoneRepository.getOne(idPhone);
+        Phone phone = this.phoneRepository.findById(idPhone).orElse(null);
         assertNotNull(
                 phone,
                 String.format("Сущности с таким идентификатором - {} не существует", idPhone)
         );
         log.info("Получили сущность - {}", phone);
 
-        phone = this.phoneModelMapper.map(updatePhoneRequest, phone);
-
+        this.phoneModelMapper.map(updatePhoneRequest, phone);
         this.phoneRepository.save(phone);
 
         PhoneDetail updatePhoneResponse = this.phoneModelMapper.map(
@@ -161,16 +134,16 @@ public class PhoneService {
      */
     public PhoneDetail delete(Long idPhone) {
         log.info("Получили запрос на удаление сущности с идентификатором - {}", idPhone);
-
-        Phone phone = this.phoneRepository.getOne(idPhone);
-        assertNotNull(
-                phone,
+        assertTrue(
+                this.phoneRepository.existsById(idPhone),
                 String.format("Сущности с таким идентификатором - {} не существует", idPhone)
         );
-        log.info("Получили сущность - {}", phone);
 
-        this.phoneRepository.delete(phone);
-        assertTrue(phone.getId() == null, "Не получилось удалить сущность");
+        this.phoneRepository.deleteById(idPhone);
+        assertTrue(
+                !this.phoneRepository.existsById(idPhone),
+                String.format("Не получилось удалить сущность с идентификатором - {}", idPhone)
+        );
 
         PhoneDetail deletePhoneResponse = PhoneDetail.builder()
                 .id(Optional.ofNullable(idPhone))

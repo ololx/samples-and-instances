@@ -77,7 +77,6 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
      */
     private void createExecution() {
         try {
-
             PersonDetail createPersonRequest = PersonDetail.builder()
                     .firstName(Optional.ofNullable("Person"))
                     .lastName(Optional.ofNullable("Personson"))
@@ -119,7 +118,6 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
                     .build();
             PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
             log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
-
 
             PhoneDetail createPhoneRequest = PhoneDetail.builder()
                     .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))

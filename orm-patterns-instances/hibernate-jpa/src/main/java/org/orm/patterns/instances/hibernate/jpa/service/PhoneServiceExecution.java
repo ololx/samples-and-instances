@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_CYAN_BACKGROUND;
-import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_RESET;
+import static org.orm.patterns.instances.commons.util.OutColorsUtils.*;
 
 /**
  * The type Person service execution.
@@ -54,6 +53,9 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
 
         //update exists
         this.updateExecution();
+        this.findExecution();
+
+        //get all
         this.findExecution();
 
         //delete exists
@@ -99,7 +101,6 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
                     .build();
             PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
             log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
-
 
             PhoneDetail createPhoneRequest = PhoneDetail.builder()
                     .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))

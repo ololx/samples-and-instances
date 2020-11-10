@@ -1,5 +1,6 @@
 package org.orm.patterns.instances.hibernate.jpa.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -41,6 +42,7 @@ public class Phone {
     )
     Long id;
 
+    @JsonIgnore
     @NotNull(
             message = "The Person id is missing"
     )

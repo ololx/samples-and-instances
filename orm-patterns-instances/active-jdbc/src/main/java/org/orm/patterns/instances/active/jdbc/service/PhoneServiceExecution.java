@@ -154,6 +154,9 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
         }
     }
 
+    /**
+     * Delete execution.
+     */
     private void deleteExecution() {
         try {
             Collection<PhoneDetail> findPhoneResponse = new ArrayList<>();

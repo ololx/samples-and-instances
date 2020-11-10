@@ -11,6 +11,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_CYAN_BACKGROUND;
@@ -48,6 +49,7 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
 
         //create new
         this.createExecution();
+        this.findExecution();
 
         return;
     }
@@ -73,6 +75,21 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             log.info(ANSI_CYAN_BACKGROUND + "Receive the created Phone data - {}" + ANSI_RESET, createPhoneResponse);
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't create the new Person, because - {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Find execution.
+     */
+    private void findExecution() {
+        try {
+            Collection<PhoneDetail> findPhoneResponse = this.phoneService.find();
+            log.info(
+                    ANSI_CYAN_BACKGROUND + "Receive the collection of Phones data - {}" + ANSI_RESET,
+                    findPhoneResponse
+            );
+        } catch (CustomModelMapper.MappingException e) {
+            log.debug("Couldn't find any Phone, because - {}", e.getMessage());
         }
     }
 }

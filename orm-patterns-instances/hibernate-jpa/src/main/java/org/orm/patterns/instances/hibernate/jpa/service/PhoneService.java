@@ -151,4 +151,32 @@ public class PhoneService {
 
         return findPhoneResponse;
     }
+
+    /**
+     * Delete phone detail.
+     *
+     * @param idPhone the uid phone
+     * @return the phone detail
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    public PhoneDetail delete(Long idPhone) {
+        log.info("Получили запрос на удаление сущности с идентификатором - {}", idPhone);
+
+        Phone phone = this.phoneRepository.getOne(idPhone);
+        assertNotNull(
+                phone,
+                String.format("Сущности с таким идентификатором - {} не существует", idPhone)
+        );
+        log.info("Получили сущность - {}", phone);
+
+        this.phoneRepository.delete(phone);
+        assertTrue(phone.getId() == null, "Не получилось удалить сущность");
+
+        PhoneDetail deletePhoneResponse = PhoneDetail.builder()
+                .id(Optional.ofNullable(idPhone))
+                .build();
+        log.info("Возвращаем ответ - {}", deletePhoneResponse);
+
+        return deletePhoneResponse;
+    }
 }

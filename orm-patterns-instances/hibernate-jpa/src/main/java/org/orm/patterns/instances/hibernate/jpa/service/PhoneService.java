@@ -12,6 +12,10 @@ import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
 import org.orm.patterns.instances.hibernate.jpa.repository.PhoneRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 
@@ -129,5 +133,22 @@ public class PhoneService {
         log.info("Возвращаем ответ - {}", updatePhoneResponse);
 
         return updatePhoneResponse;
+    }
+
+    /**
+     * Find list.
+     *
+     * @return the list
+     * @throws CustomModelMapper.MappingException the mapping exception
+     */
+    public List<PhoneDetail> find() throws CustomModelMapper.MappingException {
+        List<Phone> phones = this.phoneRepository.findAll();
+        List<PhoneDetail> findPhoneResponse = this.phoneModelMapper.map(
+                phones,
+                PhoneDetail.class
+        );
+        log.info("Возвращаем ответ - {}", findPhoneResponse);
+
+        return findPhoneResponse;
     }
 }

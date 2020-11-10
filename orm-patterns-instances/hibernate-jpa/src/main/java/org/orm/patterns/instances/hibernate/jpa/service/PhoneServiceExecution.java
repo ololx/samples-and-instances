@@ -11,6 +11,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -53,6 +54,10 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
 
         //update exists
         this.updateExecution();
+        this.findExecution();
+
+        //delete exists
+        this.deleteExecution();
         this.findExecution();
 
         return;
@@ -126,6 +131,42 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             );
         } catch (CustomModelMapper.MappingException e) {
             log.debug("Couldn't find any Phone, because - {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Delete execution.
+     */
+    private void deleteExecution() {
+        try {
+            Collection<PhoneDetail> findPhoneResponse = new ArrayList<>();
+            if ((findPhoneResponse = this.phoneService.find()).isEmpty()) {
+                PersonDetail createPersonRequest = PersonDetail.builder()
+                        .firstName(Optional.ofNullable("Person"))
+                        .lastName(Optional.ofNullable("Personson"))
+                        .age(Optional.ofNullable(16))
+                        .build();
+                PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
+                log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);
+
+                PhoneDetail createPhoneRequest = PhoneDetail.builder()
+                        .personId(Optional.ofNullable(createPersonResponse.getId().orElse(1L)))
+                        .number(Optional.ofNullable("+7 (999) 999-9999"))
+                        .build();
+                findPhoneResponse.add(this.phoneService.create(createPhoneRequest));
+            }
+
+            this.phoneService.find().stream()
+                    .forEach(phone -> {
+                        Long deletePhoneIdRequest = phone.getId().get();
+                        PhoneDetail deletePhoneResponse = this.phoneService.delete(deletePhoneIdRequest);
+                        log.info(
+                                ANSI_CYAN_BACKGROUND + "Receive the deleted Phone data - {}" + ANSI_RESET,
+                                deletePhoneResponse
+                        );
+                    });
+        } catch (Exception e) {
+            log.debug("Couldn't delete the Phone, because - {}", e.getMessage());
         }
     }
 }

@@ -82,7 +82,7 @@ https://github.com/ololx/orm-patterns-instances
 To use it is necessary to:
 1 - Build the project.
 2 - Launch the instances.
-3 - Instument if (for the `active-jdbc` module).
+3 - Instrument if (for the `active-jdbc` module).
 
 ### Building the project
 

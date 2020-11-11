@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file.
 
 - Examples for Hibernate/spring data JPA.
 
+## 2020-11-11
+
+### Added
+- The custom constraint and validation of phone owner age value to hibernate-jpa examples project.
+
 ## 2020-11-10
 
 ### Added

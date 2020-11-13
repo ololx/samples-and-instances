@@ -56,6 +56,6 @@ public class PhoneOwnerAgeValidator implements ConstraintValidator<PhoneOwnerAge
      * @return the boolean
      */
     public boolean isValidOwnerAge(Person person) {
-        return this.age == person.getAge();
+        return this.age <= person.getAge();
     }
 }

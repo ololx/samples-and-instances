@@ -73,7 +73,7 @@ public class PhoneServiceExecution implements ApplicationListener<ApplicationRea
             PersonDetail createPersonRequest = PersonDetail.builder()
                     .firstName(Optional.ofNullable("Person"))
                     .lastName(Optional.ofNullable("Personson"))
-                    .age(Optional.ofNullable(12))
+                    .age(Optional.ofNullable(16))
                     .build();
             PersonDetail createPersonResponse = this.personService.create(createPersonRequest);
             log.info(ANSI_CYAN_BACKGROUND + "Receive the created Person data - {}" + ANSI_RESET, createPersonResponse);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.orm.patterns.instances.hibernate.jpa.service.validation.constraint.PhoneOwnerAge;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -43,6 +44,10 @@ public class Phone {
     Long id;
 
     @JsonIgnore
+    @PhoneOwnerAge(
+            value = 14,
+            message = "Only a person over 14 years old can own a phone"
+    )
     @NotNull(
             message = "The Person id is missing"
     )

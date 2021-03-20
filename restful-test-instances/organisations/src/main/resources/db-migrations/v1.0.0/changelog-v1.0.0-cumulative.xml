@@ -7,6 +7,5 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
         logicalFilePath="">
 
-    <include file="v0.0.0/changelog-v0.0.0-cumulative.xml" relativeToChangelogFile="true"/>
-    <include file="v1.0.0/changelog-v1.0.0-cumulative.xml" relativeToChangelogFile="true"/>
+    <include file = "2021-03-20-table-employ-init.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

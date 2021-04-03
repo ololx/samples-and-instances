@@ -50,7 +50,7 @@ public final class Organization implements Serializable {
 
     @Size(
             max = 10,
-            message = "Наименование организации должно быть до 30 символов"
+            message = "Наименование организации должно быть до 10 символов"
     )
     @NotBlank(
             message = "Наименование организации должно быть задано"

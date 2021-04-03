@@ -7,5 +7,4 @@ package org.restful.test.instances.commons.categories;
  * @author Alexander A. Kropotin
  */
 public interface IntegrationTestOnReal extends IntegrationTest {
-
 }

@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import lombok.extern.apachecommons.CommonsLog;
+import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -13,10 +13,8 @@ import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,14 +28,14 @@ import java.util.Optional;
  * @project orm -patterns-instances
  * @created 12.05.2021 08:03 <p>
  */
-@CommonsLog
+@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(
         level = AccessLevel.PRIVATE,
         makeFinal = true
 )
 @Repository
-public class PersonDao implements DataAccess<Person, Long> {
+public class PersonReporistory implements JdbcTemplateRepository<Person, Long> , DeleteRepository {
 
     /**
      * The Jdbc template.
@@ -148,12 +146,13 @@ public class PersonDao implements DataAccess<Person, Long> {
     @Override
     public void delete(Person entity) {
         int result = jdbcTemplate.update(
-                "SELECT * FROM person WHERE id = ?",
-                new ParameterizedPreparedStatementSetter<Person>() {
-                    public void setValues(PreparedStatement ps, Person argument) throws SQLException {
-                        ps.setLong(1, argument.getId());
-                    }
-                }
+                "DELETE FROM person WHERE id = ?",
+                entity.getId()
         );
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM person");
     }
 }

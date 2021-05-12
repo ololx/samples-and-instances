@@ -13,8 +13,7 @@ logging:
   level:
     root: INFO
     org:
-      springframework:
-        jdbc: TRACE
+      springframework: WARN
 
 spring:
   output:
@@ -23,7 +22,7 @@ spring:
 
   datasource:
     driver: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/persons
+    url: jdbc:postgresql://localhost:5433/persons?cachePrepStmts=true&useServerPrepStmts=true&rewriteBatchedStatements=true
     username: postgres
     password: postgres
 
@@ -35,14 +34,14 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
         current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
         order_inserts: true
-      show-sql: true
+      show-sql: false
       jdbc:
         batch_size: 1000
 
     hibernate:
       ddl-auto: validate
     open-in-view: false
-    show-sql: true
+    show-sql: false
 
   liquibase:
     change-log: classpath:db-migrations/changelog.xml

@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PersonDao;
+import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PersonReporistory;
 import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class PersonService {
     /*
      * The Person repository
      */
-    PersonDao personDao;
+    PersonReporistory personDao;
 
     /**
      * Create person detail.

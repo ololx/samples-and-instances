@@ -4,8 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import lombok.extern.apachecommons.CommonsLog;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
+import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Phone;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -13,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -29,14 +28,14 @@ import java.util.Optional;
  * @project orm -patterns-instances
  * @created 12.05.2021 08:03 <p>
  */
-@CommonsLog
+@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(
         level = AccessLevel.PRIVATE,
         makeFinal = true
 )
-@Service
-public class PhoneDao implements DataAccess<Phone, Long> {
+@Repository
+public class PhoneRepository implements JdbcTemplateRepository<Phone, Long> {
 
     /**
      * The Jdbc template.
@@ -89,8 +88,8 @@ public class PhoneDao implements DataAccess<Phone, Long> {
     @Override
     public <S extends Phone> Collection<S> saveAll(Collection<S> entities) {
         jdbcTemplate.batchUpdate(
-                "INSERT INTO phone (person_id, number)\\n\"\n" +
-                        "                        + \"VALUES (?, ?)",
+                "INSERT INTO phone (person_id, number) " +
+                        "VALUES (?, ?)",
                 entities,
                 batchSize,
                 new ParameterizedPreparedStatementSetter<S>() {
@@ -145,12 +144,8 @@ public class PhoneDao implements DataAccess<Phone, Long> {
     @Override
     public void delete(Phone entity) {
         int result = jdbcTemplate.update(
-                "SELECT * FROM phone WHERE id = ?",
-                new ParameterizedPreparedStatementSetter<Phone>() {
-                    public void setValues(PreparedStatement ps, Phone argument) throws SQLException {
-                        ps.setLong(1, argument.getId());
-                    }
-                }
+                "DELETE FROM phone WHERE id = ?",
+                entity.getId()
         );
     }
 }

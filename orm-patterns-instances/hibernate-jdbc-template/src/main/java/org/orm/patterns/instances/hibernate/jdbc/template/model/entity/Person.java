@@ -31,7 +31,14 @@ public class Person {
 
     @JsonProperty("id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator="person_pkey_pkey"
+    )
+    @SequenceGenerator(name="person_pkey_pkey",
+            sequenceName="person_id_seq",
+            allocationSize=1
+    )
     @Column(
             name = "id",
             insertable = false,

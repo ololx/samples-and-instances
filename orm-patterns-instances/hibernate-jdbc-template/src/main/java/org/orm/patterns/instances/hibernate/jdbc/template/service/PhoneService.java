@@ -6,8 +6,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PersonDao;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PhoneDao;
+import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PersonReporistory;
+import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PhoneRepository;
 import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
 import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Phone;
 import org.springframework.stereotype.Service;
@@ -37,12 +37,12 @@ public class PhoneService {
     /*
      * The Phone repository
      */
-    PhoneDao phoneRepository;
+    PhoneRepository phoneRepository;
 
     /*
      * The Person repository
      */
-    PersonDao personRepository;
+    PersonReporistory personRepository;
 
     /**
      * Create phone detail.

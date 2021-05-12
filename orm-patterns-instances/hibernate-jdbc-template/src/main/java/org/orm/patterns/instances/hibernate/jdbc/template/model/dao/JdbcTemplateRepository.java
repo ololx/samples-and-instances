@@ -13,7 +13,7 @@ import java.util.Optional;
  * @project orm -patterns-instances
  * @created 12.05.2021 08:00 <p>
  */
-public interface DataAccess<T, ID> {
+public interface JdbcTemplateRepository<T, ID> {
 
     /**
      * Save s.

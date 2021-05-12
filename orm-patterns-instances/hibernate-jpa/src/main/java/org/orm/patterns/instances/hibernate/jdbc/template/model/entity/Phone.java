@@ -1,10 +1,10 @@
-package org.orm.patterns.instances.hibernate.jpa.model.entity;
+package org.orm.patterns.instances.hibernate.jdbc.template.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.orm.patterns.instances.hibernate.jpa.service.validation.constraint.PhoneOwnerAge;
+import org.orm.patterns.instances.hibernate.jdbc.template.service.validation.constraint.PhoneOwnerAge;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

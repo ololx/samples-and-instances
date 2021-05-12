@@ -2,7 +2,7 @@
 
 This project presents a several examples of the database layer realization of a `RESTful` service. Each module presents a small simple instance of the different `ORM Pattern` realizations.
 
-[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-November_10,_2020-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
+[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-May_12,_2021-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
 
 [![license](https://img.shields.io/badge/license-MIT-informational?style=flat-square)](LICENSE)
 
@@ -29,6 +29,7 @@ This project includes the follows modules:
 
 - [active-jdbc](active-jdbc/README.md) - is a simple realization of the `Active Records Pattern` via `ActiveJDBC` implementation in the `spring-boot` application;
 - [hibernate-jpa](hibernate-jpa/README.md) - is a simple realization of the `Data Mappting Pattern` via `Spring Data JPA` and `Hibernate` implementation in the `spring-boot` application.
+- [hibernate-jdbc-template](hibernate-jdbc-template/README.md) - is a simple realization of the `Data Mappting Pattern` via `JdbcTemplate` and `Hibernate` implementation in the `spring-boot` application.
 
 ## 🎚 Features
 

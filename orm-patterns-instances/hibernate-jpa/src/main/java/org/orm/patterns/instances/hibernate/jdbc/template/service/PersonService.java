@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.hibernate.jpa.service;
+package org.orm.patterns.instances.hibernate.jdbc.template.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -6,8 +6,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
-import org.orm.patterns.instances.hibernate.jpa.model.entity.Person;
-import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
+import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
+import org.orm.patterns.instances.hibernate.jdbc.template.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

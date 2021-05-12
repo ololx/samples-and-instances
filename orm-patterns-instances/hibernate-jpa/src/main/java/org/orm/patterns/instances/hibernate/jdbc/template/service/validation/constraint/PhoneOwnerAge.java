@@ -1,6 +1,6 @@
-package org.orm.patterns.instances.hibernate.jpa.service.validation.constraint;
+package org.orm.patterns.instances.hibernate.jdbc.template.service.validation.constraint;
 
-import org.orm.patterns.instances.hibernate.jpa.service.validation.validator.PhoneOwnerAgeValidator;
+import org.orm.patterns.instances.hibernate.jdbc.template.service.validation.validator.PhoneOwnerAgeValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

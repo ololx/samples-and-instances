@@ -46,11 +46,12 @@
         <module>commons</module>
         <module>active-jdbc</module>
         <module>hibernate-jpa</module>
+        <module>hibernate-jdbc-template</module>
     </modules>
 
     <properties>
         <!--<project versioning-->
-        <revision>0.1.0</revision>
+        <revision>0.2.0</revision>
         <changelist></changelist>
         <sha1/>
         <!--project versioning>-->
@@ -77,6 +78,11 @@
                 <artifactId>hibernate-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.orm.patterns.instances</groupId>
+                <artifactId>hibernate-jdbc-template</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -86,10 +92,6 @@
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
         <!--Database-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

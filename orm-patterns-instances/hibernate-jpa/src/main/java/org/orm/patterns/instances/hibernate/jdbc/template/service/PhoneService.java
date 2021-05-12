@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.hibernate.jpa.service;
+package org.orm.patterns.instances.hibernate.jdbc.template.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -6,15 +6,14 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
-import org.orm.patterns.instances.hibernate.jpa.model.entity.Person;
-import org.orm.patterns.instances.hibernate.jpa.model.entity.Phone;
-import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
-import org.orm.patterns.instances.hibernate.jpa.repository.PhoneRepository;
+import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Phone;
+import org.orm.patterns.instances.hibernate.jdbc.template.repository.PersonRepository;
+import org.orm.patterns.instances.hibernate.jdbc.template.repository.PhoneRepository;
+import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.hibernate.validator.internal.util.Contracts.assertTrue;

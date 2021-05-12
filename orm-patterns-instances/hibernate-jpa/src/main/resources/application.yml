@@ -31,7 +31,10 @@ spring:
           use_jdbc_metadata_defaults: false
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
         current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        order_inserts: true
       show-sql: true
+      jdbc:
+        batch_size: 1000
 
     hibernate:
       ddl-auto: validate

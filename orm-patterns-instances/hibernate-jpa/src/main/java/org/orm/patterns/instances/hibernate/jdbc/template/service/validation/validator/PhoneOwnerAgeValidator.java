@@ -1,11 +1,11 @@
-package org.orm.patterns.instances.hibernate.jpa.service.validation.validator;
+package org.orm.patterns.instances.hibernate.jdbc.template.service.validation.validator;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import org.orm.patterns.instances.hibernate.jpa.model.entity.Person;
-import org.orm.patterns.instances.hibernate.jpa.service.validation.constraint.PhoneOwnerAge;
+import org.orm.patterns.instances.hibernate.jdbc.template.service.validation.constraint.PhoneOwnerAge;
+import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -3,7 +3,7 @@ services:
   persons_db:
     container_name: persons_db
     restart: always
-    image: postgres:9.6
+    image: postgres:9.2
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

@@ -1,11 +1,11 @@
-package org.orm.patterns.instances.hibernate.jpa;
+package org.orm.patterns.instances.hibernate.jdbc.template;
 
 import org.orm.patterns.instances.commons.CommonsApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * The type ActiveJdbc configuration.
+ * The type Hibernate Jpa configuration.
  */
 @SpringBootApplication(scanBasePackageClasses = {
         CommonsApplication.class,

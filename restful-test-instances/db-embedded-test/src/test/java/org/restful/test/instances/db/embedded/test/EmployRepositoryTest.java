@@ -1,16 +1,15 @@
-package org.restful.test.instances.db.testcontainers.test;
+package org.restful.test.instances.db.embedded.test;
 
-import configuration.OrganizationDbContainer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.restful.test.instances.commons.categories.IntegrationTestOnEmbedded;
 import org.restful.test.instances.commons.categories.IntegrationTestOnReal;
 import org.restful.test.instances.model.entity.Employ;
 import org.restful.test.instances.model.entity.Organization;
@@ -19,12 +18,13 @@ import org.restful.test.instances.repository.EmployRepository;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.TransactionSystemException;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,20 +38,19 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
  * <p>
  * @author Alexander A. Kropotin
  */
-@Category(IntegrationTestOnReal.class)
+@Category(IntegrationTestOnEmbedded.class)
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext
+@AutoConfigureTestDatabase
+@AutoConfigureDataJpa
 @Slf4j
 @NoArgsConstructor
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
 public class EmployRepositoryTest {
-
-    @ClassRule
-    public static PostgreSQLContainer postgreSQLContainer = OrganizationDbContainer.getInstance();
 
     @Autowired
     OrganizationRepository organizationRepository;

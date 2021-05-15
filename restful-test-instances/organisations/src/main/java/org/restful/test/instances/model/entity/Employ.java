@@ -53,7 +53,7 @@ public final class Employ {
     @NotNull(
             message = "У сотрудника должна быть указана должность"
     )
-    @Column(name = "position_uid")
+    @Column(name = "position_uid", nullable = true)
     Short positionUid;
 
     @Size(

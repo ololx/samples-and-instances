@@ -41,6 +41,18 @@ public interface CustomModelMapper {
     <T, R> T map(R source, T destination) throws MappingException;
 
     /**
+     * Map t.
+     *
+     * @param <T>                  the type parameter
+     * @param <R>                  the type parameter
+     * @param source               the source
+     * @param destinationTypeClass the destination type class
+     * @return the t
+     * @throws MappingException the mapping exception
+     */
+    <T, R> T map(R source, Class<T> destinationTypeClass) throws MappingException;
+
+    /**
      * Map list.
      *
      * @param <T>                  the type parameter

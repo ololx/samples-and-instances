@@ -9,14 +9,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.restful.test.instances.commons.categories.IntegrationTestOnReal;
 import org.restful.test.instances.commons.categories.UnitTest;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.service.OrganizationService;
 import org.restful.test.instances.service.mapping.CustomModelMapper;
-import org.restful.test.instances.service.mapping.OrganizationModelMapper;
+import org.restful.test.instances.service.mapping.SimpleModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -62,7 +61,7 @@ public class OrganizationServiceTest {
      * The Organization model mapper.
      */
     @MockBean
-    OrganizationModelMapper organizationModelMapper;
+    SimpleModelMapper organizationModelMapper;
 
     /**
      * The Organization service.

@@ -26,7 +26,7 @@ import java.util.List;
         makeFinal = true
 )
 @Service
-public class OrganizationModelMapper implements CustomModelMapper {
+public class SimpleModelMapper implements CustomModelMapper {
 
     ObjectMapper objectMapper;
 
@@ -39,9 +39,30 @@ public class OrganizationModelMapper implements CustomModelMapper {
      */
     @Override
     public <T, R> T map(R source, T destination) throws MappingException {
+        if (source == null || destination == null) return null;
+
         try {
             return this.objectMapper.updateValue(destination, source);
         } catch (JsonMappingException e) {
+            throw new MappingException(e);
+        }
+    }
+
+    /**
+     * Map t.
+     *
+     * @param source               the source
+     * @param destinationTypeClass the destination type class
+     * @return the t
+     * @throws MappingException the mapping exception
+     */
+    @Override
+    public <T, R> T map(R source, Class<T> destinationTypeClass) throws MappingException {
+        if (destinationTypeClass == null) return null;
+
+        try {
+            return this.map(source, destinationTypeClass.newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new MappingException(e);
         }
     }

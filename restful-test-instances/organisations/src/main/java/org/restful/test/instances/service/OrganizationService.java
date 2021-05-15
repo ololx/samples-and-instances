@@ -8,7 +8,7 @@ import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.repository.OrganizationRepository;
 import org.restful.test.instances.service.mapping.CustomModelMapper;
-import org.restful.test.instances.service.mapping.OrganizationModelMapper;
+import org.restful.test.instances.service.mapping.SimpleModelMapper;
 import org.restful.test.instances.service.specification.CustomSpecificationBuilder;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class OrganizationService {
 
     OrganizationRepository organizationRepository;
 
-    OrganizationModelMapper organizationModelMapper;
+    SimpleModelMapper organizationModelMapper;
 
     public OrganizationDetail create(OrganizationDetail createOrganizationRequest)
             throws CustomModelMapper.MappingException {

@@ -17,7 +17,7 @@ import org.restful.test.instances.commons.categories.UnitTest;
 import org.restful.test.instances.model.detail.OrganizationDetail;
 import org.restful.test.instances.model.entity.Organization;
 import org.restful.test.instances.service.mapping.CustomModelMapper;
-import org.restful.test.instances.service.mapping.OrganizationModelMapper;
+import org.restful.test.instances.service.mapping.SimpleModelMapper;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +54,7 @@ public class OrganizationModelMapperTest {
      * The Organization model mapper.
      */
     @InjectMocks
-    OrganizationModelMapper organizationModelMapper;
+    SimpleModelMapper organizationModelMapper;
 
     /**
      * Before each test.

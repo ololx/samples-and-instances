@@ -81,7 +81,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
             );
         }
 
-        for (int iteration = 1; iteration <= 10; iteration++) {
+        for (int iteration = 1; iteration <= 3; iteration++) {
             this.personRepository.deleteAll();
 
             LocalDateTime startAt = LocalDateTime.now();

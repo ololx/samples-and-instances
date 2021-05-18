@@ -4,14 +4,18 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.orm.patterns.instances.active.jdbc.model.entity.Person;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static org.orm.patterns.instances.commons.util.OutColorsUtils.ANSI_PURPLE_BACKGROUND;
@@ -57,7 +61,37 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
         this.deleteExecution();
         this.findExecution();
 
+        this.createByBatchExecution();
+
         return;
+    }
+
+    private void createByBatchExecution() {
+        List<Person> persons = new ArrayList<>();
+        for (int personNumber = 1; personNumber <= 10_000; personNumber++) {
+            Person person = new Person();
+            person.set("firstName", "Person-" + personNumber);
+            person.set("lastName", "Personson-" + personNumber);
+            person.set("age", 12);
+
+            persons.add(person);
+        }
+
+        for (int iteration = 1; iteration <= 3; iteration++) {
+            LocalDateTime startAt = LocalDateTime.now();
+            persons.forEach(person -> person.saveIt());
+            Duration time = Duration.between(startAt, LocalDateTime.now());
+
+            log.info(
+                    ANSI_PURPLE_BACKGROUND
+                            + "The spent time - {} h {} min {} sec {} ns"
+                            + ANSI_RESET,
+                    time.toHours(),
+                    time.toMinutes(),
+                    time.toSeconds(),
+                    time.getNano()
+            );
+        }
     }
 
     /**

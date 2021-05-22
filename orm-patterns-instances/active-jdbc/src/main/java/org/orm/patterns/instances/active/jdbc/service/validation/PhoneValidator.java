@@ -4,6 +4,9 @@ import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.validation.ValidatorAdapter;
 import org.orm.patterns.instances.active.jdbc.model.entity.Person;
 
+/**
+ * The type Phone validator.
+ */
 public class PhoneValidator extends ValidatorAdapter {
 
     @Override

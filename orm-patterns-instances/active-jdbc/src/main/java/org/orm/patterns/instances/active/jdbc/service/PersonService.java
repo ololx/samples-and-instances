@@ -43,7 +43,7 @@ public class PersonService {
      *
      * @param createPersonRequest the create person request
      * @return the person detail
-     * @throws CustomModelMapper.MappingException the mapping exception
+     * @throws MappingException the mapping exception
      */
     public PersonDetail create(PersonDetail createPersonRequest)
             throws CustomModelMapper.MappingException {
@@ -74,7 +74,7 @@ public class PersonService {
      * @param idPerson            the uid person
      * @param updatePersonRequest the update person request
      * @return the person detail
-     * @throws CustomModelMapper.MappingException the mapping exception
+     * @throws MappingException the mapping exception
      */
     public PersonDetail update(Long idPerson, PersonDetail updatePersonRequest)
             throws CustomModelMapper.MappingException {
@@ -143,7 +143,7 @@ public class PersonService {
      * Find list.
      *
      * @return the list
-     * @throws CustomModelMapper.MappingException the mapping exception
+     * @throws MappingException the mapping exception
      */
     public List<PersonDetail> find() throws CustomModelMapper.MappingException {
         connectionWrapper.open();

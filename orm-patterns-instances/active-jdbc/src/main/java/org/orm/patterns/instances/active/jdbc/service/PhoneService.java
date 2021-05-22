@@ -49,7 +49,7 @@ public class PhoneService {
      *
      * @param createPhoneRequest the create phone request
      * @return the phone detail
-     * @throws CustomModelMapper.MappingException the mapping exception
+     * @throws MappingException the mapping exception
      */
     public PhoneDetail create(PhoneDetail createPhoneRequest)
             throws CustomModelMapper.MappingException {
@@ -79,7 +79,7 @@ public class PhoneService {
      * @param idPhone            the uid phone
      * @param updatePhoneRequest the update phone request
      * @return the phone detail
-     * @throws CustomModelMapper.MappingException the mapping exception
+     * @throws MappingException the mapping exception
      */
     public PhoneDetail update(Long idPhone, PhoneDetail updatePhoneRequest)
             throws CustomModelMapper.MappingException {
@@ -116,7 +116,7 @@ public class PhoneService {
      * Find list.
      *
      * @return the list
-     * @throws CustomModelMapper.MappingException the mapping exception
+     * @throws MappingException the mapping exception
      */
     public List<PhoneDetail> find() throws CustomModelMapper.MappingException {
         connectionWrapper.open();

@@ -38,6 +38,8 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
      */
     PersonService personService;
 
+    ConnectionWrapper connectionWrapper;
+
     /**
      * On application event.
      *
@@ -45,6 +47,8 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
      */
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
+
+        this.deleteAll();
 
         //create new
         this.createExecution();
@@ -66,12 +70,18 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
         return;
     }
 
+    private void deleteAll() {
+        connectionWrapper.open();
+        Person.deleteAll();
+        connectionWrapper.close();
+    }
+
     private void createByBatchExecution() {
         List<Person> persons = new ArrayList<>();
         for (int personNumber = 1; personNumber <= 10_000; personNumber++) {
             Person person = new Person();
-            person.set("firstName", "Person-" + personNumber);
-            person.set("lastName", "Personson-" + personNumber);
+            person.set("first_name", "Person-" + personNumber);
+            person.set("last_name", "Personson-" + personNumber);
             person.set("age", 12);
 
             persons.add(person);
@@ -79,8 +89,11 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
 
         for (int iteration = 1; iteration <= 3; iteration++) {
             LocalDateTime startAt = LocalDateTime.now();
+            connectionWrapper.open();
             persons.forEach(person -> person.saveIt());
             Duration time = Duration.between(startAt, LocalDateTime.now());
+            Person.deleteAll();
+            connectionWrapper.close();
 
             log.info(
                     ANSI_PURPLE_BACKGROUND

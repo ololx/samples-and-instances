@@ -46,6 +46,7 @@
         <module>commons</module>
         <module>active-jdbc</module>
         <module>hibernate-jpa</module>
+        <module>hibernate-entity-manager</module>
         <module>hibernate-jdbc-template</module>
     </modules>
 
@@ -76,6 +77,11 @@
             <dependency>
                 <groupId>org.orm.patterns.instances</groupId>
                 <artifactId>hibernate-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.orm.patterns.instances</groupId>
+                <artifactId>hibernate-entity-manager</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

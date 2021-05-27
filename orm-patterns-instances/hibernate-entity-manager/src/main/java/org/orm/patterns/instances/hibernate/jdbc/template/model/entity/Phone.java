@@ -1,10 +1,13 @@
 package org.orm.patterns.instances.hibernate.jdbc.template.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import javax.persistence.*;
+import org.orm.patterns.instances.hibernate.jdbc.template.service.validation.constraint.PhoneOwnerAge;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -40,12 +43,17 @@ public class Phone {
     )
     Long id;
 
-
-    @Column(
-            name = "person_id",
-            nullable = false
+    @JsonIgnore
+    @PhoneOwnerAge(
+            value = 14,
+            message = "Only a person over 14 years old can own a phone"
     )
-    Long personId;
+    @NotNull(
+            message = "The Person id is missing"
+    )
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id")
+    Person person;
 
     @JsonProperty("number")
     @Pattern(

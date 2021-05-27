@@ -7,11 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
 import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Phone;
-import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
-import org.orm.patterns.instances.hibernate.jpa.repository.PhoneRepository;
 import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,15 +35,8 @@ public class PhoneService {
      */
     CustomModelMapper phoneModelMapper;
 
-    /*
-     * The Phone repository
-     */
-    PhoneRepository phoneRepository;
-
-    /*
-     * The Person repository
-     */
-    PersonRepository personRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * Create phone detail.
@@ -56,13 +49,12 @@ public class PhoneService {
             throws CustomModelMapper.MappingException {
         log.info("Получили запрос на создание сущности - {}", createPhoneRequest);
         Phone phone = this.phoneModelMapper.map(createPhoneRequest, new Phone());
-        Person person = this.personRepository.findById(createPhoneRequest.getPersonId().orElse(null))
-                .orElse(null);
+        Person person = this.entityManager.find(Person.class, createPhoneRequest.getPersonId().orElse(null));
         log.info("Получили сущность - {}", person);
         phone.setPerson(person);
         log.info("Создали сущность - {}", phone);
 
-        this.phoneRepository.save(phone);
+        this.entityManager.persist(phone);
 
         PhoneDetail createPhoneResponse = this.phoneModelMapper.map(
                 phone,
@@ -88,7 +80,7 @@ public class PhoneService {
                 updatePhoneRequest,
                 idPhone);
 
-        Phone phone = this.phoneRepository.findById(idPhone).orElse(null);
+        Phone phone = this.entityManager.find(Phone.class, idPhone);
         assertNotNull(
                 phone,
                 String.format("Сущности с таким идентификатором - {} не существует", idPhone)
@@ -96,7 +88,7 @@ public class PhoneService {
         log.info("Получили сущность - {}", phone);
 
         this.phoneModelMapper.map(updatePhoneRequest, phone);
-        this.phoneRepository.save(phone);
+        this.entityManager.persist(phone);
 
         PhoneDetail updatePhoneResponse = this.phoneModelMapper.map(
                 phone,
@@ -114,7 +106,8 @@ public class PhoneService {
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     public List<PhoneDetail> find() throws CustomModelMapper.MappingException {
-        List<Phone> phones = this.phoneRepository.findAll();
+        List<Phone> phones = this.entityManager.createQuery("SELECT p FROM " + Phone.class.getSimpleName() + " p")
+                .getResultList();
         List<PhoneDetail> findPhoneResponse = this.phoneModelMapper.map(
                 phones,
                 PhoneDetail.class
@@ -133,14 +126,16 @@ public class PhoneService {
      */
     public PhoneDetail delete(Long idPhone) {
         log.info("Получили запрос на удаление сущности с идентификатором - {}", idPhone);
-        assertTrue(
-                this.phoneRepository.existsById(idPhone),
+        Phone storedPhone = this.entityManager.find(Phone.class, idPhone);
+        assertNotNull(
+                storedPhone,
                 String.format("Сущности с таким идентификатором - {} не существует", idPhone)
         );
 
-        this.phoneRepository.deleteById(idPhone);
+        this.entityManager.remove(idPhone);
+
         assertTrue(
-                !this.phoneRepository.existsById(idPhone),
+                storedPhone.getId() == null,
                 String.format("Не получилось удалить сущность с идентификатором - {}", idPhone)
         );
 

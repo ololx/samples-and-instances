@@ -7,9 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
 import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
-import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +33,8 @@ public class PersonService {
      */
     CustomModelMapper personModelMapper;
 
-    /*
-     * The Person repository
-     */
-    PersonRepository personRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * Create person detail.
@@ -50,7 +49,7 @@ public class PersonService {
         Person person = this.personModelMapper.map(createPersonRequest, new Person());
         log.info("Создали сущность - {}", person);
 
-        this.personRepository.save(person);
+        this.entityManager.persist(person);
 
         PersonDetail createPersonResponse = this.personModelMapper.map(
                 person,
@@ -76,7 +75,7 @@ public class PersonService {
                 updatePersonRequest,
                 idPerson);
 
-        Person person = this.personRepository.findById(idPerson).orElse(null);
+        Person person = this.entityManager.find(Person.class, idPerson);
         assertNotNull(
                 person,
                 String.format("Сущности с таким идентификатором - {} не существует", idPerson)
@@ -84,7 +83,7 @@ public class PersonService {
         log.info("Получили сущность - {}", person);
 
         person = this.personModelMapper.map(updatePersonRequest, person);
-        this.personRepository.save(person);
+        this.entityManager.persist(person);
 
         PersonDetail updatePersonResponse = this.personModelMapper.map(
                 person,
@@ -105,14 +104,14 @@ public class PersonService {
     public PersonDetail delete(Long idPerson) {
         log.info("Получили запрос на удаление сущности с идентификатором - {}", idPerson);
 
-        Person person = this.personRepository.findById(idPerson).orElse(null);
+        Person person = this.entityManager.find(Person.class, idPerson);
         assertNotNull(
                 person,
                 String.format("Сущности с таким идентификатором - {} не существует", idPerson)
         );
         log.info("Получили сущность - {}", person);
 
-        this.personRepository.delete(person);
+        this.entityManager.remove(person);
 
         PersonDetail deletePersonResponse = PersonDetail.builder()
                 .id(Optional.ofNullable(idPerson))
@@ -129,7 +128,8 @@ public class PersonService {
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     public List<PersonDetail> find() throws CustomModelMapper.MappingException {
-        List<Person> persons = this.personRepository.findAll();
+        List<Person> persons = this.entityManager.createQuery("SELECT p FROM " + Person.class.getSimpleName() + " p")
+                .getResultList();
         List<PersonDetail> findPersonResponse = this.personModelMapper.map(
                 persons,
                 PersonDetail.class

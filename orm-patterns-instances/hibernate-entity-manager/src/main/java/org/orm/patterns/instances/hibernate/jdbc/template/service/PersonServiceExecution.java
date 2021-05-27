@@ -6,8 +6,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
-import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -39,8 +37,6 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
      */
     PersonService personService;
 
-    PersonRepository personRepository;
-
     /**
      * On application event.
      *
@@ -64,40 +60,7 @@ public class PersonServiceExecution implements ApplicationListener<ApplicationRe
         this.deleteExecution();
         this.findExecution();
 
-        this.createByBatchExecution();
-
         return;
-    }
-
-    private void createByBatchExecution() {
-        List<Person> persons = new ArrayList<>();
-        for (int personNumber = 1; personNumber <= 10_000; personNumber++) {
-            persons.add(
-                    Person.builder()
-                            .firstName("Person-" + personNumber)
-                            .lastName("Personson-" + personNumber)
-                            .age(12)
-                            .build()
-            );
-        }
-
-        for (int iteration = 1; iteration <= 3; iteration++) {
-            this.personRepository.deleteAll();
-
-            LocalDateTime startAt = LocalDateTime.now();
-            this.personRepository.saveAll(persons);
-            Duration time = Duration.between(startAt, LocalDateTime.now());
-
-            log.info(
-                    ANSI_PURPLE_BACKGROUND
-                            + "The spent time - {} h {} min {} sec {} ns"
-                            + ANSI_RESET,
-                    time.toHours(),
-                    time.toMinutes(),
-                    time.toSeconds(),
-                    time.getNano()
-            );
-        }
     }
 
     /**

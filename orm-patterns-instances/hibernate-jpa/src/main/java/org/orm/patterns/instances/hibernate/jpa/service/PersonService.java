@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.hibernate.jdbc.template.service;
+package org.orm.patterns.instances.hibernate.jpa.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -6,8 +6,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PersonDetail;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PersonReporistory;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
+import org.orm.patterns.instances.hibernate.jpa.model.entity.Person;
+import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class PersonService {
     /*
      * The Person repository
      */
-    PersonReporistory personDao;
+    PersonRepository personRepository;
 
     /**
      * Create person detail.
@@ -44,12 +44,13 @@ public class PersonService {
      * @return the person detail
      * @throws CustomModelMapper.MappingException the mapping exception
      */
-    public PersonDetail create(PersonDetail createPersonRequest) throws CustomModelMapper.MappingException {
+    public PersonDetail create(PersonDetail createPersonRequest)
+            throws CustomModelMapper.MappingException {
         log.info("Получили запрос на создание сущности - {}", createPersonRequest);
         Person person = this.personModelMapper.map(createPersonRequest, new Person());
         log.info("Создали сущность - {}", person);
 
-        this.personDao.save(person);
+        this.personRepository.save(person);
 
         PersonDetail createPersonResponse = this.personModelMapper.map(
                 person,
@@ -75,7 +76,7 @@ public class PersonService {
                 updatePersonRequest,
                 idPerson);
 
-        Person person = this.personDao.findById(idPerson).orElse(null);
+        Person person = this.personRepository.findById(idPerson).orElse(null);
         assertNotNull(
                 person,
                 String.format("Сущности с таким идентификатором - %s не существует", idPerson)
@@ -83,7 +84,7 @@ public class PersonService {
         log.info("Получили сущность - {}", person);
 
         person = this.personModelMapper.map(updatePersonRequest, person);
-        this.personDao.save(person);
+        this.personRepository.save(person);
 
         PersonDetail updatePersonResponse = this.personModelMapper.map(
                 person,
@@ -104,14 +105,14 @@ public class PersonService {
     public PersonDetail delete(Long idPerson) {
         log.info("Получили запрос на удаление сущности с идентификатором - {}", idPerson);
 
-        Person person = this.personDao.findById(idPerson).orElse(null);
+        Person person = this.personRepository.findById(idPerson).orElse(null);
         assertNotNull(
                 person,
                 String.format("Сущности с таким идентификатором - %s не существует", idPerson)
         );
         log.info("Получили сущность - {}", person);
 
-        this.personDao.delete(person);
+        this.personRepository.delete(person);
 
         PersonDetail deletePersonResponse = PersonDetail.builder()
                 .id(Optional.ofNullable(idPerson))
@@ -128,7 +129,7 @@ public class PersonService {
      * @throws CustomModelMapper.MappingException the mapping exception
      */
     public List<PersonDetail> find() throws CustomModelMapper.MappingException {
-        List<Person> persons = this.personDao.findAll();
+        List<Person> persons = this.personRepository.findAll();
         List<PersonDetail> findPersonResponse = this.personModelMapper.map(
                 persons,
                 PersonDetail.class

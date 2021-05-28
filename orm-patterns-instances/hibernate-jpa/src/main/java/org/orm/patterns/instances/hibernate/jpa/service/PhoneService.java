@@ -1,4 +1,4 @@
-package org.orm.patterns.instances.hibernate.jdbc.template.service;
+package org.orm.patterns.instances.hibernate.jpa.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -6,16 +6,17 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.orm.patterns.instances.commons.mapping.CustomModelMapper;
 import org.orm.patterns.instances.commons.model.detail.PhoneDetail;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PersonReporistory;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.dao.PhoneRepository;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Person;
-import org.orm.patterns.instances.hibernate.jdbc.template.model.entity.Phone;
+import org.orm.patterns.instances.hibernate.jpa.model.entity.Person;
+import org.orm.patterns.instances.hibernate.jpa.model.entity.Phone;
+import org.orm.patterns.instances.hibernate.jpa.repository.PersonRepository;
+import org.orm.patterns.instances.hibernate.jpa.repository.PhoneRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 
 /**
  * The type Phone service.
@@ -42,7 +43,7 @@ public class PhoneService {
     /*
      * The Person repository
      */
-    PersonReporistory personRepository;
+    PersonRepository personRepository;
 
     /**
      * Create phone detail.
@@ -58,7 +59,7 @@ public class PhoneService {
         Person person = this.personRepository.findById(createPhoneRequest.getPersonId().orElse(null))
                 .orElse(null);
         log.info("Получили сущность - {}", person);
-        phone.setPersonId(person.getId());
+        phone.setPerson(person);
         log.info("Создали сущность - {}", phone);
 
         this.phoneRepository.save(phone);
@@ -132,15 +133,16 @@ public class PhoneService {
      */
     public PhoneDetail delete(Long idPhone) {
         log.info("Получили запрос на удаление сущности с идентификатором - {}", idPhone);
-
-        Phone phone = this.phoneRepository.findById(idPhone).orElse(null);
-        assertNotNull(
-                phone,
+        assertTrue(
+                this.phoneRepository.existsById(idPhone),
                 String.format("Сущности с таким идентификатором - %s не существует", idPhone)
         );
-        log.info("Получили сущность - {}", phone);
 
-        this.phoneRepository.delete(phone);
+        this.phoneRepository.deleteById(idPhone);
+        assertTrue(
+                !this.phoneRepository.existsById(idPhone),
+                String.format("Не получилось удалить сущность с идентификатором - %s", idPhone)
+        );
 
         PhoneDetail deletePhoneResponse = PhoneDetail.builder()
                 .id(Optional.ofNullable(idPhone))

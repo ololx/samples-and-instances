@@ -28,7 +28,7 @@ A strong focus of these is, of course, the different test approaches of the `spr
 This project includes the follows modules:
 
 - [query-dsl](query-dsl/README.md) - this module is a simple `spring-boot` RESTful API which provides the read operations for the selecting `item` entities via dynamic querying with `QueryDSL`; **This instance  is listening on port `8081`;**
-- [query-dsl](query-dsl/README.md) - this module is a simple `spring-boot` RESTful API which provides the read operations for the selecting `item` entities via dynamic querying with `Custom Specification Builder`; This instance  is listening on port `8082`;
+- [specification-builder](specification-builder/README.md) - this module is a simple `spring-boot` RESTful API which provides the read operations for the selecting `item` entities via dynamic querying with `Custom Specification Builder`; This instance  is listening on port `8082`;
 
 ## 🎚 Features
 

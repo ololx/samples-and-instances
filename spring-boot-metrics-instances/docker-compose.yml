@@ -8,11 +8,11 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8081:8081"
   
   loki:
     container_name: loki
-    image: grafana/loki:master
+    image: grafana/loki
     user: root
     restart: always
     ports:
@@ -23,7 +23,7 @@ services:
 
   promtail:
     container_name: promtail
-    image: grafana/promtail:master
+    image: grafana/promtail
     user: root
     restart: always
     volumes:
@@ -37,13 +37,13 @@ services:
 
   prometheus:
     container_name: prometheus
-    image: prom/prometheus:master
+    image: prom/prometheus
     user: root
     restart: always
     ports:
       - 9090:9090
     volumes:
-      - ./prometheus/config.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus:/prometheus
     depends_on:
       - some-api
@@ -51,7 +51,7 @@ services:
   grafana:
     container_name: grafana
     user: root
-    image: grafana/grafana:master
+    image: grafana/grafana
     ports:
       - 3000:3000
     volumes:

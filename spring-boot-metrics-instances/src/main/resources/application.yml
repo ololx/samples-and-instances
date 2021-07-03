@@ -8,6 +8,9 @@ management:
     health:
       show-details: always
 
+server:
+  port: 8081
+
 logging:
   file:
     max-size: 100MB

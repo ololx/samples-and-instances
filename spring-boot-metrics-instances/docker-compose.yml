@@ -1,10 +1,53 @@
-version: '2.1'
+version: '3'
 services:
   some-api:
     container_name: some-api
+    user: root
     restart: always
     build:
       context: ./
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+  
+  loki:
+    container_name: loki
+    image: grafana/loki:2.2.1
+    user: root
+    restart: always
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml      
+    depends_on:
+      - some-api
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:2.2.1
+    user: root
+    restart: always
+    volumes:
+      - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - ./promtail/config.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - some-api
+      - loki
+
+  grafana:
+    container_name: grafana
+    user: root
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana:/var/lib/grafana
+      #- ./grafana/provisioning /etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - some-api
+      - loki
+      - promtail    

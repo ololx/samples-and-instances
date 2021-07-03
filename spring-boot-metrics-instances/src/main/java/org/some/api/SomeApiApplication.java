@@ -2,8 +2,6 @@ package org.some.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
  * The type Some application.
@@ -13,7 +11,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @created 2021 -07-03 11:19 <p>
  */
 @SpringBootApplication
-public class SomeApplication extends SpringBootServletInitializer {
+public class SomeApiApplication {
 
     /**
      * The entry point of application.
@@ -22,12 +20,6 @@ public class SomeApplication extends SpringBootServletInitializer {
      * @throws Exception the exception
      */
     public static void main(String[] args) {
-        SpringApplication.run(SomeApplication.class, args);
+        SpringApplication.run(SomeApiApplication.class, args);
     }
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(SomeApplication.class);
-    }
-
 }

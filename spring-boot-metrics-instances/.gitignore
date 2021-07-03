@@ -1,7 +1,5 @@
 # general exclude
 !.gitignore
-!prometheus/prometheus.yml
-!grafana/provisioning/*
 
 # all hidden files
 .*
@@ -59,4 +57,6 @@ nbproject/
 input/
 src/resources/
 prometheus/
-grafana/*
+grafana/
+promtail/
+loki/

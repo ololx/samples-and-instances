@@ -6,10 +6,10 @@ COPY . .
 
 RUN mvn clean package
 
-EXPOSE 8081
+EXPOSE 8080
 
 RUN ls
 RUN pwd
 
 ENTRYPOINT ["java"]
-CMD ["-jar", "-Dserver.port=8081", "./target/some-api-0.0.1.jar"]
+CMD ["-jar", "./target/some-api-0.0.1.jar"]

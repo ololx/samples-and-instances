@@ -8,11 +8,11 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "8081:8081"
+      - "8080:8080"
   
   loki:
     container_name: loki
-    image: grafana/loki
+    image: grafana/loki:latest
     user: root
     restart: always
     ports:
@@ -23,13 +23,13 @@ services:
 
   promtail:
     container_name: promtail
-    image: grafana/promtail
+    image: grafana/promtail:latest
     user: root
     restart: always
     volumes:
       - /var/log:/var/log
       - /var/lib/docker/containers:/var/lib/docker/containers
-      - ./promtail/config.yml:/etc/promtail/config.yml
+      - ./deployments/promtail.yml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml
     depends_on:
       - some-api
@@ -37,13 +37,13 @@ services:
 
   prometheus:
     container_name: prometheus
-    image: prom/prometheus
+    image: prom/prometheus:latest
     user: root
     restart: always
     ports:
       - 9090:9090
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./deployments/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus:/prometheus
     depends_on:
       - some-api
@@ -51,12 +51,13 @@ services:
   grafana:
     container_name: grafana
     user: root
-    image: grafana/grafana
+    build:
+      context: ./deployments/grafana/
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
     volumes:
       - ./grafana:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin

@@ -12,7 +12,7 @@
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <start-class>org.some.api.SomeApplication</start-class>
+        <start-class>org.some.api.SomeApiApplication</start-class>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

@@ -1,0 +1,10 @@
+version: '2.1'
+services:
+  some-api:
+    container_name: some-api
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"

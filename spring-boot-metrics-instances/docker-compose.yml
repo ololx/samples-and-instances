@@ -17,6 +17,8 @@ services:
     restart: always
     ports:
       - "3100:3100"
+    volumes:
+      - ./local/promtail:/promtail
     command: -config.file=/etc/loki/local-config.yaml      
     depends_on:
       - some-api
@@ -44,7 +46,7 @@ services:
       - 9090:9090
     volumes:
       - ./deployments/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus:/prometheus
+      - ./local/prometheus:/prometheus
     depends_on:
       - some-api
 
@@ -57,7 +59,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./grafana:/var/lib/grafana
+      - ./local/grafana:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin

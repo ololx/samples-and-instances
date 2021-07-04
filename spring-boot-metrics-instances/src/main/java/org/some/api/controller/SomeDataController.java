@@ -62,20 +62,64 @@ public class SomeDataController {
     }
 
     @ApiOperation(
-            value = "Get some data instance",
+            value = "Update some data instance",
+            notes = "This method allows to change some data instance"
+    )
+    @PatchMapping(
+            path = "/{id}",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public JsonNode updateSomeDataInstance(
+            @ApiParam(
+                    name="id",
+                    value = "The instance of the some data entity",
+                    required = true
+            ) @PathVariable(name = "id") long id,
+            @ApiParam(
+                    name="someDataInstance",
+                    value = "The instance of the some data entity",
+                    required = true
+            ) @RequestBody JsonNode someDataInstance) {
+        log.info("Receive update request - {}\n and - {}", id, someDataInstance);
+
+        return someDataInstance;
+    }
+
+    @ApiOperation(
+            value = "Delete some data instance",
+            notes = "This method allows to remove some data instance"
+    )
+    @DeleteMapping(
+            path = "/{id}",
+            produces = "application/json"
+    )
+    public JsonNode deleteSomeDataInstance(
+            @ApiParam(
+                    name="id",
+                    value = "The instance of the some data entity",
+                    required = true
+            ) @PathVariable(name = "id") long id) {
+        log.info("Receive delete request - {}", id);
+
+        return null;
+    }
+
+    @ApiOperation(
+            value = "Read some data instance",
             notes = "This method allows to get some data instance"
     )
     @GetMapping(
             path = "/{id}",
             produces = "application/json"
     )
-    public JsonNode getSomeDataInstance(
+    public JsonNode readSomeDataInstance(
             @ApiParam(
                     name="id",
                     value = "The instance of the some data entity",
                     required = true
             ) @PathVariable(name = "id") long id) {
-        log.error("Receive select request - {}", id);
+        log.info("Receive select request - {}", id);
 
         return null;
     }

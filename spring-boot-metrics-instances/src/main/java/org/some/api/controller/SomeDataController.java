@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
  * @created 2021 -07-03 11:51 <p>
  */
 @Api(
-        value="DoController",
-        description="Контроллер предоставляет CRUD-операции для справочника \"ДО\""
+        value="SomeDataController",
+        description="This controllers allows to create/read/update/delete some entities"
 )
 @Validated
 @RequestMapping(value = "some-data/instances")
@@ -42,21 +42,41 @@ public class SomeDataController {
      * @throws JsonProcessingException the json processing exception
      */
     @ApiOperation(
-            value = "Create new some data instance",
-            notes = "This method allows to create new some data instance"
+            value = "Create some data instance",
+            notes = "This method allows to create some data instance"
     )
     @PostMapping(
+            path = "/",
             consumes = "application/json",
             produces = "application/json"
     )
-    public JsonNode createNewSomeDataInstance(
+    public JsonNode createSomeDataInstance(
             @ApiParam(
                     name="someDataInstance",
                     value = "The instance of the some data entity",
                     required = true
-            ) @RequestBody JsonNode someDataInstance) throws JsonProcessingException {
-        log.info("Receive new create request - {}", someDataInstance);
+            ) @RequestBody JsonNode someDataInstance) {
+        log.info("Receive create request - {}", someDataInstance);
 
         return someDataInstance;
+    }
+
+    @ApiOperation(
+            value = "Get some data instance",
+            notes = "This method allows to get some data instance"
+    )
+    @GetMapping(
+            path = "/{id}",
+            produces = "application/json"
+    )
+    public JsonNode getSomeDataInstance(
+            @ApiParam(
+                    name="id",
+                    value = "The instance of the some data entity",
+                    required = true
+            ) @PathVariable(name = "id") long id) {
+        log.error("Receive select request - {}", id);
+
+        return null;
     }
 }

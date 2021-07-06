@@ -28,7 +28,7 @@ spring:
 
   datasource:
     platform: postgres
-    url: jdbc:postgresql://172.17.0.1/some_db
+    url: jdbc:postgresql://some-dbms:5432/some_db
     username: some_db_user
     password: some_db_password
 
@@ -49,4 +49,4 @@ spring:
   liquibase:
     change-log: classpath:db-migrations/changelog.xml
     enabled: true
-    drop-first: false
+    drop-first: true

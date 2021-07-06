@@ -1,0 +1,18 @@
+version: '3'
+services:
+  some-dbms:
+    container_name: some-dbms
+    user: root
+    restart: always
+    image: postgres:10.6
+    environment:
+      - POSTGRES_USER=some_db_user
+      - POSTGRES_PASSWORD=some_db_password
+      - POSTGRES_DB=some_db
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 20s
+      retries: 4

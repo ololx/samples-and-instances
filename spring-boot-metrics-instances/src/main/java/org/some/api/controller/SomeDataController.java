@@ -9,6 +9,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.some.api.commons.mapping.MapperAdapter;
+import org.some.api.model.detail.SomeDataDetail;
+import org.some.api.service.SomeDataService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +39,9 @@ import org.springframework.web.bind.annotation.*;
 )
 public class SomeDataController {
 
+    @Qualifier("SimpleSomeDataService")
+    SomeDataService someDataService;
+
     /**
      * Create new some data instance json node.
      *
@@ -51,15 +58,15 @@ public class SomeDataController {
             consumes = "application/json",
             produces = "application/json"
     )
-    public JsonNode createSomeDataInstance(
+    public SomeDataDetail createSomeDataInstance(
             @ApiParam(
                     name="someDataInstance",
                     value = "The instance of the some data entity",
                     required = true
-            ) @RequestBody JsonNode someDataInstance) {
+            ) @RequestBody SomeDataDetail someDataInstance) throws MapperAdapter.MappingException {
         log.info("Receive create request - {}", someDataInstance);
 
-        return someDataInstance;
+        return this.someDataService.create(someDataInstance);
     }
 
     /**

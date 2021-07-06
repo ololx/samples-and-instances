@@ -1,6 +1,6 @@
 package org.some.api.repository;
 
-import org.some.api.model.SomeData;
+import org.some.api.model.entity.SomeData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

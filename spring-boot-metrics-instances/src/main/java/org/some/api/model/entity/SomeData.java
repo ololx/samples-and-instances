@@ -1,4 +1,4 @@
-package org.some.api.model;
+package org.some.api.model.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -50,5 +50,5 @@ public final class SomeData {
             name = "some_string",
             nullable = false
     )
-    String name;
+    String someString;
 }

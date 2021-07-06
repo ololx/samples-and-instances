@@ -6,8 +6,13 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.some.api.commons.mapping.MapperAdapter;
 import org.some.api.model.detail.SomeDataDetail;
+import org.some.api.model.entity.SomeData;
+import org.some.api.repository.SomeDataRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @project some-api
@@ -27,11 +32,21 @@ public class SimpleSomeDataService implements SomeDataService {
     @Qualifier("ObjectMapperAdapter")
     MapperAdapter mapper;
 
+    @Qualifier("SomeDataRepository")
+    SomeDataRepository repository;
+
     @Override
     public SomeDataDetail create(SomeDataDetail detail) throws MapperAdapter.MappingException {
-        log.info(detail.toString());
+        log.info("Receive create entity request\ndetail - {}", detail);
 
-        return this.mapper.map(detail, SomeDataDetail.class);
+        SomeData entity = this.mapper.map(detail, SomeData.class);
+        this.repository.save(entity);
+        log.info("Create the entity\nentity - {}", entity);
+
+        detail.setId(Optional.ofNullable(entity.getId()));
+        log.info("Send created entity detail like response\ndetail - {}", detail);
+
+        return detail;
     }
 
     @Override

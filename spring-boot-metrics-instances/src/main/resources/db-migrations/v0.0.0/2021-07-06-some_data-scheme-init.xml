@@ -12,7 +12,7 @@
     >
 
         <createTable tableName="some_data">
-            <column name="uid" type="SERIAL">
+            <column name="id" type="SERIAL">
                 <constraints primaryKey="true" primaryKeyName="some_data_pkey"/>
             </column>
             <column name="some_string" type="VARCHAR">

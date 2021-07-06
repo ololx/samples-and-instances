@@ -1,9 +1,10 @@
 package org.some.api.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -61,6 +62,13 @@ public class SomeDataController {
         return someDataInstance;
     }
 
+    /**
+     * Update some data instance json node.
+     *
+     * @param id               the id
+     * @param someDataInstance the some data instance
+     * @return the json node
+     */
     @ApiOperation(
             value = "Update some data instance",
             notes = "This method allows to change some data instance"
@@ -86,6 +94,12 @@ public class SomeDataController {
         return someDataInstance;
     }
 
+    /**
+     * Delete some data instance json node.
+     *
+     * @param id the id
+     * @return the json node
+     */
     @ApiOperation(
             value = "Delete some data instance",
             notes = "This method allows to remove some data instance"
@@ -105,6 +119,12 @@ public class SomeDataController {
         return null;
     }
 
+    /**
+     * Read some data instance json node.
+     *
+     * @param id the id
+     * @return the json node
+     */
     @ApiOperation(
             value = "Read some data instance",
             notes = "This method allows to get some data instance"

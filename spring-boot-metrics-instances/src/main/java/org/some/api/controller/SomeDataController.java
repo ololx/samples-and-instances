@@ -64,9 +64,11 @@ public class SomeDataController {
                     value = "The instance of the some data entity",
                     required = true
             ) @RequestBody SomeDataDetail someDataInstance) throws MapperAdapter.MappingException {
-        log.info("Receive create request - {}", someDataInstance);
+        log.info("Receive request - {}", someDataInstance);
+        SomeDataDetail someDataDetail = this.someDataService.create(someDataInstance);
+        log.info("Send response - {}", someDataDetail);
 
-        return this.someDataService.create(someDataInstance);
+        return someDataDetail;
     }
 
     /**
@@ -85,20 +87,22 @@ public class SomeDataController {
             consumes = "application/json",
             produces = "application/json"
     )
-    public JsonNode updateSomeDataInstance(
+    public SomeDataDetail updateSomeDataInstance(
             @ApiParam(
                     name="id",
                     value = "The instance of the some data entity",
                     required = true
-            ) @PathVariable(name = "id") long id,
+            ) @PathVariable(name = "id") int id,
             @ApiParam(
                     name="someDataInstance",
                     value = "The instance of the some data entity",
                     required = true
-            ) @RequestBody JsonNode someDataInstance) {
-        log.info("Receive update request - {}\n and - {}", id, someDataInstance);
+            ) @RequestBody SomeDataDetail someDataInstance) throws MapperAdapter.MappingException {
+        log.info("Receive request - {} and {}", id, someDataInstance);
+        SomeDataDetail someDataDetail = this.someDataService.update(id, someDataInstance);
+        log.info("Send response - {}", someDataDetail);
 
-        return someDataInstance;
+        return someDataDetail;
     }
 
     /**

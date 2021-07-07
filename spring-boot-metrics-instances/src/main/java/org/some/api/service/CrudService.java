@@ -15,7 +15,7 @@ public interface CrudService<DETAIL extends SomeDataDetail, ID> {
 
     DETAIL read(ID id);
 
-    DETAIL update(ID id, DETAIL detail);
+    DETAIL update(ID id, DETAIL detail) throws MapperAdapter.MappingException;
 
     DETAIL delete(ID id);
 }

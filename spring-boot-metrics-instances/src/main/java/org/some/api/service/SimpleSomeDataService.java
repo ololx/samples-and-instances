@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.internal.util.Contracts;
 import org.some.api.commons.mapping.MapperAdapter;
 import org.some.api.model.detail.SomeDataDetail;
 import org.some.api.model.entity.SomeData;
@@ -39,30 +40,41 @@ public class SimpleSomeDataService implements SomeDataService {
 
     @Override
     public SomeDataDetail create(SomeDataDetail detail) throws MapperAdapter.MappingException {
-        log.trace("Receive create entity request\ndetail - {}", detail);
-
         SomeData entity = this.mapper.map(detail, SomeData.class);
+        log.debug("Map detail into entity - {}", detail);
         this.repository.save(entity);
-        log.trace("Create the entity\nentity - {}", entity);
+        log.debug("Create the entity\nentity - {}", entity);
 
         detail.setId(Optional.ofNullable(entity.getId()));
-        log.trace("Send created entity detail like response\ndetail - {}", detail);
+        log.debug("Send created entity detail like response\ndetail - {}", detail);
 
         return detail;
     }
 
     @Override
-    public SomeDataDetail read(Integer integer) {
+    public SomeDataDetail read(Integer id) {
         return null;
     }
 
     @Override
-    public SomeDataDetail update(Integer integer, SomeDataDetail detail) {
-        return null;
+    public SomeDataDetail update(Integer id, SomeDataDetail detail) throws MapperAdapter.MappingException {
+        Optional<SomeData> storedSomeData = this.repository.findById(id);
+        Contracts.assertTrue(storedSomeData.isPresent(), "There is no SomeData with this id - {}", id);
+        log.debug("Get entity from database - {}", storedSomeData);
+
+        SomeData entity = this.mapper.map(detail, storedSomeData.get());
+        log.debug("Map detail into entity - {}", detail);
+        this.repository.save(entity);
+        log.debug("Update the entity\nentity - {}", entity);
+
+        detail.setId(Optional.ofNullable(entity.getId()));
+        log.debug("Send created entity detail like response\ndetail - {}", detail);
+
+        return detail;
     }
 
     @Override
-    public SomeDataDetail delete(Integer integer) {
+    public SomeDataDetail delete(Integer id) {
         return null;
     }
 }

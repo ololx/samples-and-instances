@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @author Alexander A. Kropotin
  */
 @Repository("SomeDataRepository")
-public interface SomeDataRepository extends JpaRepository<SomeData, Long> {
+public interface SomeDataRepository extends JpaRepository<SomeData, Integer> {
 }

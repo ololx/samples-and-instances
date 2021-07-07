@@ -22,8 +22,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOGS_PATH}/archived/${APP_NAME}-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
@@ -38,7 +37,7 @@
                     <pattern>service=${APP_NAME}, host=${HOSTNAME}, level=%level, thread=%thread</pattern>
                 </label>
                 <message>
-                    <pattern>d=%d l=%level c=%logger{36} : %msg%n%throwable</pattern>
+                    <pattern>dt=%d lvl=%level class=%logger{36} : msg=%msg%n%throwable</pattern>
                 </message>
                 <sortByTime>true</sortByTime>
             </format>

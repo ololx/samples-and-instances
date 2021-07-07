@@ -14,6 +14,7 @@ logging:
     path: .
 
   pattern:
+    loki: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
     console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
     file:    "%clr(%date) %level %clr(%logger :) %message%n"
 

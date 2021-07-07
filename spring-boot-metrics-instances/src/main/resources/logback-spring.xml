@@ -1,25 +1,26 @@
 <configuration >
     <include resource="/org/springframework/boot/logging/logback/base.xml" />
 
-    <property name="LOGS" value="./logs" />
+    <property name="LOGS_PATH" value="./log" />
+    <property name="APP_NAME" value="some-api" />
+    <property name="LOKI_ADDRESS" value="localhost" />
 
-    <appender name="Console"
-              class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+                %green(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %green(%logger{36}) : %msg%n%throwable
             </Pattern>
         </layout>
     </appender>
 
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS}/spring-boot-logger.log</file>
+        <file>${LOGS_PATH}/${APP_NAME}.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+            <Pattern>%d %level %logger{36} : %msg%n%throwable</Pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOGS}/archived/spring-boot-logger-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${LOGS_PATH}/archived/${APP_NAME}-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -30,26 +31,26 @@
 
         <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
             <http class="com.github.loki4j.logback.ApacheHttpSender">
-                <url>http://loki:3100/loki/api/v1/push</url>
+                <url>http://${LOKI_ADDRESS}:3100/loki/api/v1/push</url>
             </http>
             <format>
                 <label>
-                    <pattern>app=some-api,host=${HOSTNAME},level=%level</pattern>
+                    <pattern>service=${APP_NAME}, host=${HOSTNAME}, level=%level, thread=%thread</pattern>
                 </label>
                 <message>
-                    <pattern>l=%level h=${HOSTNAME} c=%logger{20} t=%thread | %msg %ex</pattern>
+                    <pattern>d=%d l=%level c=%logger{36} : %msg%n%throwable</pattern>
                 </message>
                 <sortByTime>true</sortByTime>
             </format>
         </appender>
 
-    <Root level="INFO">
+    <Root level="WARN">
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
         <appender-ref ref="LOKI" />
     </Root>
 
-    <Logger name="org.some.api.service" level="trace">
+    <Logger name="org.some.api.service" level="TRACE">
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
         <appender-ref ref="LOKI" />

@@ -3,6 +3,8 @@ package org.some.api.service;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.some.api.commons.mapping.MapperAdapter;
 import org.some.api.model.detail.SomeDataDetail;

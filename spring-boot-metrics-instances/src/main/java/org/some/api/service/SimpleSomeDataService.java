@@ -37,14 +37,14 @@ public class SimpleSomeDataService implements SomeDataService {
 
     @Override
     public SomeDataDetail create(SomeDataDetail detail) throws MapperAdapter.MappingException {
-        log.info("Receive create entity request\ndetail - {}", detail);
+        log.trace("Receive create entity request\ndetail - {}", detail);
 
         SomeData entity = this.mapper.map(detail, SomeData.class);
         this.repository.save(entity);
-        log.info("Create the entity\nentity - {}", entity);
+        log.trace("Create the entity\nentity - {}", entity);
 
         detail.setId(Optional.ofNullable(entity.getId()));
-        log.info("Send created entity detail like response\ndetail - {}", detail);
+        log.trace("Send created entity detail like response\ndetail - {}", detail);
 
         return detail;
     }

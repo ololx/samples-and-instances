@@ -6,6 +6,7 @@ services:
     restart: always
     image: postgres:10.6
     environment:
+      - POSTGRES_ROLE=postgres
       - POSTGRES_USER=some_db_user
       - POSTGRES_PASSWORD=some_db_password
       - POSTGRES_DB=some_db
@@ -31,7 +32,7 @@ services:
   
   loki:
     container_name: loki
-    image: grafana/loki:latest
+    image: grafana/loki:2.1.0
     user: root
     restart: always
     ports:
@@ -44,7 +45,7 @@ services:
 
   promtail:
     container_name: promtail
-    image: grafana/promtail:latest
+    image: grafana/promtail:2.1.0
     user: root
     restart: always
     volumes:
@@ -58,7 +59,7 @@ services:
 
   prometheus:
     container_name: prometheus
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.23.0
     user: root
     restart: always
     ports:

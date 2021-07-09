@@ -3,12 +3,12 @@
 
     <property name="LOGS_PATH" value="./log" />
     <property name="APP_NAME" value="some-api" />
-    <property name="LOKI_ADDRESS" value="localhost" />
+    <property name="LOKI_ADDRESS" value="loki" />
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %green(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %green(%logger{36}) : %msg%n%throwable
+                %green(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %yellow([%mdc]) %green(%logger{36}) : %msg%n%throwable
             </Pattern>
         </layout>
     </appender>
@@ -16,7 +16,7 @@
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS_PATH}/${APP_NAME}.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d %level %logger{36} : %msg%n%throwable</Pattern>
+            <Pattern>%d %level %logger{36} [%mdc] : %msg%n%throwable</Pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -37,13 +37,13 @@
                     <pattern>service=${APP_NAME}, host=${HOSTNAME}, level=%level, thread=%thread</pattern>
                 </label>
                 <message>
-                    <pattern>dt=%d lvl=%level class=%logger{36} : msg=%msg%n%throwable</pattern>
+                    <pattern>dt=%d lvl=%level %mdc class=%logger{36} : msg=(%msg%n%throwable)</pattern>
                 </message>
                 <sortByTime>true</sortByTime>
             </format>
         </appender>
 
-    <Root level="WARN">
+    <Root level="INFO">
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
         <appender-ref ref="LOKI" />

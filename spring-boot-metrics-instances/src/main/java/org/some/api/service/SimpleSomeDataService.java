@@ -68,7 +68,7 @@ public class SimpleSomeDataService implements SomeDataService {
         log.debug("Update the entity\nentity - {}", entity);
 
         detail.setId(Optional.ofNullable(entity.getId()));
-        log.debug("Send created entity detail like response\ndetail - {}", detail);
+        log.debug("Send update entity detail like response\ndetail - {}", detail);
 
         return detail;
     }

@@ -8,20 +8,6 @@ management:
     health:
       show-details: always
 
-logging:
-  file:
-    max-size: 100MB
-    path: .
-
-  pattern:
-    loki: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
-    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
-    file:    "%clr(%date) %level %clr(%logger :) %message%n"
-
-  level:
-    root: INFO
-    org.springframework: INFO
-
 spring:
   output:
     ansi:

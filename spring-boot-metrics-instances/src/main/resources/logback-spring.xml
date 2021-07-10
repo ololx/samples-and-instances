@@ -43,13 +43,12 @@
             </format>
         </appender>
 
-    <Root level="INFO">
+    <Logger name="org.springframework.web" level="INFO">
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
-        <appender-ref ref="LOKI" />
-    </Root>
+    </Logger>
 
-    <Logger name="org.some.api.service" level="TRACE">
+    <Logger name="org.some.api" level="TRACE">
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
         <appender-ref ref="LOKI" />

@@ -3,7 +3,7 @@
 
     <variable name="log-file-path" value="./log" />
     <variable name="application-name" value="some-api" />
-    <variable name="log-server-address" value="localhost" />
+    <variable name="log-server-address" value="loki" />
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">

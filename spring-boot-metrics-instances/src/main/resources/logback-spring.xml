@@ -1,9 +1,9 @@
 <configuration >
     <include resource="/org/springframework/boot/logging/logback/base.xml" />
 
-    <property name="LOGS_PATH" value="./log" />
-    <property name="APP_NAME" value="some-api" />
-    <property name="LOKI_ADDRESS" value="loki" />
+    <variable name="log-file-path" value="./log" />
+    <variable name="application-name" value="some-api" />
+    <variable name="log-server-address" value="localhost" />
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -14,13 +14,13 @@
     </appender>
 
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS_PATH}/${APP_NAME}.log</file>
+        <file>${log-file-path}/${application-name}.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d %level %logger{36} [%mdc] : %msg%n%throwable</Pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOGS_PATH}/archived/${APP_NAME}-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${log-file-path}/archived/${application-name}-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
@@ -28,20 +28,20 @@
         </rollingPolicy>
     </appender>
 
-        <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
-            <http class="com.github.loki4j.logback.ApacheHttpSender">
-                <url>http://${LOKI_ADDRESS}:3100/loki/api/v1/push</url>
-            </http>
-            <format>
-                <label>
-                    <pattern>service=${APP_NAME}, host=${HOSTNAME}, level=%level, thread=%thread</pattern>
-                </label>
-                <message>
-                    <pattern>dt=%d lvl=%level %mdc class=%logger{36} : msg=(%msg%n%throwable)</pattern>
-                </message>
-                <sortByTime>true</sortByTime>
-            </format>
-        </appender>
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <http class="com.github.loki4j.logback.ApacheHttpSender">
+            <url>http://${log-server-address}:3100/loki/api/v1/push</url>
+        </http>
+        <format>
+            <label>
+                <pattern>service=${application-name}, host=${HOSTNAME}, level=%level, thread=%thread</pattern>
+            </label>
+            <message>
+                <pattern>dt=%d lvl=%level %mdc class=%logger{36} : msg=(%msg%n%throwable)</pattern>
+            </message>
+            <sortByTime>true</sortByTime>
+        </format>
+    </appender>
 
     <Logger name="org.springframework.web" level="INFO">
         <appender-ref ref="Console" />

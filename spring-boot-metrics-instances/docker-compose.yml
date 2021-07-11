@@ -1,5 +1,17 @@
 version: '3'
 services:
+  some-api:
+    container_name: some-api
+    user: root
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile 
+    ports:
+      - "8080:8080"
+    depends_on:
+      - some-dbms
+
   some-dbms:
     container_name: some-dbms
     user: root
@@ -18,18 +30,6 @@ services:
       timeout: 20s
       retries: 4
 
-  some-api:
-    container_name: some-api
-    user: root
-    restart: always
-    build:
-      context: ./
-      dockerfile: Dockerfile 
-    ports:
-      - "8080:8080"
-    depends_on:
-      - some-dbms
-  
   loki:
     container_name: loki
     image: grafana/loki:2.1.0
@@ -48,10 +48,12 @@ services:
     image: grafana/promtail:2.1.0
     user: root
     restart: always
+    build:
+      context: ./deployments/promtail/
+      dockerfile: Dockerfile
     volumes:
       - /var/log:/var/log
       - /var/lib/docker/containers:/var/lib/docker/containers
-      - ./deployments/promtail.yml:/etc/promtail/config.yml
     command: -config.file=/etc/promtail/config.yml
     depends_on:
       - some-api
@@ -59,13 +61,14 @@ services:
 
   prometheus:
     container_name: prometheus
-    image: prom/prometheus:v2.23.0
     user: root
     restart: always
+    build:
+      context: ./deployments/prometheus/
+      dockerfile: Dockerfile
     ports:
       - 9090:9090
     volumes:
-      - ./deployments/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./local/prometheus:/prometheus
     depends_on:
       - some-api
@@ -73,6 +76,7 @@ services:
   grafana:
     container_name: grafana
     user: root
+    restart: always
     build:
       context: ./deployments/grafana/
       dockerfile: Dockerfile

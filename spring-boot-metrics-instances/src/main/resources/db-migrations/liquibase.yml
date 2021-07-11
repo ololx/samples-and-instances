@@ -1,0 +1,5 @@
+liquibase:
+  changeLogFile: src/main/resources/db-migrations/changelog.xml
+  url: jdbc:postgresql://localhost:5432/some_db
+  username: postgres
+  password: postgres

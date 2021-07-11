@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet
+            id="2021-07-06-some_data-scheme-init"
+            author="ololx@icloud.com"
+            logicalFilePath="2021-07-06-some_data-scheme-init.xml"
+    >
+
+        <createTable tableName="some_data">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="some_data_pkey"/>
+            </column>
+            <column name="some_string" type="VARCHAR">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

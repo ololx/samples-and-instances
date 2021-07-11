@@ -1,0 +1,39 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://some-dbms:5432/some_db
+    username: some_db_user
+    password: some_db_password
+
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+      show-sql: true
+
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: true
+
+  liquibase:
+    change-log: classpath:db-migrations/changelog.xml
+    enabled: true
+    drop-first: true

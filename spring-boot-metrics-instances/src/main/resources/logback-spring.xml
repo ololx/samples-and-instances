@@ -1,0 +1,57 @@
+<configuration >
+    <include resource="/org/springframework/boot/logging/logback/base.xml" />
+
+    <variable name="log-file-path" value="./log" />
+    <variable name="application-name" value="some-api" />
+    <variable name="log-server-address" value="loki" />
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %green(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %yellow([%mdc]) %green(%logger{36}) : %msg%n%throwable
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log-file-path}/${application-name}.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %level %logger{36} [%mdc] : %msg%n%throwable</Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log-file-path}/archived/${application-name}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <http class="com.github.loki4j.logback.ApacheHttpSender">
+            <url>http://${log-server-address}:3100/loki/api/v1/push</url>
+        </http>
+        <format>
+            <label>
+                <pattern>service=${application-name}, host=${HOSTNAME}, level=%level, thread=%thread</pattern>
+            </label>
+            <message>
+                <pattern>dt=%d lvl=%level %mdc class=%logger{36} : msg=(%msg%n%throwable)</pattern>
+            </message>
+            <sortByTime>true</sortByTime>
+        </format>
+    </appender>
+
+    <Logger name="org.springframework.web" level="INFO">
+        <appender-ref ref="Console" />
+        <appender-ref ref="RollingFile" />
+    </Logger>
+
+    <Logger name="org.some.api" level="TRACE">
+        <appender-ref ref="Console" />
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="LOKI" />
+    </Logger>
+
+</configuration>

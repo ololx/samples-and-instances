@@ -46,6 +46,7 @@
     <Logger name="org.springframework.web" level="INFO">
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
+        <appender-ref ref="LOKI" />
     </Logger>
 
     <Logger name="org.some.api" level="TRACE">

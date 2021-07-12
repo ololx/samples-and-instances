@@ -3,6 +3,7 @@ package org.some.api.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -32,6 +33,7 @@ public class SwaggerConfiguration {
         Docket apiDocket = new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .select()
+                .apis(RequestHandlerSelectors.basePackage("org.some.api"))
                 .paths(regex("/.*"))
                 .build()
                 .apiInfo(metaData());

@@ -40,20 +40,27 @@ public class SimpleSomeDataService implements SomeDataService {
 
     @Override
     public SomeDataDetail create(SomeDataDetail detail) throws MapperAdapter.MappingException {
-        SomeData entity = this.mapper.map(detail, SomeData.class);
-        log.debug("Map detail into entity - {}", detail);
-        this.repository.save(entity);
-        log.debug("Create the entity\nentity - {}", entity);
+        SomeData newEntity = this.mapper.map(detail, SomeData.class);
+        log.debug("Map detail into newEntity - {}", detail);
 
-        detail.setId(Optional.ofNullable(entity.getId()));
-        log.debug("Send created entity detail like response\ndetail - {}", detail);
+        this.repository.save(newEntity);
+        log.debug("Create the newEntity\nnewEntity - {}", newEntity);
+
+        detail.setId(Optional.ofNullable(newEntity.getId()));
 
         return detail;
     }
 
     @Override
-    public SomeDataDetail read(Integer id) {
-        return null;
+    public SomeDataDetail read(Integer id) throws MapperAdapter.MappingException {
+        Optional<SomeData> storedSomeData = this.repository.findById(id);
+        Contracts.assertTrue(storedSomeData.isPresent(), "There is no SomeData with this id - {}", id);
+        log.debug("Get entity from database - {}", storedSomeData);
+
+        SomeDataDetail detail = this.mapper.map(storedSomeData.get(), SomeDataDetail.class);
+        log.debug("Map entity into detail - {}", detail);
+
+        return detail;
     }
 
     @Override
@@ -64,17 +71,26 @@ public class SimpleSomeDataService implements SomeDataService {
 
         SomeData entity = this.mapper.map(detail, storedSomeData.get());
         log.debug("Map detail into entity - {}", detail);
+
         this.repository.save(entity);
         log.debug("Update the entity\nentity - {}", entity);
 
         detail.setId(Optional.ofNullable(entity.getId()));
-        log.debug("Send update entity detail like response\ndetail - {}", detail);
 
         return detail;
     }
 
     @Override
     public SomeDataDetail delete(Integer id) {
-        return null;
+        Optional<SomeData> storedSomeData = this.repository.findById(id);
+        Contracts.assertTrue(storedSomeData.isPresent(), "There is no SomeData with this id - {}", id);
+        log.debug("Get entity from database - {}", storedSomeData);
+
+        this.repository.delete(storedSomeData.get());
+        log.debug("Delete the entity\nentity - {}", storedSomeData);
+
+        return SomeDataDetail.builder()
+                .id(Optional.ofNullable(id))
+                .build();
     }
 }

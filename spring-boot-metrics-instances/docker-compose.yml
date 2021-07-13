@@ -18,7 +18,6 @@ services:
     restart: always
     image: postgres:10.6
     environment:
-      - POSTGRES_ROLE=postgres
       - POSTGRES_USER=some_db_user
       - POSTGRES_PASSWORD=some_db_password
       - POSTGRES_DB=some_db
@@ -32,20 +31,21 @@ services:
 
   loki:
     container_name: loki
-    image: grafana/loki:2.1.0
     user: root
     restart: always
+    build:
+      context: ./deployments/loki/
+      dockerfile: Dockerfile
     ports:
       - "3100:3100"
     volumes:
-      - ./local/promtail:/promtail
+      - ./local/loki:/loki
     command: -config.file=/etc/loki/local-config.yaml      
     depends_on:
       - some-api
 
   promtail:
     container_name: promtail
-    image: grafana/promtail:2.1.0
     user: root
     restart: always
     build:
@@ -90,4 +90,15 @@ services:
     depends_on:
       - some-api
       - loki
-      - promtail    
+      - promtail
+
+  some-api-executing:
+    container_name: some-api-executing
+    user: root
+    restart: always
+    build:
+      context: ./deployments/some-api-executing/
+      dockerfile: Dockerfile
+    depends_on:
+      - some-api
+      - grafana

@@ -2,10 +2,7 @@ package org.some.api.model.detail;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Optional;
@@ -16,6 +13,7 @@ import java.util.Optional;
  * <p>
  * @author Alexander A. Kropotin
  */
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

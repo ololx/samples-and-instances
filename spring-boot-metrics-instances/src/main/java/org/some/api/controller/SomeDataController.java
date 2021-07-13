@@ -119,15 +119,17 @@ public class SomeDataController {
             path = "/{id}",
             produces = "application/json"
     )
-    public JsonNode deleteSomeDataInstance(
+    public SomeDataDetail deleteSomeDataInstance(
             @ApiParam(
                     name="id",
                     value = "The instance of the some data entity",
                     required = true
-            ) @PathVariable(name = "id") long id) {
-        log.info("Receive delete request - {}", id);
+            ) @PathVariable(name = "id") int id) {
+        log.info("Receive request - {}", id);
+        SomeDataDetail someDataDetail = this.someDataService.delete(id);
+        log.info("Send response - {}", someDataDetail);
 
-        return null;
+        return someDataDetail;
     }
 
     /**
@@ -144,14 +146,16 @@ public class SomeDataController {
             path = "/{id}",
             produces = "application/json"
     )
-    public JsonNode readSomeDataInstance(
+    public SomeDataDetail readSomeDataInstance(
             @ApiParam(
                     name="id",
                     value = "The instance of the some data entity",
                     required = true
-            ) @PathVariable(name = "id") long id) {
-        log.info("Receive select request - {}", id);
+            ) @PathVariable(name = "id") int id) throws MapperAdapter.MappingException {
+        log.info("Receive request - {}", id);
+        SomeDataDetail someDataDetail = this.someDataService.read(id);
+        log.info("Send response - {}", someDataDetail);
 
-        return null;
+        return someDataDetail;
     }
 }

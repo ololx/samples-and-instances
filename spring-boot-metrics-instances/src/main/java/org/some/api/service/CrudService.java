@@ -13,7 +13,7 @@ public interface CrudService<DETAIL extends SomeDataDetail, ID> {
 
     DETAIL create(DETAIL detail) throws MapperAdapter.MappingException;
 
-    DETAIL read(ID id);
+    DETAIL read(ID id) throws MapperAdapter.MappingException;
 
     DETAIL update(ID id, DETAIL detail) throws MapperAdapter.MappingException;
 

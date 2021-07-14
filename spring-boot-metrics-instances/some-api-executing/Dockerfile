@@ -5,4 +5,4 @@ RUN apk --no-cache add curl
 COPY . .
 
 ENTRYPOINT ["sh"]
-CMD ["./create.sh"]
+CMD ["./some-api-crud-executing.sh"]

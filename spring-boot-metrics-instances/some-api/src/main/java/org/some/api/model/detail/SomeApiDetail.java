@@ -9,4 +9,12 @@ import org.some.api.model.SomeApiModel;
  * @author Alexander A. Kropotin
  */
 public interface SomeApiDetail extends SomeApiModel {
+
+    interface Create {}
+
+    interface Retrieve {}
+
+    interface Update {}
+
+    interface Delete {}
 }

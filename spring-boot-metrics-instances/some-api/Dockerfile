@@ -2,7 +2,7 @@ FROM maven:alpine
 
 ARG APP_DIR=app
 WORKDIR ${APP_DIR}
-COPY . .
+COPY .. .
 
 RUN mvn clean package
 

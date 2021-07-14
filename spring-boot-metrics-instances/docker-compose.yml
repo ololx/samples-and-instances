@@ -5,8 +5,8 @@ services:
     user: root
     restart: always
     build:
-      context: ./
-      dockerfile: Dockerfile 
+      context: some-api
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -34,7 +34,7 @@ services:
     user: root
     restart: always
     build:
-      context: ./deployments/loki/
+      context: loki/
       dockerfile: Dockerfile
     ports:
       - "3100:3100"
@@ -49,7 +49,7 @@ services:
     user: root
     restart: always
     build:
-      context: ./deployments/promtail/
+      context: promtail/
       dockerfile: Dockerfile
     volumes:
       - /var/log:/var/log
@@ -64,7 +64,7 @@ services:
     user: root
     restart: always
     build:
-      context: ./deployments/prometheus/
+      context: prometheus/
       dockerfile: Dockerfile
     ports:
       - 9090:9090
@@ -78,7 +78,7 @@ services:
     user: root
     restart: always
     build:
-      context: ./deployments/grafana/
+      context: grafana/
       dockerfile: Dockerfile
     ports:
       - 3000:3000
@@ -97,7 +97,7 @@ services:
     user: root
     restart: always
     build:
-      context: ./deployments/some-api-executing/
+      context: some-api-executing/
       dockerfile: Dockerfile
     depends_on:
       - some-api

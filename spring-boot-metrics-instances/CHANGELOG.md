@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Other examples of metrics collecting.
 
+## 2021-07-14
+
+### Changed
+- Reorganized project directories.
+
 ## 2021-07-13
 
 ### Added

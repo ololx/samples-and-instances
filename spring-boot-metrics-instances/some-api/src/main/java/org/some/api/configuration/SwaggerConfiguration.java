@@ -31,7 +31,7 @@ public class SwaggerConfiguration {
     @Bean(name = "productApi")
     public Docket getProductApi() {
         Docket apiDocket = new Docket(DocumentationType.SWAGGER_2)
-                .useDefaultResponseMessages(false)
+                .useDefaultResponseMessages(true)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("org.some.api"))
                 .paths(regex("/.*"))

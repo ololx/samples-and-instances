@@ -2,9 +2,7 @@ package org.some.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +11,7 @@ import org.some.api.commons.mapping.MapperAdapter;
 import org.some.api.model.detail.SomeDataDetail;
 import org.some.api.service.SomeDataService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,8 +57,16 @@ public class SomeDataController {
             consumes = "application/json",
             produces = "application/json"
     )
+    @ResponseStatus(HttpStatus.CREATED)
     public SomeDataDetail createSomeDataInstance(
             @ApiParam(
+                    example = "{\"id\": 1, \"someString\": \"bla bla\"}",
+                    examples = @Example(
+                            @ExampleProperty(
+                                    mediaType = "application/json",
+                                    value = "{\"id\": 1, \"someString\": \"bla bla\"}"
+                            )
+                    ),
                     name="someDataInstance",
                     value = "The instance of the some data entity",
                     required = true
@@ -87,6 +94,7 @@ public class SomeDataController {
             consumes = "application/json",
             produces = "application/json"
     )
+    @ResponseStatus(HttpStatus.OK)
     public SomeDataDetail updateSomeDataInstance(
             @ApiParam(
                     name="id",
@@ -119,6 +127,7 @@ public class SomeDataController {
             path = "/{id}",
             produces = "application/json"
     )
+    @ResponseStatus(HttpStatus.OK)
     public SomeDataDetail deleteSomeDataInstance(
             @ApiParam(
                     name="id",
@@ -146,6 +155,7 @@ public class SomeDataController {
             path = "/{id}",
             produces = "application/json"
     )
+    @ResponseStatus(HttpStatus.OK)
     public SomeDataDetail readSomeDataInstance(
             @ApiParam(
                     name="id",

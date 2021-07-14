@@ -3,7 +3,7 @@
 
     <variable name="log-file-path" value="./log" />
     <variable name="application-name" value="some-api" />
-    <variable name="log-server-address" value="loki" />
+    <variable name="log-server-address" value="localhost" />
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -34,16 +34,16 @@
         </http>
         <format>
             <label>
-                <pattern>service=${application-name}, host=${HOSTNAME}, level=%level, thread=%thread</pattern>
+                <pattern>service=${application-name}, host=${HOSTNAME}, level=%level, logger=%logger{36}, thread=%thread</pattern>
             </label>
             <message>
-                <pattern>dt=%d lvl=%level %mdc class=%logger{36} : msg=(%msg%n%throwable)</pattern>
+                <pattern>dt=%d level=%level requestId=%X{requestId} logger=%logger{36} %n msg="%msg" %n throwable="%throwable"</pattern>
             </message>
             <sortByTime>true</sortByTime>
         </format>
     </appender>
 
-    <Logger name="org.springframework.web" level="INFO">
+    <Logger name="org.springframework" level="INFO">
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
         <appender-ref ref="LOKI" />

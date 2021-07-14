@@ -44,7 +44,7 @@ public class SimpleSomeDataService implements SomeDataService {
         log.debug("Map detail into newEntity - {}", detail);
 
         this.repository.save(newEntity);
-        log.debug("Create the newEntity\nnewEntity - {}", newEntity);
+        log.debug("Create the newEntity - {}", newEntity);
 
         detail.setId(Optional.ofNullable(newEntity.getId()));
 
@@ -73,7 +73,7 @@ public class SimpleSomeDataService implements SomeDataService {
         log.debug("Map detail into entity - {}", detail);
 
         this.repository.save(entity);
-        log.debug("Update the entity\nentity - {}", entity);
+        log.debug("Update the entity - {}", entity);
 
         detail.setId(Optional.ofNullable(entity.getId()));
 
@@ -87,7 +87,7 @@ public class SimpleSomeDataService implements SomeDataService {
         log.debug("Get entity from database - {}", storedSomeData);
 
         this.repository.delete(storedSomeData.get());
-        log.debug("Delete the entity\nentity - {}", storedSomeData);
+        log.debug("Delete the entity - {}", storedSomeData);
 
         return SomeDataDetail.builder()
                 .id(Optional.ofNullable(id))

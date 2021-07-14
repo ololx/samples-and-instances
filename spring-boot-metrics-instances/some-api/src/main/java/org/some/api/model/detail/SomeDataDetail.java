@@ -2,6 +2,7 @@ package org.some.api.model.detail;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -34,6 +35,12 @@ public class SomeDataDetail implements SomeApiDetail {
             notes = "Identifier",
             example = "1"
     )
+    @JsonView({
+            Create.class,
+            Retrieve.class,
+            Update.class,
+            Delete.class
+    })
     @JsonProperty("id")
     Optional<Integer> id;
 
@@ -42,6 +49,10 @@ public class SomeDataDetail implements SomeApiDetail {
             notes = "Some String",
             example = "bla bla"
     )
+    @JsonView({
+            Create.class,
+            Retrieve.class
+    })
     @JsonProperty("someString")
     Optional<String> someString;
 }

@@ -1,5 +1,8 @@
 package org.some.api.commons.filtering;
 
+import io.opentracing.Span;
+import io.opentracing.Tracer;
+import io.opentracing.util.GlobalTracer;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
@@ -19,24 +22,34 @@ import java.util.UUID;
  * @author Alexander A. Kropotin
  */
 @Slf4j
-@Component("LogFiltering")
-public class LogFiltering extends OncePerRequestFilter {
+@Component("TraceRequestFilter")
+public class TraceRequestFilter extends OncePerRequestFilter {
 
-    private static final String REQUEST_ID = "requestId";
+    private static final String TRACE_ID = "traceId";
+
+    private static final String SPAN_ID = "spanId";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String requestId = request.getHeader(REQUEST_ID);
-        if (requestId == null) {
-            requestId = UUID.randomUUID().toString();
+        Span span = GlobalTracer.get().activeSpan();
+        if (span == null) {
+            span = GlobalTracer.get().buildSpan(request.getMethod()).start();
         }
 
-        MDC.put(REQUEST_ID, requestId);
+        String spanId = span.context().toSpanId();
+
+        String traceId = null;
+        if ((traceId = request.getHeader(TRACE_ID)) == null) {
+            traceId = span.context().toTraceId();
+        }
+
+        MDC.put(TRACE_ID, traceId);
+        MDC.put(SPAN_ID, spanId);
 
         try {
-            log.trace("Started process request with {} : {}", REQUEST_ID, requestId);
+            log.trace("Started process request with {} : {} && {} : {}", TRACE_ID, traceId, SPAN_ID, spanId);
             filterChain.doFilter(request, response);
         } finally {
             MDC.clear();

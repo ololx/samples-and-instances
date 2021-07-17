@@ -8,7 +8,16 @@ management:
     health:
       show-details: always
 
+opentracing:
+  jaeger:
+    udp-sender:
+      host: jaeger
+      port: 6831
+
 spring:
+  application:
+    name: some-api
+
   output:
     ansi:
       enabled: ALWAYS
@@ -16,8 +25,8 @@ spring:
   datasource:
     platform: postgres
     url: jdbc:postgresql://some-dbms:5432/some_db
-    username: some_db_user
-    password: some_db_password
+    username: postgres
+    password: postgres
 
   jpa:
     properties:

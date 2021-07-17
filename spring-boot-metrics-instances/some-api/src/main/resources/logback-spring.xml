@@ -37,7 +37,7 @@
                 <pattern>service=${application-name}, host=${HOSTNAME}, level=%level, logger=%logger{36}, thread=%thread</pattern>
             </label>
             <message>
-                <pattern>dt=%d level=%level requestId=%X{requestId} logger=%logger{36} %n msg="%msg" %n throwable="%throwable"</pattern>
+                <pattern>dt=%d level=%level traceId=%X{traceId} logger=%logger{36} %n msg="%msg" %n throwable="%throwable"</pattern>
             </message>
             <sortByTime>true</sortByTime>
         </format>

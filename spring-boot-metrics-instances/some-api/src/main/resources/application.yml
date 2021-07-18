@@ -8,7 +8,16 @@ management:
     health:
       show-details: always
 
+opentracing:
+  jaeger:
+    udp-sender:
+      host: jaeger
+      port: 6831
+
 spring:
+  application:
+    name: some-api
+
   output:
     ansi:
       enabled: ALWAYS

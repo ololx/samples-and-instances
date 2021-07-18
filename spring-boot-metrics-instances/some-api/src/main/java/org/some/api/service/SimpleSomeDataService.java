@@ -3,8 +3,6 @@ package org.some.api.service;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.internal.util.Contracts;
 import org.some.api.commons.mapping.MapperAdapter;
@@ -12,16 +10,16 @@ import org.some.api.model.detail.SomeDataDetail;
 import org.some.api.model.entity.SomeData;
 import org.some.api.repository.SomeDataRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 /**
- * @project some-api
- * @created 2021-07-06 17:24
- * <p>
+ * The type Simple some data service.
+ *
  * @author Alexander A. Kropotin
+ * @project some -api
+ * @created 2021 -07-06 17:24 <p>
  */
 @Slf4j
 @RequiredArgsConstructor

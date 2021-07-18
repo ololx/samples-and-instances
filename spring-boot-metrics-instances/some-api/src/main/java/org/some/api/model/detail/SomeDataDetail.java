@@ -11,10 +11,11 @@ import lombok.experimental.FieldDefaults;
 import java.util.Optional;
 
 /**
- * @project some-api
- * @created 2021-07-06 17:49
- * <p>
+ * The type Some data detail.
+ *
  * @author Alexander A. Kropotin
+ * @project some -api
+ * @created 2021 -07-06 17:49 <p>
  */
 @ApiModel(
         value = "SomeDataDetail",
@@ -46,7 +47,7 @@ public class SomeDataDetail implements SomeApiDetail {
 
     @ApiModelProperty(
             position = 2,
-            notes = "Some String",
+            notes = "Some string",
             example = "bla bla"
     )
     @JsonView({

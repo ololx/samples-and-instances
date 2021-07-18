@@ -7,6 +7,13 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Other examples of metrics collecting.
 
+## 2021-07-18
+
+### Added
+
+- Add the `Exception Controller`.
+- Add the `Jaeger` service && tracing in service.
+
 ## 2021-07-14
 
 ### Changed

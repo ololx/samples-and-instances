@@ -25,8 +25,8 @@ spring:
   datasource:
     platform: postgres
     url: jdbc:postgresql://some-dbms:5432/some_db
-    username: postgres
-    password: postgres
+    username: some_db_user
+    password: some_db_password
 
   jpa:
     properties:

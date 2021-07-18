@@ -42,7 +42,11 @@ public class ObjectMapperAdapter
      */
     @Override
     public <T, R> T map(R source, Class<T> destinationTypeClass) throws MappingException {
-        return this.map(source, getDestinationInstance(destinationTypeClass));
+        log.trace("Start to map entity with params:\nsource - {}\nand destination - {}", source, destinationTypeClass);
+        T destination = this.map(source, getDestinationInstance(destinationTypeClass));
+        log.trace("Return the object to object mapping result - {}", destination);
+
+        return destination;
     }
 
     /**
@@ -57,9 +61,16 @@ public class ObjectMapperAdapter
      */
     @Override
     public <T, R> T map(R source, T destination) throws MappingException {
+        log.trace("Start to map entity with params:\nsource - {}\nand destination - {}", source, destination);
+
         try {
-            return this.mapper.updateValue(destination, source);
+            this.mapper.updateValue(destination, source);
+            log.trace("Return the object to class mapping result - {}", destination);
+
+            return destination;
         } catch (JsonMappingException e) {
+            log.error("Catch NPE - {}", e.getMessage());
+
             throw new MappingException(e);
         }
     }

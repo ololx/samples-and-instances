@@ -2,7 +2,6 @@ package org.some.api.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +28,9 @@ import org.springframework.web.bind.annotation.*;
         description="This controllers allows to create/read/update/delete some entities"
 )
 @Validated
+@CrossOrigin(origins = "/**")
 @RequestMapping(value = "some-data/instances")
 @RestController
-@CrossOrigin(origins = "/**")
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(
@@ -48,12 +47,25 @@ public class SomeDataController {
      *
      * @param someDataInstance the some data instance
      * @return the json node
-     * @throws JsonProcessingException the json processing exception
+     * @throws MapperAdapter.MappingException the mapping exception
      */
     @ApiOperation(
             value = "Create some data instance",
             notes = "This method allows to create some data instance"
     )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 201,
+                    message = "Successfully completed",
+                    response = SomeDataDetail.class,
+                    responseContainer = "List"
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "Operation not performed",
+                    response = SomeDataDetail.class
+            )
+    })
     @JsonView(SomeApiDetail.Create.class)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(
@@ -63,13 +75,6 @@ public class SomeDataController {
     )
     public SomeDataDetail createSomeDataInstance(
             @ApiParam(
-                    example = "{\"id\": 1, \"someString\": \"bla bla\"}",
-                    examples = @Example(
-                            @ExampleProperty(
-                                    mediaType = "application/json",
-                                    value = "{\"id\": 1, \"someString\": \"bla bla\"}"
-                            )
-                    ),
                     name="someDataInstance",
                     value = "The instance of the some data entity",
                     required = true
@@ -87,11 +92,25 @@ public class SomeDataController {
      * @param id               the id
      * @param someDataInstance the some data instance
      * @return the json node
+     * @throws MapperAdapter.MappingException the mapping exception
      */
     @ApiOperation(
             value = "Update some data instance",
             notes = "This method allows to change some data instance"
     )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Successfully completed",
+                    response = SomeDataDetail.class,
+                    responseContainer = "List"
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "Operation not performed",
+                    response = SomeDataDetail.class
+            )
+    })
     @JsonView(SomeApiDetail.Update.class)
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping(
@@ -127,6 +146,19 @@ public class SomeDataController {
             value = "Delete some data instance",
             notes = "This method allows to remove some data instance"
     )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Successfully completed",
+                    response = SomeDataDetail.class,
+                    responseContainer = "List"
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "Operation not performed",
+                    response = SomeDataDetail.class
+            )
+    })
     @JsonView(SomeApiDetail.Delete.class)
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(
@@ -151,11 +183,30 @@ public class SomeDataController {
      *
      * @param id the id
      * @return the json node
+     * @throws MapperAdapter.MappingException the mapping exception
      */
     @ApiOperation(
             value = "Read some data instance",
             notes = "This method allows to get some data instance"
     )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Successfully completed",
+                    response = SomeDataDetail.class,
+                    responseContainer = "List"
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "Operation not performed",
+                    response = SomeDataDetail.class
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "The entity was not found",
+                    response = SomeDataDetail.class
+            )
+    })
     @JsonView(SomeApiDetail.Retrieve.class)
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(

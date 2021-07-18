@@ -38,6 +38,7 @@ public abstract class AbstractModelMapperAdapter
      */
     @Override
     public <T, R> List<T> map(Collection<R> sources, Class<T> destinationTypeClass) throws MappingException {
+        log.trace("Start to map entities with params:\nsource - {}\nand destination - {}", sources, destinationTypeClass);
         if (sources == null) return Collections.emptyList();
 
         try {
@@ -45,8 +46,11 @@ public abstract class AbstractModelMapperAdapter
                 for (R source : sources) {
                     add(map(source, getDestinationInstance(destinationTypeClass)));
                 }
+                log.trace("Return the collection to collection mapping result - {}", this.toString());
             }};
         } catch (NullPointerException e) {
+            log.error("Catch NPE - {}", e.getMessage());
+
             throw new MappingException(e);
         }
     }
@@ -60,9 +64,16 @@ public abstract class AbstractModelMapperAdapter
      * @throws MappingException the mapping exception
      */
     protected <T> T getDestinationInstance(Class<T> destinationTypeClass) throws MappingException {
+        log.trace("Start to extract instance with param: destinationTypeClass - {}", destinationTypeClass);
+
         try {
-            return destinationTypeClass.newInstance();
+            T destinationInstance = destinationTypeClass.newInstance();
+            log.trace("Return the created instance - {}", destinationTypeClass);
+
+            return destinationInstance;
         } catch (InstantiationException | IllegalAccessException e) {
+            log.error("Catch exception - {}", e.getMessage());
+
             throw new MappingException(e);
         }
     }

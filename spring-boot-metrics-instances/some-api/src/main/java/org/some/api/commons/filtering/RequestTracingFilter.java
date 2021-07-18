@@ -1,43 +1,32 @@
 package org.some.api.commons.filtering;
 
 import io.opentracing.Span;
-import io.opentracing.Tracer;
-import io.opentracing.util.GlobalTracer;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
- * @project some-api
- * @created 2021-07-09 15:37
- * <p>
+ * The type Request tracing filter.
+ *
  * @author Alexander A. Kropotin
+ * @project some -api
+ * @created 2021 -07-09 15:37 <p>
  */
 @Slf4j
-@Component("TraceRequestFilter")
-public class TraceRequestFilter extends OncePerRequestFilter {
-
-    private static final String TRACE_ID = "traceId";
-
-    private static final String SPAN_ID = "spanId";
+@Component("RequestTracingFilter")
+public class RequestTracingFilter extends TracingFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        Span span = GlobalTracer.get().activeSpan();
-        if (span == null) {
-            span = GlobalTracer.get().buildSpan(request.getMethod()).start();
-        }
-
+        Span span = this.getSpan();
         String spanId = span.context().toSpanId();
 
         String traceId = null;
@@ -49,7 +38,7 @@ public class TraceRequestFilter extends OncePerRequestFilter {
         MDC.put(SPAN_ID, spanId);
 
         try {
-            log.trace("Started process request with {} : {} && {} : {}", TRACE_ID, traceId, SPAN_ID, spanId);
+            log.trace("Start the process request with {} : {} && {} : {}", TRACE_ID, traceId, SPAN_ID, spanId);
             filterChain.doFilter(request, response);
         } finally {
             MDC.clear();

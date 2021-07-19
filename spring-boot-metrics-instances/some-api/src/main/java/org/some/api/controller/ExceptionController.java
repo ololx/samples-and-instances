@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.some.api.model.exception.EntityIsNotExistException;
+import org.some.api.model.exception.NonExistentEntityException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -130,7 +130,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @return the response entity
      */
     //Всегда 400
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex,
                                                              @Nullable Object body,
@@ -138,7 +137,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                                                              HttpStatus status,
                                                              WebRequest request) {
 
-        return new ResponseEntity<>(body, headers, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(body, headers, status);
     }
 
     /**
@@ -155,7 +154,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * BindException - выдается при фатальных ошибках привязки
      * MethodArgumentNotValidException - выдается, когда аргумент с аннотацией @Valid не прошел проверку
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
                                                                   HttpHeaders headers,
@@ -214,7 +212,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * Обработка ошибок запроса к API
      * MissingServletRequestPartException - выдается, когда часть составного запроса не найдена (отсутствует параметр)
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException e,
                                                                           HttpHeaders headers,
@@ -251,7 +248,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * Обработка ошибок запроса к API
      * ConstrainViolationException - сообщает о результате нарушения ограничений валидации значений запроса
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             ConstraintViolationException.class
     })
@@ -297,7 +293,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * Обработка ошибок запроса к API
      * ConstrainViolationException - может быть также завернуто в ошибку транзакции (если вызвана там)
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             TransactionSystemException.class
     })
@@ -328,7 +323,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * TypeMismatchException - выдается при попытке установить бин свойство с неправильным типом.
      * MethodArgumentTypeMismatchException - выдается, когда аргумент метода не является ожидаемым типом
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             MethodArgumentTypeMismatchException.class
     })
@@ -380,7 +374,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     /*
      * Обработка ошибок SQL
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             SQLException.class
     })
@@ -414,7 +407,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param request the request
      * @return the response entity
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             IllegalArgumentException.class,
             ValidationException.class
@@ -450,8 +442,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param request the request
      * @return the response entity
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(EntityIsNotExistException.class)
+    @ExceptionHandler(NonExistentEntityException.class)
     public final ResponseEntity<Object> handleSpecifiedException(Exception e, WebRequest request) {
         log.error("exception - " + request, e);
 
@@ -460,7 +451,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 .collect(Collectors.joining());
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.NOT_FOUND)
                 .stackTrace(stackTrace)
                 .comment("The API execution error - requested entity is not presented in the service")
                 .message(e.getMessage())
@@ -478,7 +469,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param request the request
      * @return the response entity
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleUnspecified(Exception e, WebRequest request) {
         if(log.isErrorEnabled()) {

@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Other examples of metrics collecting.
 
+## 2021-07-19
+
+### Changed
+
+- Change the logback settings.
+
 ## 2021-07-18
 
 ### Added

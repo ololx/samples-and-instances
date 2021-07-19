@@ -4,3 +4,14 @@ spring:
     url: jdbc:postgresql://localhost:5432/some_db
     username: some_db_user
     password: some_db_password
+
+opentracing:
+  jaeger:
+    udp-sender:
+      host: localhost
+      port: 6831
+
+logging:
+  appender:
+    loki-sender:
+      host: localhost

@@ -2,12 +2,14 @@ package org.some.api.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.internal.util.Contracts;
 import org.some.api.commons.mapping.MapperAdapter;
 import org.some.api.model.detail.SomeDataDetail;
 import org.some.api.model.entity.SomeData;
+import org.some.api.model.exception.NonExistentEntityException;
 import org.some.api.repository.SomeDataRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -51,9 +53,7 @@ public class SimpleSomeDataService implements SomeDataService {
 
     @Override
     public SomeDataDetail read(Integer id) throws MapperAdapter.MappingException {
-        Optional<SomeData> storedSomeData = this.repository.findById(id);
-        Contracts.assertTrue(storedSomeData.isPresent(), "There is no SomeData with this id - {}", id);
-        log.debug("Get entity from database - {}", storedSomeData);
+        Optional<SomeData> storedSomeData = this.getStoredSomeData(id);
 
         SomeDataDetail detail = this.mapper.map(storedSomeData.get(), SomeDataDetail.class);
         log.debug("Map entity into detail - {}", detail);
@@ -63,9 +63,7 @@ public class SimpleSomeDataService implements SomeDataService {
 
     @Override
     public SomeDataDetail update(Integer id, SomeDataDetail detail) throws MapperAdapter.MappingException {
-        Optional<SomeData> storedSomeData = this.repository.findById(id);
-        Contracts.assertTrue(storedSomeData.isPresent(), "There is no SomeData with this id - {}", id);
-        log.debug("Get entity from database - {}", storedSomeData);
+        Optional<SomeData> storedSomeData = this.getStoredSomeData(id);
 
         SomeData entity = this.mapper.map(detail, storedSomeData.get());
         log.debug("Map detail into entity - {}", detail);
@@ -80,9 +78,7 @@ public class SimpleSomeDataService implements SomeDataService {
 
     @Override
     public SomeDataDetail delete(Integer id) {
-        Optional<SomeData> storedSomeData = this.repository.findById(id);
-        Contracts.assertTrue(storedSomeData.isPresent(), "There is no SomeData with this id - {}", id);
-        log.debug("Get entity from database - {}", storedSomeData);
+        Optional<SomeData> storedSomeData = this.getStoredSomeData(id);
 
         this.repository.delete(storedSomeData.get());
         log.debug("Delete the entity - {}", storedSomeData);
@@ -90,5 +86,19 @@ public class SimpleSomeDataService implements SomeDataService {
         return SomeDataDetail.builder()
                 .id(Optional.ofNullable(id))
                 .build();
+    }
+
+    private Optional<SomeData> getStoredSomeData(Integer id) {
+        Optional<SomeData> storedSomeData = this.repository.findById(id);
+
+        if (!storedSomeData.isPresent()) {
+            NonExistentEntityException e = new NonExistentEntityException("There is no SomeData with this id - " + id);
+            log.error(e.getLocalizedMessage());
+            throw e;
+        }
+
+        log.debug("Get entity from database - {}", storedSomeData);
+
+        return storedSomeData;
     }
 }

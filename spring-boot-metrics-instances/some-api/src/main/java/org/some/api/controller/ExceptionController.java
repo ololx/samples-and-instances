@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.some.api.model.exception.EntityIsNotExistException;
+import org.some.api.model.exception.NonExistentEntityException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -450,8 +450,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param request the request
      * @return the response entity
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(EntityIsNotExistException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NonExistentEntityException.class)
     public final ResponseEntity<Object> handleSpecifiedException(Exception e, WebRequest request) {
         log.error("exception - " + request, e);
 

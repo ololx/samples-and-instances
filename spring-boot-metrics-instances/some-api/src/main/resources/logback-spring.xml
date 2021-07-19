@@ -1,58 +1,89 @@
 <configuration >
-    <include resource="/org/springframework/boot/logging/logback/base.xml" />
+    <include resource="/org/springframework/boot/logging/logback/defaults.xml" />
 
-    <variable name="log-file-path" value="./log" />
-    <variable name="application-name" value="some-api" />
-    <variable name="log-server-address" value="loki" />
+    <springProperty scope="context" defaultValue="8080" name="server-port" source="server.port "/>
+    <springProperty scope="context" defaultValue="unknown-${server-port}" name="application-name" source="spring.application.name "/>
+    <springProperty scope="context" defaultValue="./logs" name="log-file-path" source="logging.file.path"/>
+    <springProperty scope="context" defaultValue="10MB" name="log-file-size" source="logging.file.max-size"/>
+    <springProperty scope="context" defaultValue="loki" name="log-server-host" source="logging.appender.loki-sender.host"/>
+    <springProperty scope="context" defaultValue="3100" name="log-server-port" source="logging.appender.loki-sender.port"/>
 
-    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
             <Pattern>
-                %green(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %yellow([%mdc]) %green(%logger{36}) : %msg%n%throwable
+                %green(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %yellow([%mdc]) %green(%logger{36}.%M) : %msg%n%throwable
             </Pattern>
-        </layout>
+            <charset>utf8</charset>
+        </encoder>
     </appender>
 
-    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log-file-path}/${application-name}.log</file>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            ${log-file-path}/${application-name}-%d{yyyy-MM-dd}.log
+        </file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d %level %logger{36} [%mdc] : %msg%n%throwable</Pattern>
+            <Pattern>
+                %d %level %logger{36}.%M [%mdc] : %msg%n%throwable
+            </Pattern>
+            <charset>utf8</charset>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log-file-path}/archived/${application-name}-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>
+                ${log-file-path}/archived/${application-name}-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
+                <maxFileSize>${log-file-size}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
 
-    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+    <appender name="loki" class="com.github.loki4j.logback.Loki4jAppender">
         <http class="com.github.loki4j.logback.ApacheHttpSender">
-            <url>http://${log-server-address}:3100/loki/api/v1/push</url>
+            <url>http://${log-server-host}:${log-server-port}/loki/api/v1/push</url>
         </http>
         <format>
             <label>
-                <pattern>service=${application-name}, host=${HOSTNAME}, level=%level, logger=%logger{36}, thread=%thread</pattern>
+                <pattern>
+                    service=${application-name},
+                    port=${service-port},
+                    host=${HOSTNAME},
+                    level=%level,
+                    logger=%logger{36},
+                    method=%M,
+                    thread=%thread
+                </pattern>
             </label>
             <message>
-                <pattern>dt=%d level=%level traceId=%X{traceId} logger=%logger{36} %n msg="%msg" %n throwable="%throwable"</pattern>
+                <pattern>
+                    {
+                        "dt": "%d",
+                        "level": "%level",
+                        "service": "${application-name:-}",
+                        "traceId": "%X{traceId:-}",
+                        "spanId": "%X{spanId:-}",
+                        "logger": "%logger{36}",
+                        "method": "%M",
+                        "thread": "%thread",
+                        "msg": "%message",
+                        "throwable": "%throwable"
+                    }
+                </pattern>
             </message>
             <sortByTime>true</sortByTime>
         </format>
     </appender>
 
     <Logger name="org.springframework" level="INFO">
-        <appender-ref ref="Console" />
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="LOKI" />
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+        <appender-ref ref="loki" />
     </Logger>
 
     <Logger name="org.some.api" level="TRACE">
-        <appender-ref ref="Console" />
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="LOKI" />
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+        <appender-ref ref="loki" />
     </Logger>
 
 </configuration>

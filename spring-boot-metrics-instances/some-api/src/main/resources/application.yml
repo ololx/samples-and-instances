@@ -14,6 +14,16 @@ opentracing:
       host: jaeger
       port: 6831
 
+logging:
+  file:
+    max-size: 10MB
+    path: ./logs
+
+#  appender:
+#    loki-sender:
+#      host: loki
+#      port: 3100
+
 spring:
   application:
     name: some-api
@@ -46,3 +56,7 @@ spring:
     change-log: classpath:db-migrations/changelog.xml
     enabled: true
     drop-first: true
+
+log:
+  loki:
+    url: loki

@@ -7,13 +7,13 @@ package org.some.api.model.exception;
  * @project some -api
  * @created 2021 -07-18 19:43 <p>
  */
-public class EntityIsNotExistException extends IllegalArgumentException {
+public class NonExistentEntityException extends IllegalArgumentException {
 
     /**
      * Constructs an {@code EntityIsNotExistsException} with no
      * detail message.
      */
-    public EntityIsNotExistException() {
+    public NonExistentEntityException() {
         super();
     }
 
@@ -23,7 +23,7 @@ public class EntityIsNotExistException extends IllegalArgumentException {
      *
      * @param s the detail message.
      */
-    public EntityIsNotExistException(String s) {
+    public NonExistentEntityException(String s) {
         super(s);
     }
 
@@ -39,7 +39,7 @@ public class EntityIsNotExistException extends IllegalArgumentException {
      * @param cause   the cause (which is saved for later retrieval by the         {@link Throwable#getCause()} method).  (A {@code null} value         is permitted, and indicates that the cause is nonexistent or         unknown.)
      * @since 1.5
      */
-    public EntityIsNotExistException(String message, Throwable cause) {
+    public NonExistentEntityException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -54,7 +54,7 @@ public class EntityIsNotExistException extends IllegalArgumentException {
      * @param cause the cause (which is saved for later retrieval by the         {@link Throwable#getCause()} method).  (A {@code null} value is         permitted, and indicates that the cause is nonexistent or         unknown.)
      * @since 1.5
      */
-    public EntityIsNotExistException(Throwable cause) {
+    public NonExistentEntityException(Throwable cause) {
         super(cause);
     }
 }

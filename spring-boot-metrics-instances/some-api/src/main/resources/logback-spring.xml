@@ -1,12 +1,12 @@
 <configuration >
     <include resource="/org/springframework/boot/logging/logback/defaults.xml" />
 
-    <springProperty scope="context" defaultValue="8080" name="server-port" source="server.port "/>
-    <springProperty scope="context" defaultValue="unknown-${server-port}" name="application-name" source="spring.application.name "/>
-    <springProperty scope="context" defaultValue="./logs" name="log-file-path" source="logging.file.path"/>
-    <springProperty scope="context" defaultValue="10MB" name="log-file-size" source="logging.file.max-size"/>
-    <springProperty scope="context" defaultValue="loki" name="log-server-host" source="logging.appender.loki-sender.host"/>
-    <springProperty scope="context" defaultValue="3100" name="log-server-port" source="logging.appender.loki-sender.port"/>
+    <springProperty scope="context" defaultValue="8080" name="server-port" source="server.port" />
+    <springProperty scope="context" defaultValue="unknown-${server-port}" name="application-name" source="spring.application.name" />
+    <springProperty scope="context" defaultValue="./logs" name="log-file-path" source="logging.file.path" />
+    <springProperty scope="context" defaultValue="10MB" name="log-file-size" source="logging.file.max-size" />
+    <springProperty scope="context" defaultValue="loki" name="log-server-host" source="logging.appender.loki-sender.host" />
+    <springProperty scope="context" defaultValue="3100" name="log-server-port" source="logging.appender.loki-sender.port" />
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -23,7 +23,16 @@
         </file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
-                %d %level %logger{36}.%M [%mdc] : %msg%n%throwable
+                {
+                    "dt": "%d",
+                    "level": "%level",
+                    "traceId": "%X{traceId:-}",
+                    "spanId": "%X{spanId:-}",
+                    "logger": "%logger{36}",
+                    "method": "%M",
+                    "msg": "%message",
+                    "throwable": "%throwable"
+                }
             </Pattern>
             <charset>utf8</charset>
         </encoder>

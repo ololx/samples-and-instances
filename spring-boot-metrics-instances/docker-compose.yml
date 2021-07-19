@@ -104,12 +104,7 @@ services:
       driver: json-file
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U some_db_user"]
-      interval: 5s
-      timeout: 20s
-      retries: 4
-
+  
   some-api-executing:
     container_name: some-api-executing
     user: root

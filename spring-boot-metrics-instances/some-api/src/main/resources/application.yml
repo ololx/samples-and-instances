@@ -19,10 +19,10 @@ logging:
     max-size: 10MB
     path: ./logs
 
-#  appender:
-#    loki-sender:
-#      host: loki
-#      port: 3100
+  appender:
+    loki-sender:
+      host: loki
+      port: 3100
 
 spring:
   application:

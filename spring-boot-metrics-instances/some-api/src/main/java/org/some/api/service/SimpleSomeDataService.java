@@ -2,10 +2,8 @@ package org.some.api.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.internal.util.Contracts;
 import org.some.api.commons.mapping.MapperAdapter;
 import org.some.api.model.detail.SomeDataDetail;
 import org.some.api.model.entity.SomeData;

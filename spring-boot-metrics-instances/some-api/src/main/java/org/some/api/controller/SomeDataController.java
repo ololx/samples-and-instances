@@ -1,7 +1,6 @@
 package org.some.api.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

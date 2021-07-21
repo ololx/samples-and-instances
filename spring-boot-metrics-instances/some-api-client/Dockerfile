@@ -6,10 +6,10 @@ COPY .. .
 
 RUN mvn clean package
 
-EXPOSE 8081
+EXPOSE 8082
 
 RUN ls
 RUN pwd
 
 ENTRYPOINT ["java"]
-CMD ["-jar", "./target/some-api-0.0.1.jar"]
+CMD ["-jar", "./target/some-api-client-0.0.1.jar"]

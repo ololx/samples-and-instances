@@ -117,7 +117,7 @@ services:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
     depends_on:
-      - some-api
+      - some-api-client
   
   some-api:
     container_name: some-api
@@ -127,10 +127,26 @@ services:
       context: some-api
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8081:8081"    
     logging:
       driver: json-file
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  
     depends_on:
       - some-dbms
+
+  some-api-client:
+    container_name: some-api-client
+    user: root
+    restart: always
+    build:
+      context: some-api-client
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"  
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  
+    depends_on:
+      - some-api    

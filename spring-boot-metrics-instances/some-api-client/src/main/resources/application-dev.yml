@@ -1,0 +1,10 @@
+opentracing:
+  jaeger:
+    udp-sender:
+      host: localhost
+      port: 6831
+
+logging:
+  appender:
+    loki-sender:
+      host: localhost

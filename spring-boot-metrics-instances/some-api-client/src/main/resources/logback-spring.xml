@@ -89,7 +89,7 @@
         <appender-ref ref="loki" />
     </Logger>
 
-    <Logger name="org.spring.boot.metrics.instances.some.api" level="TRACE">
+    <Logger name="org.spring.boot.metrics.instances.some.api.client" level="TRACE">
         <appender-ref ref="console" />
         <appender-ref ref="file" />
         <appender-ref ref="loki" />

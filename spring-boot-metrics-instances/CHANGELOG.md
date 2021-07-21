@@ -7,16 +7,25 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Other examples of metrics collecting.
 
+## 2021-07-21
+
+### Fixed
+- Fixe the `ResponseTracingFilter` error, return traceId && spanId in response headers.
+
+### Changed
+- Change the project structure.
+
+### Added
+- Add new service `some-api-client` for the log tracing between services.
+
 ## 2021-07-19
 
 ### Changed
-
 - Change the logback settings.
 
 ## 2021-07-18
 
 ### Added
-
 - Add the `Exception Controller`.
 - Add the `Jaeger` service && tracing in service.
 

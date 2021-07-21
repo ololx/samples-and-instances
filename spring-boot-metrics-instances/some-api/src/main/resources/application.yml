@@ -24,6 +24,9 @@ logging:
       host: loki
       port: 3100
 
+server:
+  port: 8081
+
 spring:
   application:
     name: some-api
@@ -56,7 +59,3 @@ spring:
     change-log: classpath:db-migrations/changelog.xml
     enabled: true
     drop-first: true
-
-log:
-  loki:
-    url: loki

@@ -8,3 +8,6 @@ logging:
   appender:
     loki-sender:
       host: localhost
+
+client:
+  some-api: http://localhost:8081/some-data/instances/

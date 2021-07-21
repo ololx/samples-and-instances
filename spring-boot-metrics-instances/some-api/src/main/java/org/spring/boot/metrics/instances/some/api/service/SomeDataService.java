@@ -9,5 +9,9 @@ import org.spring.boot.metrics.instances.some.api.model.detail.SomeDataDetail;
  * @project some -api
  * @created 2021 -07-06 17:47 <p>
  */
-public interface SomeDataService extends CrudService<SomeDataDetail, Integer> {
+public interface SomeDataService
+        extends CreateService<SomeDataDetail, SomeDataDetail>,
+        RetrieveService<SomeDataDetail, Integer>,
+        UpdateService<SomeDataDetail, SomeDataDetail, Integer>,
+        DeleteService<SomeDataDetail, Integer> {
 }

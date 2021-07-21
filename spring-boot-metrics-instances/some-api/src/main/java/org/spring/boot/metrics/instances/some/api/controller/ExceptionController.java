@@ -84,8 +84,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 notes = "The stack trace",
                 example = "1"
         )
-        @JsonProperty(value = "stack_trace")
-        String stackTrace;
+        @JsonProperty(value = "stackTraces")
+        String stackTraces;
 
         /**
          * The Comment.
@@ -192,7 +192,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - wrong request param")
                 .message(String.join("<br />", messages))
                 .details(request.getDescription(true))
@@ -230,7 +230,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - the param is lost")
                 .message(message)
                 .details(request.getDescription(true))
@@ -275,7 +275,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - wrong request param")
                 .message(String.join("<br />", messages))
                 .details(request.getDescription(true))
@@ -357,7 +357,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - wrong request param format")
                 .message(message)
                 .details(request.getDescription(true))
@@ -393,7 +393,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - the sql execution error")
                 .message(message)
                 .details(request.getDescription(true))
@@ -428,7 +428,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - illegal arguments")
                 .message(message)
                 .details(request.getDescription(true))
@@ -455,7 +455,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.NOT_FOUND)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - requested entity is not presented in the service")
                 .message(e.getMessage())
                 .details(request.getDescription(true))
@@ -484,7 +484,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - the request data is illegal")
                 .message("Contact the system administrator")
                 .details(request.getDescription(true))

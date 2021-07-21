@@ -1,11 +1,13 @@
 package org.spring.boot.metrics.instances.some.api.client.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.spring.boot.metrics.instances.some.api.client.configuration.RestTemplateConfiguration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -25,6 +28,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -86,8 +90,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 notes = "The stack trace",
                 example = "1"
         )
-        @JsonProperty(value = "stack_trace")
-        String stackTrace;
+        @JsonProperty(value = "stackTraces")
+        String stackTraces;
 
         /**
          * The Comment.
@@ -194,7 +198,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - wrong request param")
                 .message(String.join("<br />", messages))
                 .details(request.getDescription(true))
@@ -232,7 +236,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - the param is lost")
                 .message(message)
                 .details(request.getDescription(true))
@@ -277,7 +281,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - wrong request param")
                 .message(String.join("<br />", messages))
                 .details(request.getDescription(true))
@@ -359,7 +363,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - wrong request param format")
                 .message(message)
                 .details(request.getDescription(true))
@@ -395,7 +399,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - the sql execution error")
                 .message(message)
                 .details(request.getDescription(true))
@@ -430,7 +434,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - illegal arguments")
                 .message(message)
                 .details(request.getDescription(true))
@@ -438,6 +442,40 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 .build();
 
         return handleExceptionInternal(e, exceptionDetail, new HttpHeaders(), exceptionDetail.getStatus(), request);
+    }
+
+    /**
+     * Handle specified e response entity.
+     *
+     * @param e       the e
+     * @param request the request
+     * @return the response entity
+     */
+    @ExceptionHandler(RestTemplateConfiguration.HttpClientResponseException.class)
+    public final ResponseEntity<Object> handleClientException(RestTemplateConfiguration.HttpClientResponseException e, WebRequest request) throws IOException {
+        log.error("exception - " + e, e);
+
+        ExceptionDetail exceptionDetail = ExceptionDetail.builder()
+                .status(e.getStatus())
+                .stackTraces(e.getStackTraces())
+                .comment(e.getComment())
+                .message(e.getMessage())
+                .details(request.getDescription(true))
+                .timestamp(e.getTimestamp())
+                .build();
+
+        return handleExceptionInternal(e, exceptionDetail, new HttpHeaders(), exceptionDetail.getStatus(), request);
+    }
+
+    @ExceptionHandler(ResourceAccessException.class)
+    public final ResponseEntity<Object> handleClientException(ResourceAccessException e, WebRequest request) throws IOException {
+        log.error("exception - " + e, e);
+
+        if (e.getCause() != null && e.getCause() instanceof RestTemplateConfiguration.HttpClientResponseException) {
+            return handleClientException((RestTemplateConfiguration.HttpClientResponseException) e.getCause(), request);
+        } else {
+            return handleUnspecified(e, request);
+        }
     }
 
     /**
@@ -449,9 +487,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleUnspecified(Exception e, WebRequest request) {
-        if(log.isErrorEnabled()) {
-            log.error("exception - " + request, e);
-        }
+        log.debug(e.toString());
 
         String stackTrace = Arrays.stream(e.getStackTrace())
                 .map(stackTraceElement -> stackTraceElement.toString() +  " \n " )
@@ -459,7 +495,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionDetail exceptionDetail = ExceptionDetail.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .stackTrace(stackTrace)
+                .stackTraces(stackTrace)
                 .comment("The API execution error - the request data is illegal")
                 .message("Contact the system administrator")
                 .details(request.getDescription(true))

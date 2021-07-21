@@ -34,3 +34,6 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+
+client:
+  some-api: http://some-api:8081/some-data/instances/

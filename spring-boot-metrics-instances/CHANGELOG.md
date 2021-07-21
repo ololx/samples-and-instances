@@ -9,14 +9,14 @@ All notable changes to this project will be documented in this file.
 
 ## 2021-07-21
 
+### Added
+- Add new service `some-api-client` for the log tracing between services. It's have a `PUT` method.
+
 ### Fixed
 - Fixe the `ResponseTracingFilter` error, return traceId && spanId in response headers.
 
 ### Changed
 - Change the project structure.
-
-### Added
-- Add new service `some-api-client` for the log tracing between services.
 
 ## 2021-07-19
 

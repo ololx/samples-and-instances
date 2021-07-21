@@ -50,7 +50,7 @@ public class SimpleSomeDataService implements SomeDataService {
     }
 
     @Override
-    public SomeDataDetail read(Integer id) throws MapperAdapter.MappingException {
+    public SomeDataDetail retrieve(Integer id) throws MapperAdapter.MappingException {
         Optional<SomeData> storedSomeData = this.getStoredSomeData(id);
 
         SomeDataDetail detail = this.mapper.map(storedSomeData.get(), SomeDataDetail.class);

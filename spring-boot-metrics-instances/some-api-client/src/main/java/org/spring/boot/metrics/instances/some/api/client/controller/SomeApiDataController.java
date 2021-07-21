@@ -6,13 +6,16 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.spring.boot.metrics.instances.some.api.client.service.SomeApiClientService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 /**
  * The type Some data controller.
@@ -37,8 +40,8 @@ import org.springframework.web.client.RestTemplate;
 )
 public class SomeApiDataController {
 
-    @Qualifier("RestTemplate")
-    RestTemplate someApiClient;
+    @Qualifier("SimpleSomeApiClientService")
+    SomeApiClientService someApiClientService;
 
     /**
      * Create some data instance json node.
@@ -58,29 +61,55 @@ public class SomeApiDataController {
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             value = "{\"id\": 1, \"someString\": \"bla bla\"}"
                     ))
-            )
-    })
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(
-            path = "/",
-            consumes = "application/json",
-            produces = "application/json"
-    )
-    public JsonNode createSomeDataInstance(
-            @ApiParam(
+            ),
+            @ApiResponse(
+                    code = 200,
+                    message = "Successfully completed",
                     examples = @Example(value = @ExampleProperty(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             value = "{\"id\": 1, \"someString\": \"bla bla\"}"
-                    )),
+                    ))
+            )
+    })
+    @PutMapping(
+            path = "/{id}",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public ResponseEntity<JsonNode> changeSomeDataInstance(
+            @ApiParam(
+                    name="id",
+                    value = "The instance of the some data entity",
+                    required = false
+            ) @PathVariable(
+                    name = "id",
+                    required = false
+            ) Integer id,
+            @ApiParam(
                     name="someDataInstance",
                     value = "The instance of the some data entity",
                     required = true
             ) @RequestBody JsonNode someDataInstance) {
-        log.info("Receive request - {}", someDataInstance);
-        HttpEntity<JsonNode> request = new HttpEntity<>(someDataInstance);
-        JsonNode someDataDetail = this.someApiClient.postForObject("http://some-api:8081/some-data/instances/", request, JsonNode.class);
-        log.info("Send response - {}", someDataDetail);
+        log.info("Receive request - {} and {}", id, someDataInstance);
+        ResponseEntity<JsonNode> response = null;
+        if (id == null) {
+            response = this.someApiClientService.create(someDataInstance);
+            log.debug("Send create entity response - {}", response);
 
-        return someDataDetail;
+            return response;
+        }
+
+        response = this.someApiClientService.retrieve(id);
+        if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+            response = this.someApiClientService.create(someDataInstance);
+            log.debug("Send create entity response - {}", response);
+
+            return response;
+        }
+
+        response = this.someApiClientService.update(id, someDataInstance);
+        log.debug("Send update entity response - {}", response);
+
+        return response;
     }
 }

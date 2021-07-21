@@ -212,14 +212,14 @@ public class SomeDataController {
             path = "/{id}",
             produces = "application/json"
     )
-    public SomeDataDetail readSomeDataInstance(
+    public SomeDataDetail retrieveSomeDataInstance(
             @ApiParam(
                     name="id",
                     value = "The instance of the some data entity",
                     required = true
             ) @PathVariable(name = "id") int id) throws MapperAdapter.MappingException {
         log.info("Receive request - {}", id);
-        SomeDataDetail someDataDetail = this.someDataService.read(id);
+        SomeDataDetail someDataDetail = this.someDataService.retrieve(id);
         log.info("Send response - {}", someDataDetail);
 
         return someDataDetail;

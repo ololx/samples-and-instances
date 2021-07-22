@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Other examples of metrics collecting.
 
+## 2021-07-22
+
+### Added
+- Add `DELETE` method in the `some-api-client` service.
+
 ## 2021-07-21
 
 ### Added

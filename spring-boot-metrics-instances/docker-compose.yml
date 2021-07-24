@@ -26,6 +26,7 @@ services:
       context: promtail/
       dockerfile: Dockerfile
     volumes:
+      - ./local/promtail:/promtail
       - /var/log:/var/log
       - /var/lib/docker/containers:/var/lib/docker/containers
     command: -config.file=/etc/promtail/config.yml
@@ -65,7 +66,23 @@ services:
     logging:
       driver: json-file
       options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"     
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  zipkin:
+    container_name: zipkin
+    user: root
+    restart: always
+    build:
+      context: zipkin/
+      dockerfile: Dockerfile
+    ports:
+    - "9411:9411"
+    volumes:
+      - ./local/zipkin:/zipkin
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
   grafana:
     container_name: grafana

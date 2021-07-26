@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <!--<Инициализация таблицы "Роли"-->
+    <changeSet
+            id="2021-07-26-scheme-init-usr-role"
+            author="a.kropotin@innopolis.ru"
+            logicalFilePath="2021-07-26-scheme-init.xml"
+    >
+
+        <createTable tableName="usr_role">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="user_role_pkey"/>
+            </column>
+            <column name="detail" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <!-->Инициализация таблицы "Роли"-->
+
+    <!--<Инициализация таблицы "Пользователи"-->
+    <changeSet
+            id="2021-07-26-scheme-init-user"
+            author="a.kropotin@innopolis.ru"
+            logicalFilePath="2021-07-26-scheme-init.xml"
+    >
+        <createTable tableName="usr">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="usr_pkey"/>
+            </column>
+            <column name="usr_role_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="usr_role_id"
+                                 baseTableName="usr"
+                                 constraintName="usr_usr_role_fk"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="usr_role"/>
+    </changeSet>
+    <!-->Инициализация таблицы "Пользователи"-->
+
+</databaseChangeLog>

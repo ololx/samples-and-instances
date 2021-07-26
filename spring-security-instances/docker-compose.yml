@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  basic-authentication:
+    container_name: basic-authentication
+    user: root
+    restart: always
+    image: postgres:10.6
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=basic_authentication
+    ports:
+      - "5432:5432"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  

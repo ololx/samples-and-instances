@@ -1,0 +1,3 @@
+id;usr_role_id;name;password;is_active
+1;1;admin;admin;true
+2;2;guest;guest;true

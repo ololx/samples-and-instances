@@ -1,13 +1,20 @@
+server:
+  port: 8182
+
 opentracing:
   jaeger:
     udp-sender:
       host: localhost
-      port: 6831
 
 logging:
   appender:
     loki-sender:
       host: localhost
 
+amqp:
+  rabbit:
+    binder:
+      brokers: localhost
+
 client:
-  some-api: http://localhost:8081/some-data/instances/
+  some-api: http://localhost:8181/some-data/instances/

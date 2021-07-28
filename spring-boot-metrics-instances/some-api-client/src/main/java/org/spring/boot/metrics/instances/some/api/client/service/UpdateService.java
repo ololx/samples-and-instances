@@ -1,5 +1,7 @@
 package org.spring.boot.metrics.instances.some.api.client.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 /**
  * The interface Update service.
  *
@@ -19,5 +21,5 @@ public interface UpdateService<S, Q, ID> {
      * @param detail the detail
      * @return the s
      */
-    S update(ID id, Q detail);
+    S update(ID id, Q detail) throws Exception;
 }

@@ -9,8 +9,10 @@ All notable changes to this project will be documented in this file.
 
 ## 2021-07-28
 
-### Changed
+### Added
+- Add the `RabbitMq` service.
 
+### Changed
 - Change the `Zipkin` Dockerfile && starters in java services.
 
 ## 2021-07-22

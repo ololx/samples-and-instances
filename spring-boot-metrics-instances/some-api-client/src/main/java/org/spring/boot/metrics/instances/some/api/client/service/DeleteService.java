@@ -1,5 +1,7 @@
 package org.spring.boot.metrics.instances.some.api.client.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 /**
  * The interface Delete service.
  *
@@ -17,5 +19,5 @@ public interface DeleteService<S, ID> {
      * @param id the id
      * @return the s
      */
-    S delete(ID id);
+    S delete(ID id) throws Exception;
 }

@@ -1,5 +1,6 @@
 package org.spring.boot.metrics.instances.some.api.client.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.*;
 import lombok.AccessLevel;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.spring.boot.metrics.instances.some.api.client.service.SomeApiClientService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
@@ -108,7 +110,7 @@ public class SomeApiDataController {
                     name="someDataInstance",
                     value = "The instance of the some data entity",
                     required = true
-            ) @RequestBody JsonNode someDataInstance) {
+            ) @RequestBody JsonNode someDataInstance) throws Exception {
         log.info("Receive request - {} and {}", id, someDataInstance);
         ResponseEntity<JsonNode> response = this.someApiClientService.retrieve(id);
 
@@ -175,7 +177,7 @@ public class SomeApiDataController {
                     required = true
             ) @PathVariable(
                     name = "id"
-            ) Integer id) {
+            ) Integer id) throws Exception {
         log.info("Receive request - {}", id);
         ResponseEntity<JsonNode> response = this.someApiClientService.delete(id);
         log.debug("Send delete entity response - {}", response);

@@ -17,5 +17,5 @@ public interface CreateService<S, Q> {
      * @param detail the detail
      * @return the s
      */
-    S create(Q detail);
+    S create(Q detail) throws Exception;
 }

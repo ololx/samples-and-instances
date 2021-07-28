@@ -1,15 +1,21 @@
+server:
+  port: 8181
+
 spring:
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/some_db
-    username: some_db_user
-    password: some_db_password
 
 opentracing:
   jaeger:
     udp-sender:
       host: localhost
       port: 6831
+
+amqp:
+  rabbit:
+    binder:
+      brokers: localhost
 
 logging:
   appender:

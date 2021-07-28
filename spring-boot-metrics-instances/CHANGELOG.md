@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Other examples of metrics collecting.
 
+## 2021-07-28
+
+### Changed
+
+- Change the `Zipkin` Dockerfile && starters in java services.
+
 ## 2021-07-22
 
 ### Added

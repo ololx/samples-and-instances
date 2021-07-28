@@ -1,5 +1,7 @@
 package org.spring.boot.metrics.instances.some.api.client.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 /**
  * The interface Retrieve service.
  *
@@ -17,5 +19,5 @@ public interface RetrieveService<S, ID> {
      * @param id the id
      * @return the s
      */
-    S retrieve(ID id);
+    S retrieve(ID id) throws Exception;
 }

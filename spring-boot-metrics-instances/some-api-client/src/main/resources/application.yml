@@ -35,5 +35,17 @@ spring:
     ansi:
       enabled: ALWAYS
 
+amqp:
+  rabbit:
+    binder:
+      brokers: rabbit
+      user: some
+      password: qwerty
+    bindings:
+      some-data-existence-request:
+        destination: some.data.existence.request
+      some-data-existence-response:
+        destination: some.data.existence.response
+
 client:
   some-api: http://some-api:8081/some-data/instances/

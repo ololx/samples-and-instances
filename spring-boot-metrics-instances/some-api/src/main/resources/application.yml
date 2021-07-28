@@ -38,8 +38,8 @@ spring:
   datasource:
     platform: postgres
     url: jdbc:postgresql://some-dbms:5432/some_db
-    username: some_db_user
-    password: some_db_password
+    username: some
+    password: qwerty
 
   jpa:
     properties:
@@ -59,3 +59,15 @@ spring:
     change-log: classpath:db-migrations/changelog.xml
     enabled: true
     drop-first: true
+
+amqp:
+  rabbit:
+    binder:
+      brokers: rabbit
+      user: some
+      password: qwerty
+    bindings:
+      some-data-existence-request:
+        destination: some.data.existence.request
+      some-data-existence-response:
+        destination: some.data.existence.response

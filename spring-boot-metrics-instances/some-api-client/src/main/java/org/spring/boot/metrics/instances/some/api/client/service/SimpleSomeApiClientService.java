@@ -1,5 +1,6 @@
 package org.spring.boot.metrics.instances.some.api.client.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -80,8 +81,11 @@ public class SimpleSomeApiClientService implements SomeApiClientService {
 
     RestTemplate someApiClient;
 
+    @Qualifier("SimpleSomeDataExistenceService")
+    SimpleSomeDataExistenceService someDataExistenceService;
+
     @Override
-    public ResponseEntity<JsonNode> create(JsonNode someDataInstance) {
+    public ResponseEntity<JsonNode> create(JsonNode someDataInstance) throws JsonProcessingException {
         URI requestUri = this.someApiResource.get();
         log.debug("Create POST URI - {}", requestUri);
 
@@ -92,11 +96,13 @@ public class SimpleSomeApiClientService implements SomeApiClientService {
         ResponseEntity<JsonNode> responseEntity = this.someApiClient.exchange(requestEntity, JsonNode.class);
         log.debug("Receive POST response entity - {}", responseEntity);
 
+        this.someDataExistenceService.send(responseEntity.getBody());
+
         return responseEntity;
     }
 
     @Override
-    public ResponseEntity<JsonNode> delete(Integer id) {
+    public ResponseEntity<JsonNode> delete(Integer id) throws JsonProcessingException {
         URI requestUri = this.someApiResource.get(id);
         log.debug("Create DELETE URI - {}", requestUri);
 
@@ -107,11 +113,13 @@ public class SimpleSomeApiClientService implements SomeApiClientService {
         ResponseEntity<JsonNode> responseEntity = this.someApiClient.exchange(requestEntity, JsonNode.class);
         log.debug("Receive DELETE response entity - {}", responseEntity);
 
+        this.someDataExistenceService.send(responseEntity.getBody());
+
         return responseEntity;
     }
 
     @Override
-    public ResponseEntity<JsonNode> retrieve(Integer id) {
+    public ResponseEntity<JsonNode> retrieve(Integer id) throws JsonProcessingException {
         URI requestUri = this.someApiResource.get(id);
         log.debug("Create GET URI - {}", requestUri);
 
@@ -122,11 +130,13 @@ public class SimpleSomeApiClientService implements SomeApiClientService {
         ResponseEntity<JsonNode> responseEntity = this.someApiClient.exchange(requestEntity, JsonNode.class);
         log.debug("Receive GET response entity - {}", responseEntity);
 
+        this.someDataExistenceService.send(responseEntity.getBody());
+
         return responseEntity;
     }
 
     @Override
-    public ResponseEntity<JsonNode> update(Integer id, JsonNode someDataInstance) {
+    public ResponseEntity<JsonNode> update(Integer id, JsonNode someDataInstance) throws JsonProcessingException {
         URI requestUri = this.someApiResource.get(id);
         log.debug("Create PATCH URI - {}", requestUri);
 
@@ -136,6 +146,8 @@ public class SimpleSomeApiClientService implements SomeApiClientService {
 
         ResponseEntity<JsonNode> responseEntity = this.someApiClient.exchange(requestEntity, JsonNode.class);
         log.debug("Receive PATCH response entity - {}", responseEntity);
+
+        this.someDataExistenceService.send(responseEntity.getBody());
 
         return responseEntity;
     }

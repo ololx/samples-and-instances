@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.spring.security.instances.basic.authentication.instance.core.CustomAuthenticationProvider;
 import org.spring.security.instances.basic.authentication.instance.core.NoPopupBasicAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -31,6 +32,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private static final String[] IGNORE_LIST = {
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security/**",
+            "/swagger-ui.html",
+            "/webjars/**"
+    };
+
+    @Qualifier("CustomAuthenticationProvider")
     CustomAuthenticationProvider authProvider;
 
     /**
@@ -57,7 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/users/",
                         "/users/**"
-                ).hasAnyAuthority("ADMIN", "admin", "USER", "user")
+                ).hasAnyAuthority("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and().httpBasic()
                 .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint());
@@ -65,7 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**");
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers(IGNORE_LIST);
     }
 }

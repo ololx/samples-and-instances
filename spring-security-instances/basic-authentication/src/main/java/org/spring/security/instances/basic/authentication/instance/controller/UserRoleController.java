@@ -38,7 +38,7 @@ import java.util.List;
 )
 @Validated
 @CrossOrigin(origins = "/**")
-@RequestMapping(value = "/user-role/")
+@RequestMapping(value = "/user-role")
 @RestController
 public class UserRoleController {
 
@@ -85,6 +85,7 @@ public class UserRoleController {
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(
+            path = "/",
             produces = "application/json"
     )
     public List<UserRoleDetail> retrieveAllUserRoles() throws MapperAdapter.MappingException {

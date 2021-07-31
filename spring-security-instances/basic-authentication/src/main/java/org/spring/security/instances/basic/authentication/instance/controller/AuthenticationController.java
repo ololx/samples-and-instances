@@ -1,9 +1,6 @@
 package org.spring.security.instances.basic.authentication.instance.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -141,7 +138,7 @@ public class AuthenticationController {
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(
-            path = "info",
+            path = "/info",
             produces = "application/json"
     )
     public ResponseEntity<UserDetail> retrieve() throws MapperAdapter.MappingException {

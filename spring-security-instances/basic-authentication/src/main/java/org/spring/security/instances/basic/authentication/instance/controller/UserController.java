@@ -37,7 +37,7 @@ import java.util.List;
 )
 @Validated
 @CrossOrigin(origins = "/**")
-@RequestMapping(value = "/user/")
+@RequestMapping(value = "/user")
 @RestController
 public class UserController {
 
@@ -87,6 +87,7 @@ public class UserController {
     @JsonView(BasicAuthenticationInstanceDetail.Create.class)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(
+            path = "/",
             consumes = "application/json",
             produces = "application/json"
     )
@@ -135,7 +136,7 @@ public class UserController {
     @JsonView(BasicAuthenticationInstanceDetail.Update.class)
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping(
-            value = "{id}",
+            value = "/{id}",
             consumes = "application/json",
             produces = "application/json"
     )
@@ -190,7 +191,7 @@ public class UserController {
     @JsonView(BasicAuthenticationInstanceDetail.Delete.class)
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(
-            value = "{id}",
+            value = "/{id}",
             produces = "application/json"
     )
     public UserDetail deleteUser(
@@ -237,7 +238,7 @@ public class UserController {
     @JsonView(BasicAuthenticationInstanceDetail.Retrieve.class)
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(
-            value = "{id}",
+            value = "/{id}",
             produces = "application/json"
     )
     public UserDetail retrieveUser(
@@ -280,6 +281,7 @@ public class UserController {
     @JsonView(BasicAuthenticationInstanceDetail.Retrieve.class)
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(
+            path = "/",
             produces = "application/json"
     )
     public List<UserDetail> retrieveAllUsers() throws MapperAdapter.MappingException {

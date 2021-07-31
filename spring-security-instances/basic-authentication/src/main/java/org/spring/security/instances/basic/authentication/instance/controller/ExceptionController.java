@@ -123,27 +123,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handle exception internal response entity.
-     *
-     * @param ex      the ex
-     * @param body    the body
-     * @param headers the headers
-     * @param status  the status
-     * @param request the request
-     * @return the response entity
-     */
-    //Всегда 400
-    @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex,
-                                                             @Nullable Object body,
-                                                             HttpHeaders headers,
-                                                             HttpStatus status,
-                                                             WebRequest request) {
-
-        return new ResponseEntity<>(body, headers, status);
-    }
-
-    /**
      * Handle method argument not valid response entity.
      *
      * @param e       the e
@@ -151,11 +130,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param status  the status
      * @param request the request
      * @return the response entity
-     */
-    /*
-     * Обработка ошибок запроса к API
-     * BindException - выдается при фатальных ошибках привязки
-     * MethodArgumentNotValidException - выдается, когда аргумент с аннотацией @Valid не прошел проверку
      */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
@@ -211,10 +185,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param request the request
      * @return the response entity
      */
-    /*
-     * Обработка ошибок запроса к API
-     * MissingServletRequestPartException - выдается, когда часть составного запроса не найдена (отсутствует параметр)
-     */
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException e,
                                                                           HttpHeaders headers,
@@ -246,10 +216,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param e       the e
      * @param request the request
      * @return the response entity
-     */
-    /*
-     * Обработка ошибок запроса к API
-     * ConstrainViolationException - сообщает о результате нарушения ограничений валидации значений запроса
      */
     @ExceptionHandler({
             ConstraintViolationException.class
@@ -292,10 +258,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param request the request
      * @return the response entity
      */
-    /*
-     * Обработка ошибок запроса к API
-     * ConstrainViolationException - может быть также завернуто в ошибку транзакции (если вызвана там)
-     */
     @ExceptionHandler({
             TransactionSystemException.class
     })
@@ -321,17 +283,11 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param request the request
      * @return the response entity
      */
-    /*
-     * Обработка ошибок запроса к API
-     * TypeMismatchException - выдается при попытке установить бин свойство с неправильным типом.
-     * MethodArgumentTypeMismatchException - выдается, когда аргумент метода не является ожидаемым типом
-     */
     @ExceptionHandler({
             MethodArgumentTypeMismatchException.class
     })
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e,
                                                                    WebRequest request) {
-
         log.error("exception - " + request, e);
 
         String type = "array";
@@ -374,15 +330,11 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @param request the request
      * @return the response entity
      */
-    /*
-     * Обработка ошибок SQL
-     */
     @ExceptionHandler({
             SQLException.class
     })
     public ResponseEntity<Object> handleSqlException(MethodArgumentTypeMismatchException e,
                                                                    WebRequest request) {
-
         log.error("exception - " + request, e);
 
         String message = "The wrong request params - please check data";
@@ -474,9 +426,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleUnspecified(Exception e, WebRequest request) {
-        if(log.isErrorEnabled()) {
-            log.error("exception - " + request, e);
-        }
+        log.error("exception - " + request, e);
 
         String stackTrace = Arrays.stream(e.getStackTrace())
                 .map(stackTraceElement -> stackTraceElement.toString() +  " \n " )
@@ -492,5 +442,25 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 .build();
 
         return handleExceptionInternal(e, exceptionDetail, new HttpHeaders(), exceptionDetail.getStatus(), request);
+    }
+
+    /**
+     * Handle exception internal response entity.
+     *
+     * @param ex      the ex
+     * @param body    the body
+     * @param headers the headers
+     * @param status  the status
+     * @param request the request
+     * @return the response entity
+     */
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex,
+                                                             @Nullable Object body,
+                                                             HttpHeaders headers,
+                                                             HttpStatus status,
+                                                             WebRequest request) {
+
+        return new ResponseEntity<>(body, headers, status);
     }
 }

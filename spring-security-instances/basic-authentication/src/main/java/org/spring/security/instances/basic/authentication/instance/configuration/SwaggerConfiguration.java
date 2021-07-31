@@ -6,12 +6,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.LoginEndpointBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.*;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
@@ -63,9 +69,34 @@ public class SwaggerConfiguration {
                 .apis(RequestHandlerSelectors.basePackage(basePackage))
                 .paths(regex("/.*"))
                 .build()
-                .apiInfo(metaData());
+                .apiInfo(metaData())
+                .securitySchemes(buildSecurityScheme()).securityContexts(buildSecurityContext());
 
         return apiDocket;
+    }
+
+    private List<? extends SecurityScheme> buildSecurityScheme() {
+        List<SecurityScheme> schemeList = new ArrayList<>();
+        schemeList.add(new BasicAuth("basicAuth"));
+
+        return schemeList;
+    }
+
+    private List<SecurityContext> buildSecurityContext() {
+        List<SecurityContext> contextList = new ArrayList<>();
+        contextList.add(
+                SecurityContext.builder()
+                        .securityReferences(Arrays.asList(
+                                new SecurityReference(
+                                        "basicAuth",
+                                        new AuthorizationScope[0])
+                                )
+                        )
+                        .forPaths(PathSelectors.ant("/**"))
+                        .build()
+        );
+
+        return contextList;
     }
 
     private ApiInfo metaData() {

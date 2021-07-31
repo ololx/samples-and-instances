@@ -1,5 +1,5 @@
 server:
-  port: 8086
+  port: 8080
 
 sequrity:
   basic:
@@ -15,8 +15,14 @@ logging:
     file:    "%clr(%date) %level %clr(%logger :) %message%n"
 
   level:
-    root: TRACE
-    org.springframework.web: INFO
+    root: INFO
+    org:
+      spring:
+        security:
+          instances:
+            basic:
+              authentication:
+                instance: TRACE
 
 spring:
   output:
@@ -28,9 +34,9 @@ spring:
 
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/basic_authentication
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://basic_auth_db:5432/basic_auth
+    username: basic
+    password: qwerty
 
   jpa:
     properties:
@@ -55,10 +61,10 @@ spring:
 # для сваггера
 swagger:
   package: org.spring.security.instances.basic.authentication.instance
-  title: Auth Srvice
-  description: Auth Srvice
+  title: Auth Service
+  description: Auth Service
   version: 0.0.1
   contact:
     name: Alexander A. Kropotin
-    url: https://university.innopolis.ru
-    email: a.kropotin@innopolis.ru
+    url: https://github.com/ololx
+    email: ololx@icloud.com

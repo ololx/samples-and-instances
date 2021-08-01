@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+        logicalFilePath="">
+
+    <include file = "2021-07-26-scheme-init.xml" relativeToChangelogFile="true"/>
+    <include file = "2020-04-06-data-insert.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

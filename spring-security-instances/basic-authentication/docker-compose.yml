@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  basic-auth-dbms:
+    container_name: basic-auth-dbms
+    user: root
+    restart: always
+    image: postgres:10.6
+    environment:
+      - POSTGRES_USER=basic
+      - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_DB=basic_auth_db
+    ports:
+      - "5432:5432"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  basic_auth_instance:
+    container_name: basic_auth_instance
+    user: root
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    depends_on:
+      - basic-auth-dbms

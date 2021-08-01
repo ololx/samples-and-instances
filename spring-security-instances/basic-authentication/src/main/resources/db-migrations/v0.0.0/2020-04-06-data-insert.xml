@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <!--<User Roles table data-->
+    <changeSet
+            id="2021-07-26-insert-usr-role"
+            author="ololx@icloud.com"
+            logicalFilePath="2021-07-26-data-insert.xml"
+    >
+
+        <loadUpdateData catalogName="catalog"
+                        encoding="UTF-8"
+                        file="2021-07-26-usr-role-data.csv"
+                        relativeToChangelogFile="true"
+                        quotchar="'"
+                        schemaName="public"
+                        separator=";"
+                        tableName="usr_role"
+                        primaryKey="id">
+
+            <column name="id" type="UUID" />
+            <column name="name" type="STRING" />
+            <column name="detail" type="STRING"/>
+
+        </loadUpdateData>
+    </changeSet>
+    <!-->User Roles table data-->
+
+    <!--<Users table data-->
+    <changeSet
+            id="2021-07-26-insert-usr"
+            author="ololx@icloud.com"
+            logicalFilePath="2021-07-26-data-insert.xml"
+    >
+
+        <loadUpdateData catalogName="catalog"
+                        encoding="UTF-8"
+                        file="2021-07-26-usr-data.csv"
+                        relativeToChangelogFile="true"
+                        quotchar="'"
+                        schemaName="public"
+                        separator=";"
+                        tableName="usr"
+                        primaryKey="id">
+
+            <column name="id" type="UUID" />
+            <column name="usr_role_id" type="UUID" />
+            <column name="name" type="STRING"/>
+            <column name="password" type="STRING"/>
+            <column name="is_active" type="BOOLEAN" />
+
+        </loadUpdateData>
+    </changeSet>
+    <!-->Users table data-->
+</databaseChangeLog>

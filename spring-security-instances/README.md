@@ -36,7 +36,7 @@ In this project each module presents a small simple instance of the `Spring Secu
 
 This GIF demonastrates the **basic-authentication** instance service.
 
-<img src="https://github.com/ololx/spring-security-instances/blob/assets/spring-security-instances-demo-1.gif?raw=true" width="800"/>
+<img src="https://github.com/ololx/spring-security-instances/blob/assets/spring-security-instances-demo-1.gif?raw=true" width="100%"/>
 
 ## 🎚 Features
 

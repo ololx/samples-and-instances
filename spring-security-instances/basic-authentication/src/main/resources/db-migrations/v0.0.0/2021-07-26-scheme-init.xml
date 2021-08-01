@@ -5,10 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <!--<Инициализация таблицы "Роли"-->
+    <!--<Roles table initialization-->
     <changeSet
             id="2021-07-26-scheme-init-usr-role"
-            author="a.kropotin@innopolis.ru"
+            author="ololx@icloud.com"
             logicalFilePath="2021-07-26-scheme-init.xml"
     >
 
@@ -24,12 +24,12 @@
             </column>
         </createTable>
     </changeSet>
-    <!-->Инициализация таблицы "Роли"-->
+    <!-->Roles table initialization-->
 
-    <!--<Инициализация таблицы "Пользователи"-->
+    <!--<Users table initialization-->
     <changeSet
             id="2021-07-26-scheme-init-user"
-            author="a.kropotin@innopolis.ru"
+            author="ololx@icloud.com"
             logicalFilePath="2021-07-26-scheme-init.xml"
     >
         <createTable tableName="usr">
@@ -60,6 +60,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="usr_role"/>
     </changeSet>
-    <!-->Инициализация таблицы "Пользователи"-->
+    <!-->Users table initialization-->
 
 </databaseChangeLog>

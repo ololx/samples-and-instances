@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.spring.security.instances.basic.authentication.instance.core.mapping.MapperAdapter;
+import org.spring.security.instances.basic.authentication.instance.model.detail.UserDetail;
 import org.spring.security.instances.basic.authentication.instance.model.detail.UserRoleDetail;
 import org.spring.security.instances.basic.authentication.instance.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,8 +28,8 @@ import java.util.List;
  * @created 2021 -07-26 09:08 <p>
  */
 @Api(
-        value="UserRoleController",
-        description="Контроллер обрабатывающий запросы ролей пользователей"
+        value = "UserRoleController",
+        description = "Controller that processes requests for creating, deleting, changing and retrieving user role data"
 )
 @Slf4j
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class UserRoleController {
      *
      * @param response the response
      */
-    @RequestMapping(method=RequestMethod.OPTIONS)
+    @RequestMapping(method = RequestMethod.OPTIONS)
     public void getCorsHeaders(HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
@@ -64,23 +65,21 @@ public class UserRoleController {
      * @return the list
      * @throws MapperAdapter.MappingException the mapping exception
      */
-    @ApiOperation(
-            value = "Выбрать информацию о ролях из бд",
-            notes = "Метод принимает запросы на выборку всей инфомации о ролях из БД"
-    )
     @ApiResponses(value = {
             @ApiResponse(
                     code = 200,
-                    message = "Запрос выполнен успешно <br />"
-                            + "<b>Пример ответа: </b><br />" +
-                            "{}",
-                    response = UserRoleDetail.class,
-                    responseContainer = "List"
+                    message = "Request completed successfully",
+                    response = UserDetail.class,
+                    responseContainer = "ResponseEntity"
             ),
             @ApiResponse(
                     code = 400,
-                    message = "Возникли проблемы во время выполнения запроса - проверьте корректность данных",
+                    message = "There were problems during the execution of the request - check the correctness of the data",
                     response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
             )
     })
     @ResponseStatus(HttpStatus.OK)

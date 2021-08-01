@@ -35,8 +35,8 @@ import javax.servlet.http.HttpServletResponse;
  * @created 2021 -07-26 09:08 <p>
  */
 @Api(
-        value="AuthenticationController",
-        description="Контроллер обрабатывающий запросы автоиизации"
+        value = "AuthenticationController",
+        description = "Controller for authorization in the system"
 )
 @Slf4j
 @RequiredArgsConstructor
@@ -63,7 +63,7 @@ public class AuthenticationController {
      *
      * @param response the response
      */
-    @RequestMapping(method=RequestMethod.OPTIONS)
+    @RequestMapping(method = RequestMethod.OPTIONS)
     public void getCorsHeaders(HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
@@ -82,10 +82,30 @@ public class AuthenticationController {
      * @throws ServletException the servlet exception
      * @throws LoginException   the login exception
      */
+    @ApiOperation(
+            value = "Login to the system",
+            notes = "The method accepts requests to authorize a user in the system"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Request completed successfully"
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "There were problems during the execution of the request - check the correctness of the data",
+                    response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
+            )
+    })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(
             value = "/in"
     )
-    public SavedRequest login(HttpServletRequest request, HttpServletResponse response, @RequestBody UserDetail userDetail,
+    public SavedRequest login(HttpServletRequest request, HttpServletResponse response, UserDetail userDetail,
                         BindingResult result) throws ServletException, LoginException {
 
         request.login(userDetail.getName().get(), userDetail.getPassword().get());
@@ -101,6 +121,26 @@ public class AuthenticationController {
      * @param request  the request
      * @param response the response
      */
+    @ApiOperation(
+            value = "Logout from the system",
+            notes = "The method accepts requests to logout a user from the system"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    code = 200,
+                    message = "Request completed successfully"
+            ),
+            @ApiResponse(
+                    code = 400,
+                    message = "There were problems during the execution of the request - check the correctness of the data",
+                    response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
+            )
+    })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(
             value="/out"
     )
@@ -118,22 +158,24 @@ public class AuthenticationController {
      * @return the response entity
      */
     @ApiOperation(
-            value = "Получить информацию о текущем пользователе",
-            notes = "Метод принимает запросы на наполучение инфы о текущем пользователе"
+            value = "Get information about the current user",
+            notes = "The method accepts requests to get information about the current user"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     code = 200,
-                    message = "Запрос выполнен успешно <br />"
-                            + "<b>Пример ответа: </b><br />" +
-                            "{...}",
+                    message = "Request completed successfully",
                     response = UserDetail.class,
                     responseContainer = "ResponseEntity"
             ),
             @ApiResponse(
                     code = 400,
-                    message = "Возникли проблемы во время выполнения запроса - проверьте корректность данных",
+                    message = "There were problems during the execution of the request - check the correctness of the data",
                     response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
             )
     })
     @ResponseStatus(HttpStatus.OK)

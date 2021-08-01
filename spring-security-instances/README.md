@@ -1,8 +1,8 @@
 # spring-security-instances
 
---
+This projects presents instances of the `Spring Security` technology implementation.
 
-[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-July_26,_2021-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
+[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-August_01,_2021-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
 
 [![license](https://img.shields.io/badge/license-UNLICENCE-informational?style=flat-square)](LICENSE)
 
@@ -17,6 +17,7 @@
 ## 📇 Table of Contents
 
 - [About](#about)
+- [Demo](#demo)
 - [Features](#feature)
 - [Getting Started](#getting-started)
 - [Built With](#built-with)
@@ -24,12 +25,26 @@
 - [Licensing](#licensing)
 
 ##  📖 About
+This is a collection of small and focused instances, each of which covers a single and defined approach to Java application development and an required technologies implementation.
+In this project each module presents a small simple instance of the `Spring Security` technology implementation. A strong focus of these instances is the different cases of the `Spring Security` realizations.
 
---
+### Services
+
+- **basic-authentication** - this service presents a simple instance of the `Spring Security Basic Authentication` technology implementation.
+
+## Demo
+
+This GIF demonastrates the **basic-authentication** instance service.
+
+<img src="https://github.com/ololx/spring-security-instances/blob/assets/spring-security-instances-demo-1.gif?raw=true" width="800"/>
 
 ## 🎚 Features
 
---
+The project with instances of the `Spring Security` technology implementation.
+
+### To Do
+
+- For more information on an upcoming development, please read the [todo](TODO.md) list.
 
 ### Changelog
 
@@ -43,24 +58,13 @@ These instructions allow to get a copy of this project and run it on a local mac
 
 Before using it, make sure that follows software are installed on the local machine:
 
-- **[JDK 8+](https://www.oracle.com/java/technologies/javase-downloads.html)** -  java development kit;
-- **[Maven 3+](https://maven.apache.org/)** - dependency management;
-- **[Docker Compose](https://docs.docker.com/compose/)** - tool for defining and running multi-container `Docker` applications.
+- **Docker Compose** - tool for defining and running multi-container `Docker` applications.
 
 If any of the listed software is not installed, then it can be installed by instruction as described below.
 
-1. #### JDK 8+
-
-   - Install some JDK 8+ according to instructions (for instance,  from an [official](https://www.oracle.com/java/technologies/javase-downloads.html) instruction of the Oracle JDK).
-
-2. #### Maven 3+
-
-   - Install Maven 3+ according to instructions from an [official](https://maven.apache.org/) source.
-
-3. #### Docker Compose
+#### Docker Compose
 
    - Install Docker Compose according to instructions from an [official](https://docs.docker.com/compose/install/) source.
-
 
 ### Installing
 
@@ -71,23 +75,43 @@ In order to install it is quite simple to clone or download this repository.
 For the cloning this repository to a local machine, just use the follows link:
 
 ```http
-https://github.com/ololx/spring-sequrity-instances
+https://github.com/ololx/spring-security-instances
 ```
 
 ### Using
 
---
+To run and try out each instance is required to: 
+1. Launch containers with services; 
+2. Send requests to instance service.
+
+### Launching
+
+To do the launching some incstance, go to the instance directory and execute the following command:
+
+```bash
+docker-compose up --build
+```
+
+### Sending request 
+
+To do the sending requests to some instance service, just open specifications by address:
+
+```http
+http://localhost:8080/swagger-ui.html
+```
 
 ## 🛠 Built With
 
-- **Oracle JDK** -  java development kit;
-- **Maven** - dependency management;
-- **PostgreSQL** - database management system;
+- **JDK** - the  java development kit;
+- **Maven** - the dependency management;
+- **PostgreSQL** - the database management system;
+- **Liquibase** - the database migration system.
+- **Swagger** - documentation and form generator;
 - **Docker Compose** - tool for defining and running multi-container `Docker` applications.
 
 ## ©️ Authors
 
-* **Alexander A. Kropotin** - *project work* - [ololx](https://github.com/ololx).
+* **Alexander A. Kropotin** - *initial work* - [ololx](https://github.com/ololx).
 
 ## 🔏 Licensing
 

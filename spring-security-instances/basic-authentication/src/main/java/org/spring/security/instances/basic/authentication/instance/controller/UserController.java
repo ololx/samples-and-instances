@@ -26,8 +26,8 @@ import java.util.List;
  * @created 2021 -07-26 09:08 <p>
  */
 @Api(
-        value="UserController",
-        description="Контроллер обрабатывающий запросы пользователей"
+        value = "UserController",
+        description = "Controller that processes requests for creating, deleting, changing and retrieving user data"
 )
 @Slf4j
 @RequiredArgsConstructor
@@ -52,7 +52,7 @@ public class UserController {
      *
      * @param response the response
      */
-    @RequestMapping(method=RequestMethod.OPTIONS)
+    @RequestMapping(method = RequestMethod.OPTIONS)
     public void getCorsHeaders(HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
@@ -67,21 +67,24 @@ public class UserController {
      * @return the user detail
      */
     @ApiOperation(
-            value = "Завести пользователя",
-            notes = "Метод принимает запросы на создание пользователя в системе"
+            value = "Create user",
+            notes = "The method accepts requests to create a user in the system"
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    code = 201,
-                    message = "Запрос выполнен успешно <br />"
-                            + "<b>Пример ответа: </b><br />" +
-                            "",
-                    response = UserDetail.class
+                    code = 200,
+                    message = "Request completed successfully",
+                    response = UserDetail.class,
+                    responseContainer = "ResponseEntity"
             ),
             @ApiResponse(
                     code = 400,
-                    message = "Возникли проблемы во время выполнения запроса - проверьте корректность данных",
+                    message = "There were problems during the execution of the request - check the correctness of the data",
                     response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
             )
     })
     @JsonView(BasicAuthenticationInstanceDetail.Create.class)
@@ -94,10 +97,9 @@ public class UserController {
     public UserDetail createUser(
             @ApiParam(
                     name="userInstance",
-                    value = "Модель сущности пользователь <br />"
-                            + "Пример: {...}",
+                    value = "Модель сущности пользователь",
                     required = true,
-                    example = "{...}"
+                    example = "{\"name\": \"guest\", \"password\": \"guest\"}"
             ) @RequestBody UserDetail userInstance) throws MapperAdapter.MappingException {
 
         log.info("Receive request - {}", userInstance);
@@ -116,21 +118,24 @@ public class UserController {
      * @return the user detail
      */
     @ApiOperation(
-            value = "Изменить атрибуты пользователя",
-            notes = "Метод принимает запросы на изменение данных пользователя"
+            value = "Update user",
+            notes = "The method accepts requests to change user data"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     code = 200,
-                    message = "Запрос выполнен успешно <br />"
-                            + "<b>Пример ответа: </b><br />" +
-                            "{...}",
-                    response = UserDetail.class
+                    message = "Request completed successfully",
+                    response = UserDetail.class,
+                    responseContainer = "ResponseEntity"
             ),
             @ApiResponse(
                     code = 400,
-                    message = "Возникли проблемы во время выполнения запроса - проверьте корректность данных",
+                    message = "There were problems during the execution of the request - check the correctness of the data",
                     response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
             )
     })
     @JsonView(BasicAuthenticationInstanceDetail.Update.class)
@@ -143,19 +148,15 @@ public class UserController {
     public UserDetail updateUser(
             @ApiParam(
                     name="id",
-                    value = "Идентификатор пользователя <br />"
-                            + "Пример: 1",
+                    value = "The user id",
                     required = true,
                     example = "1"
-            ) @PathVariable(
-                    value = "id",
-                    required = true) Integer id,
+            ) @PathVariable(value = "id") Integer id,
             @ApiParam(
                     name="userInstance",
-                    value = "Модель сущности пользователь <br />"
-                            + "Пример: {...}",
+                    value = "Модель сущности пользователь",
                     required = true,
-                    example = "{...}"
+                    example = "{\"name\": \"guest\", \"password\": \"guest\"}"
             ) @RequestBody UserDetail userInstance) throws MapperAdapter.MappingException {
         log.info("Receive request - {} and {}", id, userInstance);
         UserDetail userDetail = this.userService.update(id, userInstance);
@@ -171,21 +172,24 @@ public class UserController {
      * @return the user detail
      */
     @ApiOperation(
-            value = "Удалить информацию о пользователе из бд",
-            notes = "Метод принимает запросы на удвление инфомации о пользователях в БД"
+            value = "Delete user",
+            notes = "The method accepts requests to delete user data"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     code = 200,
-                    message = "Запрос выполнен успешно <br />"
-                            + "<b>Пример ответа: </b><br />" +
-                            "{}",
-                    response = UserDetail.class
+                    message = "Request completed successfully",
+                    response = UserDetail.class,
+                    responseContainer = "ResponseEntity"
             ),
             @ApiResponse(
                     code = 400,
-                    message = "Возникли проблемы во время выполнения запроса - проверьте корректность данных",
+                    message = "There were problems during the execution of the request - check the correctness of the data",
                     response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
             )
     })
     @JsonView(BasicAuthenticationInstanceDetail.Delete.class)
@@ -197,13 +201,10 @@ public class UserController {
     public UserDetail deleteUser(
             @ApiParam(
                     name="id",
-                    value = "Идентификатор пользователя <br />"
-                            + "Пример: 7",
+                    value = "The user id",
                     required = true,
-                    example = "7"
-            ) @PathVariable(
-                    value = "id",
-                    required = true) Integer id) {
+                    example = "1"
+            ) @PathVariable(value = "id") Integer id) {
         log.info("Receive request - {}", id);
         UserDetail userDetail = this.userService.delete(id);
         log.info("Send response - {}", userDetail);
@@ -218,21 +219,24 @@ public class UserController {
      * @return the user detail
      */
     @ApiOperation(
-            value = "Выбрать информацию о пользователе из бд",
-            notes = "Метод принимает запросы на выборку инфомации о пользователях из БД"
+            value = "Get user",
+            notes = "The method accepts requests to get user data"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     code = 200,
-                    message = "Запрос выполнен успешно <br />"
-                            + "<b>Пример ответа: </b><br />" +
-                            "{...}",
-                    response = UserDetail.class
+                    message = "Request completed successfully",
+                    response = UserDetail.class,
+                    responseContainer = "ResponseEntity"
             ),
             @ApiResponse(
                     code = 400,
-                    message = "Возникли проблемы во время выполнения запроса - проверьте корректность данных",
+                    message = "There were problems during the execution of the request - check the correctness of the data",
                     response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
             )
     })
     @JsonView(BasicAuthenticationInstanceDetail.Retrieve.class)
@@ -244,13 +248,10 @@ public class UserController {
     public UserDetail retrieveUser(
             @ApiParam(
                     name="id",
-                    value = "Идентификатор пользователя<br />"
-                            + "Пример: 1",
-                    required = false,
+                    value = "The user id",
+                    required = true,
                     example = "1"
-            ) @PathVariable(
-                    value = "id",
-                    required = false) Integer id) throws MapperAdapter.MappingException {
+            ) @PathVariable(value = "id") Integer id) throws MapperAdapter.MappingException {
 
         log.info("Receive request - {}", id);
         UserDetail userDetail = this.userService.retrieve(id);
@@ -260,22 +261,24 @@ public class UserController {
     }
 
     @ApiOperation(
-            value = "Выбрать информацию о пользователях из бд",
-            notes = "Метод принимает запросы на выборку инфомации о пользователях из БД"
+            value = "Get users",
+            notes = "The method accepts requests to get users data"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     code = 200,
-                    message = "Запрос выполнен успешно <br />"
-                            + "<b>Пример ответа: </b><br />" +
-                            "{...}",
+                    message = "Request completed successfully",
                     response = UserDetail.class,
-                    responseContainer = "List"
+                    responseContainer = "ResponseEntity"
             ),
             @ApiResponse(
                     code = 400,
-                    message = "Возникли проблемы во время выполнения запроса - проверьте корректность данных",
+                    message = "There were problems during the execution of the request - check the correctness of the data",
                     response = ExceptionController.ExceptionDetail.class
+            ),
+            @ApiResponse(
+                    code = 401,
+                    message = "The request was rejected because the user is not logged in"
             )
     })
     @JsonView(BasicAuthenticationInstanceDetail.Retrieve.class)

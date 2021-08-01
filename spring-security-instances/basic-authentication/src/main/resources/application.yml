@@ -34,7 +34,7 @@ spring:
 
   datasource:
     platform: postgres
-    url: jdbc:postgresql://basic_auth_db:5432/basic_auth
+    url: jdbc:postgresql://basic-auth-dbms:5432/basic_auth_db
     username: basic
     password: qwerty
 
@@ -57,8 +57,6 @@ spring:
     enabled: true
     drop-first: true
 
-#Константы и прочее
-# для сваггера
 swagger:
   package: org.spring.security.instances.basic.authentication.instance
   title: Auth Service

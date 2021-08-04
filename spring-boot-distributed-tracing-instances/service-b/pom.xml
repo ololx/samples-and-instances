@@ -11,7 +11,7 @@
         <relativePath />
     </parent>
 
-    <groupId>org.spring.boot.distributed.tracing.instances.service.b</groupId>
+    <groupId>org.spring.boot.distributed.tracing.instances</groupId>
     <artifactId>service-b</artifactId>
     <version>${revision}${sha1}${changelist}</version>
 
@@ -27,6 +27,20 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <java.version>1.8</java.version>
     </properties>
+
+    <modules>
+        <module>service-b-jaeger</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.spring.boot.distributed.tracing.instances</groupId>
+                <artifactId>service-b-jaeger</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>

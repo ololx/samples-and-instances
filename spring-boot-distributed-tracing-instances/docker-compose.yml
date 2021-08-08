@@ -25,3 +25,23 @@ services:
     - "9411:9411"
     volumes:
       - ./local/zipkin:/zipkin
+
+  service-b:
+    container_name: service-b
+    user: root
+    restart: always
+    build:
+      context: service-b
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8181"
+
+  service-a:
+    container_name: service-a
+    user: root
+    restart: always
+    build:
+      context: service-a
+      dockerfile: Dockerfile
+    ports:
+      - "8182:8182"            

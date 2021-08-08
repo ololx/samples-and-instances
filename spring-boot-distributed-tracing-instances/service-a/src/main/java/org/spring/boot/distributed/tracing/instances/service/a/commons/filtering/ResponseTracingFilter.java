@@ -1,4 +1,4 @@
-package org.spring.boot.distributed.tracing.instances.service.b.filtering;
+package org.spring.boot.distributed.tracing.instances.service.a.commons.filtering;
 
 import io.opentracing.Span;
 import lombok.extern.slf4j.Slf4j;
@@ -12,15 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * The type Request tracing filter.
+ * The type Response tracing filter.
  *
  * @author Alexander A. Kropotin
- * @project some -api
- * @created 2021 -07-03 12:22 <p>
+ * @project service -a
+ * @created 2021 -08-08 20:03 <p>
  */
 @Slf4j
-@Component("RequestTracingFilter")
-public class RequestTracingFilter extends TracingFilter {
+@Component("ResponseTracingFilter")
+public class ResponseTracingFilter extends TracingFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -30,15 +30,15 @@ public class RequestTracingFilter extends TracingFilter {
         String spanId = span.context().toSpanId();
 
         String traceId = null;
-        if ((traceId = request.getHeader(TRACE_ID)) == null) {
+        if ((traceId = MDC.get(TRACE_ID)) == null) {
             traceId = span.context().toTraceId();
         }
 
-        MDC.put(TRACE_ID, traceId);
-        MDC.put(SPAN_ID, spanId);
+        response.setHeader(TRACE_ID, traceId);
+        response.setHeader(SPAN_ID, spanId);
 
         try {
-            log.trace("Start the process request with {} : {} && {} : {}", TRACE_ID, traceId, SPAN_ID, spanId);
+            log.trace("Finish the process response with {} : {} && {} : {}", TRACE_ID, traceId, SPAN_ID, spanId);
             filterChain.doFilter(request, response);
         } finally {
             MDC.clear();

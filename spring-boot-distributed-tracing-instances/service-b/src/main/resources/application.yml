@@ -68,7 +68,7 @@ spring:
 
 swagger:
   package: org.spring.boot.distributed.tracing.instances.service.b
-  title: Service B Jaeger
+  title: Service B
   description: This service allows to create and store message info
   version: 0.0.1
   contact:

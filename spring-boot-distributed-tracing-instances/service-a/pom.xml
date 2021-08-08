@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>org.spring.boot.distributed.tracing.instances</groupId>
-    <artifactId>service-b</artifactId>
+    <artifactId>service-a</artifactId>
     <version>${revision}${sha1}${changelist}</version>
 
     <packaging>jar</packaging>
@@ -23,7 +23,7 @@
         <changelist></changelist>
         <sha1/>
         <!--project versioning>-->
-        <start-class>org.spring.boot.distributed.tracing.instances.service.b.ServiceBApplication</start-class>
+        <start-class>org.spring.boot.distributed.tracing.instances.service.a.ServiceAApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <java.version>1.8</java.version>
@@ -36,6 +36,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
+        <!--<MQ-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <!-->MQ-->
         <!--<metrics && tracing-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

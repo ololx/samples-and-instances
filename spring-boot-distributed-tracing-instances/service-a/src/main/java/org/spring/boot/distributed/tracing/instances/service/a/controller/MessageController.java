@@ -1,14 +1,15 @@
-package org.spring.boot.distributed.tracing.instances.service.b.controller;
+package org.spring.boot.distributed.tracing.instances.service.a.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.spring.boot.distributed.tracing.instances.service.b.model.detail.MessageDetail;
-import org.spring.boot.distributed.tracing.instances.service.b.service.MessageService;
+import org.spring.boot.distributed.tracing.instances.service.a.service.MessageService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
  * The type Message controller.
  *
  * @author Alexander A. Kropotin
- * @project service -b
- * @created 2021 -08-04 17:45 <p>
+ * @project service -a
+ * @created 2021 -08-08 20:55 <p>
  */
 @Api(
         value = "MessageController",
@@ -39,10 +40,10 @@ public class MessageController {
     MessageService messageService;
 
     /**
-     * Create message message detail.
+     * Create message response entity.
      *
      * @param message the message
-     * @return the message detail
+     * @return the response entity
      * @throws Exception the exception
      */
     @ApiOperation(
@@ -53,8 +54,8 @@ public class MessageController {
             @ApiResponse(
                     code = 201,
                     message = "Successfully completed",
-                    response = MessageDetail.class,
-                    responseContainer = "List"
+                    response = JsonNode.class,
+                    responseContainer = "ResponseEntity"
             ),
             @ApiResponse(
                     code = 400,
@@ -68,16 +69,20 @@ public class MessageController {
             consumes = "application/json",
             produces = "application/json"
     )
-    public MessageDetail createMessage(
+    public ResponseEntity<JsonNode> createMessage(
             @ApiParam(
                     name="message",
-                    value = "The instance of the message entity",
-                    required = true
-            ) @RequestBody MessageDetail message) throws Exception {
+                    value = "The instance of the message entity <br/>" +
+                            "example: <br/>" +
+                            "{\"content\": \"123123\"}",
+                    required = true,
+                    example = "{\"content\": \"message content\"}",
+                    defaultValue = "{\"content\": \"message content\"}"
+            ) @RequestBody JsonNode message) throws Exception {
         log.info("Receive request - {}", message);
-        MessageDetail messageDetail = this.messageService.create(message);
-        log.info("Send response - {}", messageDetail);
+        ResponseEntity<JsonNode> createResponse = this.messageService.create(message);
+        log.info("Send response - {}", createResponse);
 
-        return messageDetail;
+        return createResponse;
     }
 }

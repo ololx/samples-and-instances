@@ -1,4 +1,4 @@
-package org.spring.boot.distributed.tracing.instances.service.b.filtering;
+package org.spring.boot.distributed.tracing.instances.service.b.commons.filtering;
 
 import io.opentracing.Span;
 import io.opentracing.util.GlobalTracer;
@@ -12,8 +12,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * The type Tracing filter.
  *
  * @author Alexander A. Kropotin
- * @project some -api
- * @created 2021 -07-03 12:22 <p>
+ * @project service -b
+ * @created 2021 -08-04 15:59 <p>
  */
 @Slf4j
 @FieldDefaults(

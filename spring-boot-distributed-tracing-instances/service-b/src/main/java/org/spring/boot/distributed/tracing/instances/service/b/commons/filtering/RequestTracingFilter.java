@@ -15,8 +15,8 @@ import java.io.IOException;
  * The type Request tracing filter.
  *
  * @author Alexander A. Kropotin
- * @project some -api
- * @created 2021 -07-03 12:22 <p>
+ * @project service -b
+ * @created 2021 -08-04 15:59 <p>
  */
 @Slf4j
 @Component("RequestTracingFilter")

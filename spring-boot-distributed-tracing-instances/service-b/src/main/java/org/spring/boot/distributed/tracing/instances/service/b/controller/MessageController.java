@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
  * @created 2021 -08-04 17:45 <p>
  */
 @Api(
-        value="MessageController",
-        description="This controller allows to create new message object"
+        value = "MessageController",
+        description = "This controller allows to create new message object"
 )
 @Validated
 @CrossOrigin(origins = "/**")
@@ -71,7 +71,7 @@ public class MessageController {
     public MessageDetail createMessage(
             @ApiParam(
                     name="message",
-                    value = "The instance of the some data entity",
+                    value = "The instance of the message entity",
                     required = true
             ) @RequestBody MessageDetail message) throws Exception {
         log.info("Receive request - {}", message);

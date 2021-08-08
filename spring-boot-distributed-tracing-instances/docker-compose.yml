@@ -34,4 +34,14 @@ services:
       context: service-b
       dockerfile: Dockerfile
     ports:
-      - "8181:8181"        
+      - "8181:8181"
+
+  service-a:
+    container_name: service-a
+    user: root
+    restart: always
+    build:
+      context: service-a
+      dockerfile: Dockerfile
+    ports:
+      - "8182:8182"            

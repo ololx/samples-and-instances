@@ -42,7 +42,7 @@ spring:
     allow-bean-definition-overriding: true
 
 client:
-  service-b: http://some-api:8181/messages/
+  service-b: http://service-b:8181/messages/
 
 swagger:
   package: org.spring.boot.distributed.tracing.instances.service.a

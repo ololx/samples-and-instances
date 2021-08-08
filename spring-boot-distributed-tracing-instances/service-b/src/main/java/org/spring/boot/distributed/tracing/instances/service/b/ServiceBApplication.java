@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @created 2021 -08-04 11:02 <p>
  */
 @SpringBootApplication
-public class ServiceBJaegerApplication {
+public class ServiceBApplication {
 
     /**
      * The entry point of application.
@@ -19,6 +19,6 @@ public class ServiceBJaegerApplication {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        SpringApplication.run(ServiceBJaegerApplication.class, args);
+        SpringApplication.run(ServiceBApplication.class, args);
     }
 }

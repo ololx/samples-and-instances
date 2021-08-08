@@ -1,4 +1,4 @@
-package org.spring.boot.distributed.tracing.instances.service.b.filtering;
+package org.spring.boot.distributed.tracing.instances.service.b.commons.filtering;
 
 import io.opentracing.Span;
 import io.opentracing.util.GlobalTracer;

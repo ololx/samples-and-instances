@@ -8,7 +8,7 @@ package org.spring.boot.distributed.tracing.instances.service.c.service;
  * @project service -c
  * @created 2021 -08-09 21:00 <p>
  */
-public interface ConsumingService<Q> {
+public interface ConsumingComponent<Q> {
 
     /**
      * Receive.

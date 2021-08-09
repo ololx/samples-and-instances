@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,8 +24,8 @@ import org.springframework.stereotype.Service;
         level = AccessLevel.PRIVATE,
         makeFinal = true
 )
-@Service("SimpleMessageConsumingService")
-public class SimpleMessageConsumingService implements ConsumingService<byte[]> {
+@Component("SimpleMessageConsumingComponent")
+public class SimpleMessageConsumingComponent implements ConsumingComponent<byte[]> {
 
     @Qualifier("ObjectMapper")
     ObjectMapper messageMapper;

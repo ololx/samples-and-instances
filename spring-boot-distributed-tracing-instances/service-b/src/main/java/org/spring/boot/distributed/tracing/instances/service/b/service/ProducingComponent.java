@@ -8,7 +8,7 @@ package org.spring.boot.distributed.tracing.instances.service.b.service;
  * @project service -b
  * @created 2021 -08-09 21:08 <p>
  */
-public interface ProducingService <Q> {
+public interface ProducingComponent<Q> {
 
     /**
      * Send.

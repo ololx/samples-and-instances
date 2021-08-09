@@ -26,6 +26,31 @@ services:
     volumes:
       - ./local/zipkin:/zipkin
 
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    restart: always
+    hostname: rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      
+  service-c:
+    container_name: service-c
+    user: root
+    restart: always
+    build:
+      context: service-c
+      dockerfile: Dockerfile
+    ports:
+      - "8183:8183"
+    depends_on:
+      - rabbit
+
   service-b:
     container_name: service-b
     user: root
@@ -35,6 +60,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8181:8181"
+    depends_on:
+      - rabbit  
+      - service-c
 
   service-a:
     container_name: service-a
@@ -44,4 +72,6 @@ services:
       context: service-a
       dockerfile: Dockerfile
     ports:
-      - "8182:8182"            
+      - "8182:8182"  
+    depends_on:
+      - service-b               

@@ -5,9 +5,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.spring.boot.distributed.tracing.instances.service.b.model.detail.MessageDetail;
 import org.spring.boot.distributed.tracing.instances.service.b.model.entity.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,8 +24,8 @@ import org.springframework.stereotype.Service;
         level = AccessLevel.PRIVATE,
         makeFinal = true
 )
-@Service("SimpleMessageProducingService")
-public class SimpleMessageProducingService implements ProducingService<Message> {
+@Component("SimpleMessageProducingComponent")
+public class SimpleMessageProducingComponent implements ProducingComponent<MessageDetail> {
 
     @Qualifier("ObjectMapper")
     ObjectMapper messageMapper;
@@ -32,10 +34,10 @@ public class SimpleMessageProducingService implements ProducingService<Message> 
     RabbitTemplate messageProducer;
 
     @Override
-    public void send(Message message) throws Exception {
+    public void send(MessageDetail message) throws Exception {
         log.info("Send message - {}", message);
         this.messageProducer.convertAndSend(
-                "some.data.existence.response",
+                "message.request",
                 this.messageMapper.writeValueAsBytes(message)
         );
     }

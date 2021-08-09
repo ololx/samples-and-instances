@@ -1,7 +1,7 @@
 # spring-boot-distributed-tracing-instances
 This projects presents instances of the micro-services distributed tracing realization via Spring Boot and Open Tracing technologies implementation.
 
-[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-August_08,_2021-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
+[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-August_09,_2021-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
 
 [![license](https://img.shields.io/badge/license-UNLICENCE-informational?style=flat-square)](LICENSE)
 

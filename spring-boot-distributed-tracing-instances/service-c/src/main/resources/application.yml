@@ -1,0 +1,52 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+  endpoint:
+    health:
+      show-details: always
+
+opentracing:
+  jaeger:
+    udp-sender:
+      host: jaeger
+      port: 6831
+
+logging:
+  file:
+    max-size: 100MB
+    path: .
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level [%clr(%mdc)] %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: INFO
+    org.springframework.web: INFO
+
+server:
+  port: 8183
+
+spring:
+  application:
+    name: service-c
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  main:
+    allow-bean-definition-overriding: true
+
+amqp:
+  rabbit:
+    binder:
+      brokers: rabbit
+      user: guest
+      password: guest
+    bindings:
+      message-request:
+        destination: message.request

@@ -1,0 +1,10 @@
+opentracing:
+  jaeger:
+    udp-sender:
+      host: localhost
+      port: 6831
+
+amqp:
+  rabbit:
+    binder:
+      brokers: localhost

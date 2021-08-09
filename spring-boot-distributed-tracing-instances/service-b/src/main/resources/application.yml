@@ -66,6 +66,16 @@ spring:
     console:
       enabled: true
 
+amqp:
+  rabbit:
+    binder:
+      brokers: rabbit
+      user: guest
+      password: guest
+    bindings:
+      message-request:
+        destination: message.request
+
 swagger:
   package: org.spring.boot.distributed.tracing.instances.service.b
   title: Service B

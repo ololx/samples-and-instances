@@ -33,6 +33,9 @@ public class SimpleMessageService implements MessageService {
     @Qualifier("MessageRepository")
     MessageRepository messageRepository;
 
+    @Qualifier("SimpleMessageProducingComponent")
+    ProducingComponent messageProducingComponent;
+
     @Override
     public MessageDetail create(MessageDetail detail) throws Exception {
         Message newEntity = this.mapperAdapter.map(detail, Message.class);
@@ -42,6 +45,8 @@ public class SimpleMessageService implements MessageService {
         log.debug("Create the newEntity - {}", newEntity);
 
         detail.setId(newEntity.getId());
+
+        this.messageProducingComponent.send(detail);
 
         return detail;
     }

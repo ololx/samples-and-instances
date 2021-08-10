@@ -1,0 +1,8 @@
+opentracing:
+  jaeger:
+    udp-sender:
+      host: localhost
+      port: 6831
+
+client:
+  service-b: http://localhost:8181/messages/

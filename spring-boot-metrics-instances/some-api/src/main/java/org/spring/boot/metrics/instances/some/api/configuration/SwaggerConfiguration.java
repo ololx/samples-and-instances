@@ -43,7 +43,7 @@ public class SwaggerConfiguration {
 
     private ApiInfo metaData() {
         return new ApiInfoBuilder()
-                .title("Some Data RESTful API")
+                .title("Some Data RESTfull API")
                 .description("Some Data CRUD Methods")
                 .version("0.0.1")
                 .contact(new Contact(

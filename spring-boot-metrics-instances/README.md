@@ -1,6 +1,6 @@
 # spring-boot-metrics-instances
 
---
+This project presents instances of how to collect and display statistics on the use of micro-services and their logs, as well as distributed request tracing.
 
 [![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-July_28,_2021-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
 
@@ -29,11 +29,15 @@
 
 ##  📖 About
 
---
+This is a collection of small and focused instances, each of which covers a single and defined approach to Java application development and an required technologies implementation. This project presents instances of how to collect and display statistics on the use of micro-services and their logs, as well as distributed request tracing. A strong focus of these instances is the different cases of the `micro-services distributed tracing`, `micro-services logs collecting` and `analytics and interactive visualization web application`  realizations.
 
 ## 🎚 Features
 
---
+The project with instances of:
+
+- the `micro-services distributed tracing` technology implementation via `Jaeger`
+- the `micro-services logs collecting` technology implementation via `loki` & `promtail`
+- the `analytics and interactive visualization web application` technology implementation via `Graphana` & `Prometheus`
 
 ### Changelog
 
@@ -47,24 +51,13 @@ These instructions allow to get a copy of this project and run it on a local mac
 
 Before using it, make sure that follows software are installed on the local machine:
 
-- **[Oracle JDK 8+](https://www.oracle.com/java/technologies/javase-downloads.html)** -  java development kit;
-- **[Maven 3+](https://maven.apache.org/)** - dependency management;
-- **[Docker Compose](https://docs.docker.com/compose/)** - tool for defining and running multi-container `Docker` applications.
+- **Docker Compose** - tool for defining and running multi-container `Docker` applications.
 
 If any of the listed software is not installed, then it can be installed by instruction as described below.
 
-1. #### Oracle JDK 8+
-
-   - Install Oracle JDK 8+ according to instructions from an [official](https://www.oracle.com/java/technologies/javase-downloads.html) instruction.
-
-2. #### Maven 3+
-
-   - Install Maven 3+ according to instructions from an [official](https://maven.apache.org/) source.
-
-3. #### Docker Compose
+#### Docker Compose
 
    - Install Docker Compose according to instructions from an [official](https://docs.docker.com/compose/install/) source.
-
 
 ### Installing
 
@@ -80,18 +73,70 @@ https://github.com/ololx/spring-boot-metrics-instances
 
 ### Using
 
---
+To run and try out each instance is required to: 
+1. Launch containers with services
+
+To do the launching some incstance, go to the instance directory and execute the following command:
+
+```bash
+docker-compose up --build
+```
+
+2. Open sevices GUI
+
+When all services will start, you could open your browser and go to the services endpoints:
+
+- Graphana endpont (user `admin`, password `admin`):
+```http
+http://localhost:3000/
+```
+
+- Jaeger endpont:
+```http
+http://localhost:16686/
+```
+
+- Prometheus endpont:
+```http
+http://localhost:9090/
+```
+
+- Loki endpont:
+```http
+http://localhost:3100/
+```
+
+- Some Api Client endpoint (with specs):
+```http
+http://localhost:8082/swagger-ui.html
+```
+
+- Some Api endpoint (with specs):
+```http
+http://localhost:8081/swagger-ui.html
+```
+
+3. [OPTIONAL] Send requests to instance service. Because the `some-api-executing` ervice will do the requests to `some-api-client` automatically every  30 seconds.
+
+### Launching
+
+To do the launching some incstance, go to the instance directory and execute the following command:
+
+```bash
+docker-compose up --build
+```
 
 ## 🛠 Built With
 
-- **[Oracle JDK](https://www.oracle.com/java/technologies/javase-downloads.html)** -  java development kit;
-- **[Maven](https://maven.apache.org/)** - dependency management;
-- **[PostgreSQL 9+](https://www.postgresql.org/download/)** - database management system;
-- **[Docker Compose](https://docs.docker.com/compose/)** - tool for defining and running multi-container `Docker` applications.
+- **JDK** - the  java development kit;
+- **Maven** - the dependency management;
+- **PostgreSQL 10.6** - the database management system;
+- **Swagger** - documentation and form generator;
+- **Docker Compose** - tool for defining and running multi-container `Docker` applications.
 
 ## ©️ Authors
 
-* **Alexander A. Kropotin** - *project work* - [ololx](https://github.com/ololx).
+* **Alexander A. Kropotin** - *Initial work* - [ololx](https://github.com/ololx).
 
 ## 🔏 Licensing
 

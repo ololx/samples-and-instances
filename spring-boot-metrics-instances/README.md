@@ -101,11 +101,6 @@ http://localhost:16686/
 http://localhost:9090/
 ```
 
-- Loki endpont:
-```http
-http://localhost:3100/
-```
-
 - Some Api Client endpoint (with specs):
 ```http
 http://localhost:8082/swagger-ui.html

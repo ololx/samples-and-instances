@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Other examples of metrics collecting.
 
+## 2021-08-23
+
+### Added
+
+- Add the `Postgres Exporter` service for scraping `PostgreSQL` stats.
+
 ## 2021-07-28
 
 ### Added

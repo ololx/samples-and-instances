@@ -2,7 +2,7 @@
 
 This project presents instances of how to collect and display statistics on the use of micro-services and their logs, as well as distributed request tracing.
 
-[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-July_28,_2021-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
+[![status](https://img.shields.io/badge/status-active-active?style=flat-square)](BADGES_GUIDE.md#status) [![last commit](https://img.shields.io/badge/last_commit-August_23,_2021-informational?style=flat-square)](BADGES_GUIDE.md#commit-date)
 
 [![license](https://img.shields.io/badge/license-UNLICENCE-informational?style=flat-square)](LICENSE)
 
@@ -99,6 +99,11 @@ http://localhost:16686/
 - Prometheus endpont:
 ```http
 http://localhost:9090/
+```
+
+- PostgreSQL Exporter endpont:
+```http
+http://localhost:9187/
 ```
 
 - Some Api Client endpoint (with specs):

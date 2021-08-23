@@ -70,22 +70,6 @@ services:
       options:
         tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
 
-  zipkin:
-    container_name: zipkin
-    user: root
-    restart: always
-    build:
-      context: zipkin/
-      dockerfile: Dockerfile
-    ports:
-    - "9411:9411"
-    volumes:
-      - ./local/zipkin:/zipkin
-    logging:
-      driver: json-file
-      options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
-
   grafana:
     container_name: grafana
     user: root
@@ -139,7 +123,25 @@ services:
     logging:
       driver: json-file
       options:
-        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  dbms-exporter:
+    container_name: dbms-exporter
+    user: root
+    restart: always
+    image: wrouesnel/postgres_exporter:v0.8.0
+    environment:
+      - DATA_SOURCE_URI=some-dbms:5432/some_db?sslmode=disable
+      - DATA_SOURCE_USER=some
+      - DATA_SOURCE_PASS=qwerty
+    ports:
+      - "9187:9187"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"   
+    depends_on:
+      - some-dbms         
   
   some-api-executing:
     container_name: some-api-executing

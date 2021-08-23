@@ -1,0 +1,73 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+  endpoint:
+    health:
+      show-details: always
+
+opentracing:
+  jaeger:
+    udp-sender:
+      host: jaeger
+      port: 6831
+
+logging:
+  file:
+    max-size: 10MB
+    path: ./logs
+
+  appender:
+    loki-sender:
+      host: loki
+      port: 3100
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: some-api
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://some-dbms:5432/some_db
+    username: some
+    password: qwerty
+
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+      show-sql: true
+
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: true
+
+  liquibase:
+    change-log: classpath:db-migrations/changelog.xml
+    enabled: true
+    drop-first: true
+
+amqp:
+  rabbit:
+    binder:
+      brokers: rabbit
+      user: some
+      password: qwerty
+    bindings:
+      some-data-existence-request:
+        destination: some.data.existence.request
+      some-data-existence-response:
+        destination: some.data.existence.response

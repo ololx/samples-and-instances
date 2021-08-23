@@ -1,0 +1,51 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+  endpoint:
+    health:
+      show-details: always
+
+opentracing:
+  jaeger:
+    udp-sender:
+      host: jaeger
+      port: 6831
+
+logging:
+  file:
+    max-size: 10MB
+    path: ./logs
+
+  appender:
+    loki-sender:
+      host: loki
+      port: 3100
+
+server:
+  port: 8082
+
+spring:
+  application:
+    name: some-api-client
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+amqp:
+  rabbit:
+    binder:
+      brokers: rabbit
+      user: some
+      password: qwerty
+    bindings:
+      some-data-existence-request:
+        destination: some.data.existence.request
+      some-data-existence-response:
+        destination: some.data.existence.response
+
+client:
+  some-api: http://some-api:8081/some-data/instances/

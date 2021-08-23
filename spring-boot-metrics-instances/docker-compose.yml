@@ -1,0 +1,191 @@
+version: '3'
+
+services:
+  loki:
+    container_name: loki
+    user: root
+    restart: always
+    build:
+      context: loki/
+      dockerfile: Dockerfile
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./local/loki:/loki
+    command: -config.file=/etc/loki/local-config.yaml   
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"   
+
+  promtail:
+    container_name: promtail
+    user: root
+    restart: always
+    build:
+      context: promtail/
+      dockerfile: Dockerfile
+    volumes:
+      - ./local/promtail:/promtail
+      - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers
+    command: -config.file=/etc/promtail/config.yml
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    depends_on:
+      - loki
+
+  prometheus:
+    container_name: prometheus
+    user: root
+    restart: always
+    build:
+      context: prometheus/
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./local/prometheus:/prometheus
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+      
+  jaeger:
+    container_name: jaeger
+    user: root
+    restart: always
+    build:
+      context: jaeger/
+      dockerfile: Dockerfile
+    ports:
+    - "6831:6831"
+    - "16686:16686"
+    volumes:
+      - ./local/jaeger:/jaeger
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  grafana:
+    container_name: grafana
+    user: root
+    restart: always
+    build:
+      context: grafana/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./local/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  
+    depends_on:
+      - loki
+      - promtail
+
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    restart: always
+    hostname: rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=some
+      - RABBITMQ_DEFAULT_PASS=qwerty
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"    
+
+  some-dbms:
+    container_name: some-dbms
+    user: root
+    restart: always
+    image: postgres:10.6
+    environment:
+      - POSTGRES_USER=some
+      - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_DB=some_db
+    ports:
+      - "5432:5432"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  dbms-exporter:
+    container_name: dbms-exporter
+    user: root
+    restart: always
+    image: wrouesnel/postgres_exporter:v0.8.0
+    environment:
+      - DATA_SOURCE_URI=some-dbms:5432/some_db?sslmode=disable
+      - DATA_SOURCE_USER=some
+      - DATA_SOURCE_PASS=qwerty
+    ports:
+      - "9187:9187"
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"   
+    depends_on:
+      - some-dbms         
+  
+  some-api-executing:
+    container_name: some-api-executing
+    user: root
+    restart: always
+    build:
+      context: some-api-executing/
+      dockerfile: Dockerfile
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    depends_on:
+      - some-api-client
+  
+  some-api:
+    container_name: some-api
+    user: root
+    restart: always
+    build:
+      context: some-api
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"    
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  
+    depends_on:
+      - some-dbms
+
+  some-api-client:
+    container_name: some-api-client
+    user: root
+    restart: always
+    build:
+      context: some-api-client
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"  
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  
+    depends_on:
+      - some-api 
+      - rabbit   

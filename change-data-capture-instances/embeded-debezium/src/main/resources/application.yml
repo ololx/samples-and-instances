@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+logging:
+  file:
+    max-size: 10MB
+    path: ./logs
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: INFO
+    org.springframework.web: INFO
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  datasource:
+    url: jdbc:mysql://persons_slave:3308/persons
+    username: root
+    password: root
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      show-sql: true
+
+persons:
+  datasource:
+    host: persons_master
+    port: 3307
+    database: persons
+    username: root
+    password: root

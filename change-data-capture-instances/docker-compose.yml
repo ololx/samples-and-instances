@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  persons_master:
+    container_name: persons_master
+    user: root
+    restart: always
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: persons
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: dbz
+      MYSQL_PASSWORD: 123
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10
+  
+  persons_slave:
+    container_name: persons_slave
+    user: root
+    restart: always
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: persons
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: dbz
+      MYSQL_PASSWORD: 123
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+    ports:
+      - "3308:3306"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10       

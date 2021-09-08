@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3308/persons
+    username: root
+    password: root
+
+persons:
+  datasource:
+    host: localhost
+    port: 3307
+    database: persons
+    username: root
+    password: root

@@ -15,12 +15,31 @@ services:
     volumes:
       - ./dump:/docker-entrypoint-initdb.d
     ports:
-      - "3307:3306"
+      - "3309:3306"
     healthcheck:
       test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
       interval: 2s
       timeout: 20s
       retries: 10
+
+  persons_master_second:
+    container_name: persons_master_second
+    user: root
+    restart: always
+    user: root
+    restart: always
+    image: postgres:10.6
+    environment:
+      POSTGRES_ROOT_PASSWORD: root
+      POSTGRES_USER: dbz
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: persons
+    ports:
+      - "5432:5432"
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"      
   
   persons_slave:
     container_name: persons_slave

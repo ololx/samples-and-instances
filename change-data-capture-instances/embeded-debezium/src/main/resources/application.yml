@@ -31,7 +31,7 @@ spring:
 persons:
   datasource:
     host: persons_master
-    port: 3307
+    port: 3309
     database: persons
     username: root
     password: root

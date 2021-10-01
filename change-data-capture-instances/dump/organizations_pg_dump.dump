@@ -1,0 +1,145 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.6 (Debian 10.6-1.pgdg90+1)
+-- Dumped by pg_dump version 10.6 (Debian 10.6-1.pgdg90+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: organizations; Type: TABLE; Schema: public; Owner: dbz
+--
+
+CREATE TABLE public.organizations (
+    organization_id integer NOT NULL,
+    code character varying(5) NOT NULL,
+    name character varying(40) NOT NULL
+);
+
+
+ALTER TABLE public.organizations OWNER TO dbz;
+
+--
+-- Name: departments; Type: TABLE; Schema: public; Owner: dbz
+--
+
+CREATE TABLE public.departments (
+    department_id integer NOT NULL,
+    organization_id integer NOT NULL,
+    code character varying(5) NOT NULL,
+    name character varying(40) NOT NULL
+);
+
+
+ALTER TABLE public.departments OWNER TO dbz;
+
+--
+-- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: dbz
+--
+
+COPY public.departments (department_id, organization_id, code, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: organizations; Type: TABLE DATA; Schema: public; Owner: dbz
+--
+
+COPY public.organizations (organization_id, code, name) FROM stdin;
+\.
+
+
+--
+-- Name: departments departments_code_key; Type: CONSTRAINT; Schema: public; Owner: dbz
+--
+
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT departments_code_key UNIQUE (code);
+
+
+--
+-- Name: departments departments_name_key; Type: CONSTRAINT; Schema: public; Owner: dbz
+--
+
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT departments_name_key UNIQUE (name);
+
+
+--
+-- Name: departments departments_pkey; Type: CONSTRAINT; Schema: public; Owner: dbz
+--
+
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT departments_pkey PRIMARY KEY (department_id);
+
+
+--
+-- Name: organizations organizations_code_key; Type: CONSTRAINT; Schema: public; Owner: dbz
+--
+
+ALTER TABLE ONLY public.organizations
+    ADD CONSTRAINT organizations_code_key UNIQUE (code);
+
+
+--
+-- Name: organizations organizations_name_key; Type: CONSTRAINT; Schema: public; Owner: dbz
+--
+
+ALTER TABLE ONLY public.organizations
+    ADD CONSTRAINT organizations_name_key UNIQUE (name);
+
+
+--
+-- Name: organizations organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: dbz
+--
+
+ALTER TABLE ONLY public.organizations
+    ADD CONSTRAINT organizations_pkey PRIMARY KEY (organization_id);
+
+
+--
+-- Name: departments fk_organization; Type: FK CONSTRAINT; Schema: public; Owner: dbz
+--
+
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT fk_organization FOREIGN KEY (organization_id) REFERENCES public.organizations(organization_id);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: dbz
+--
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

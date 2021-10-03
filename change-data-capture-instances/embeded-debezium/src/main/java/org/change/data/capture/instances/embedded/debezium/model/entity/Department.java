@@ -1,5 +1,6 @@
 package org.change.data.capture.instances.embedded.debezium.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -20,14 +21,16 @@ import javax.persistence.Table;
 @FieldDefaults(
         level = AccessLevel.PRIVATE
 )
-@Entity(name = "Person")
-@Table(name = "person")
-public final class Person {
+@Entity(name = "Department")
+@Table(name = "department")
+public final class Department {
 
+    @JsonProperty("department_id")
     @Id
-    @Column(name = "id")
-    Long id;
+    @Column(name = "department_id")
+    Long departmentId;
 
-    @Column(name = "fullname")
-    String fullname;
+    @JsonProperty("code")
+    @Column(name = "code")
+    String code;
 }

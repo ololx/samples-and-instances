@@ -13,6 +13,13 @@ logging:
   level:
     root: INFO
     org.springframework.web: INFO
+    org:
+      change:
+        data:
+          capture:
+            instances:
+              embedded:
+                debezium: DEBUG
 
 spring:
   output:
@@ -20,18 +27,31 @@ spring:
       enabled: ALWAYS
 
   datasource:
-    url: jdbc:mysql://persons_slave:3308/persons
-    username: root
-    password: root
+    platform: postgres
+    url: jdbc:postgresql://employees_database:5434/employees
+    username: dbz
+    password: qwerty
+
     jpa:
+      properties:
+        hibernate:
+          jdbc:
+            lob:
+              non_contextual_creation: true
+          temp:
+            use_jdbc_metadata_defaults: false
+          dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        show-sql: true
+
       hibernate:
         ddl-auto: validate
+      open-in-view: false
       show-sql: true
 
-persons:
-  datasource:
-    host: persons_master
-    port: 3309
-    database: persons
-    username: root
-    password: root
+database:
+  organizations:
+    host: localhost
+    port: 5433
+    database: organizations
+    username: dbz
+    password: qwerty

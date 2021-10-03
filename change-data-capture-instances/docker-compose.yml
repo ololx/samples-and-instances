@@ -13,10 +13,30 @@ services:
       POSTGRES_PASSWORD: qwerty
       POSTGRES_DB: organizations
     volumes:
-      - ./dump:/docker-entrypoint-initdb.d  
+      - ./dump/organizations_pg_init.sql:/docker-entrypoint-initdb.d/organizations_pg_init.sql
     command:
       - "postgres"
       - "-c"
       - "wal_level=logical"  
     ports:
       - "5433:5432"
+  
+  employees_database:
+    container_name: employees_database
+    user: root
+    restart: always
+    user: root
+    restart: always
+    image: postgres:10.6
+    environment:
+      POSTGRES_USER: dbz
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: employees
+    volumes:
+      - ./dump/employees_pg_init.sql:/docker-entrypoint-initdb.d/employees_pg_init.sql
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"  
+    ports:
+      - "5434:5432"    

@@ -79,7 +79,7 @@ public class DepartmentService implements ReplicationService {
     }
 
     private void create(Department department) {
-        if (!this.departmentRepository.existsById(department.getDepartmentId())) return;
+        if (this.departmentRepository.existsById(department.getDepartmentId())) return;
 
         this.departmentRepository.save(department);
         log.debug("Save entity - {}", department);

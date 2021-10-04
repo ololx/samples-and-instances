@@ -35,6 +35,16 @@ public class DepartmentService implements ReplicationService {
     @Qualifier("DepartmentRepository")
     DepartmentRepository departmentRepository;
 
+    @Override
+    public String database() {
+        return "organizations";
+    }
+
+    @Override
+    public String table() {
+        return "department";
+    }
+
     /**
      * Replicate.
      *
@@ -47,7 +57,6 @@ public class DepartmentService implements ReplicationService {
 
         Department department = this.mapper.convertValue(payload, Department.class);
         log.debug("Map payload into entity - {}", department);
-        if (department.getCode() == null) return;
 
         switch (operation) {
             case DELETE:
@@ -63,21 +72,21 @@ public class DepartmentService implements ReplicationService {
     }
 
     private void delete(Department department) {
-        if (!this.departmentRepository.existsByCode(department.getCode())) return;
+        if (!this.departmentRepository.existsById(department.getDepartmentId())) return;
 
-        this.departmentRepository.deleteByCode(department.getCode());
+        this.departmentRepository.deleteById(department.getDepartmentId());
         log.debug("Delete entity - {}", department);
     }
 
     private void create(Department department) {
-        if (this.departmentRepository.existsByCode(department.getCode())) return;
+        if (!this.departmentRepository.existsById(department.getDepartmentId())) return;
 
         this.departmentRepository.save(department);
         log.debug("Save entity - {}", department);
     }
 
     private void update(Department department) {
-        if (this.departmentRepository.existsByCode(department.getCode())) return;
+        if (this.departmentRepository.existsById(department.getDepartmentId())) return;
 
         this.departmentRepository.save(department);
         log.debug("Update entity - {}", department);

@@ -4,12 +4,16 @@ import io.debezium.connector.postgresql.PostgresConnectorConfig;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.change.data.capture.instances.embedded.debezium.core.listener.ChangeRecordListener;
+import org.change.data.capture.instances.embedded.debezium.service.DepartmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * The type Connector configuration.
@@ -23,7 +27,7 @@ import java.io.IOException;
         level = AccessLevel.PRIVATE
 )
 @Configuration
-public class OrganizationsConnectionConfiguration {
+public class OrganizationsReplicationConfiguration {
 
     @Value("${database.organizations.host}")
     String datanaseHostName;
@@ -39,6 +43,9 @@ public class OrganizationsConnectionConfiguration {
 
     @Value("${database.organizations.password}")
     String databasePassword;
+
+    @Autowired
+    DepartmentService departmentService;
 
     /**
      * Gets connecting configuration.
@@ -67,12 +74,17 @@ public class OrganizationsConnectionConfiguration {
                 .with("include.schema.changes", "false")
                 .with("database.allowPublicKeyRetrieval", "true")
                 //.with("database.server.id", "10182")
-                .with("database.server.name", "organizations_master_second")
+                .with("database.server.name", "organizations_database")
                 .with("database.history", "io.debezium.relational.history.FileDatabaseHistory")
                 .with("database.history.file.filename", dbHistoryTempFile.getAbsolutePath())
                 .with("plugin.name", "pgoutput")
                 .with("slot.name", databaseDbName)
                 .with(PostgresConnectorConfig.SNAPSHOT_MODE, PostgresConnectorConfig.SnapshotMode.NEVER)
                 .build();
+    }
+
+    @Bean(name = "OrganizationsListener")
+    public ChangeRecordListener getListener() throws IOException {
+        return new ChangeRecordListener(getConnectingConfiguration(), Collections.singleton(departmentService));
     }
 }

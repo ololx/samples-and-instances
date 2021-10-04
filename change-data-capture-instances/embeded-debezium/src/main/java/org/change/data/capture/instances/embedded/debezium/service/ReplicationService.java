@@ -13,6 +13,10 @@ import java.util.Map;
  */
 public interface ReplicationService {
 
+    String database();
+
+    String table();
+
     /**
      * Replicate.
      *

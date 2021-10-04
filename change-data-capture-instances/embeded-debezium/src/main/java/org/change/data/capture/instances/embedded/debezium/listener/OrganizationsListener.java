@@ -108,7 +108,9 @@ public class OrganizationsListener {
 
     @PostConstruct
     private void start() {
-        this.organizationsEngines.forEach(engine -> this.executorService.execute(engine));
+        this.organizationsEngines.forEach(engine -> {
+            this.executorService.execute(engine);
+        });
     }
 
     @PreDestroy
@@ -117,7 +119,8 @@ public class OrganizationsListener {
             try {
                 engine.close();
             } catch (IOException e) {
-                log.error(String.valueOf(e.getStackTrace()));
+                e.printStackTrace();
+                log.error(String.valueOf(e.getMessage()));
             }
         });
     }

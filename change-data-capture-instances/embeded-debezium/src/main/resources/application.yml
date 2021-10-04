@@ -11,7 +11,7 @@ logging:
     file:    "%clr(%date) %level %clr(%logger :) %message%n"
 
   level:
-    root: INFO
+    root: ERROR
     org.springframework.web: INFO
     org:
       change:

@@ -48,8 +48,8 @@ public class OrganizationsConnectionConfiguration {
      */
     @Bean(name = "OrganizationsConnectingConfiguration")
     public io.debezium.config.Configuration getConnectingConfiguration() throws IOException {
-        File offsetStorageTempFile = File.createTempFile("offsets_", ".dat");
-        File dbHistoryTempFile = File.createTempFile("dbhistory_", ".dat");
+        File offsetStorageTempFile = File.createTempFile("offsets_organizations_pg_", ".dat");
+        File dbHistoryTempFile = File.createTempFile("dbhistory_organizations_pg_", ".dat");
 
         return io.debezium.config.Configuration.create()
                 .with("name", "organizations-postgresql-connector")

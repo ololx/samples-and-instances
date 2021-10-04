@@ -1,13 +1,17 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3308/persons
-    username: root
-    password: root
+    url: jdbc:postgresql://localhost:5434/employees
+    username: dbz
+    password: qwerty
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      show-sql: true
 
-persons:
-  datasource:
-    host: localhost
-    port: 3307
-    database: persons
-    username: root
-    password: root
+  database:
+    organizations:
+      host: localhost
+      port: 5433
+      database: organizations
+      username: dbz
+      password: qwerty

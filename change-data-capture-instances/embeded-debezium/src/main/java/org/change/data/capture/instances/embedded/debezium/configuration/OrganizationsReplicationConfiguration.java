@@ -74,7 +74,7 @@ public class OrganizationsReplicationConfiguration {
                 .with("include.schema.changes", "false")
                 .with("database.allowPublicKeyRetrieval", "true")
                 //.with("database.server.id", "10182")
-                .with("database.server.name", "organizations_database")
+                .with("database.server.name", "organizations-database")
                 .with("database.history", "io.debezium.relational.history.FileDatabaseHistory")
                 .with("database.history.file.filename", dbHistoryTempFile.getAbsolutePath())
                 .with("plugin.name", "pgoutput")

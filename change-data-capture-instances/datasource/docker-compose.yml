@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: qwerty
       POSTGRES_DB: organizations
     volumes:
-      - ./dump/organizations_pg_init.sql:/docker-entrypoint-initdb.d/organizations_pg_init.sql
+      - ./organizations_pg_init.sql:/docker-entrypoint-initdb.d/organizations_pg_init.sql
     command:
       - "postgres"
       - "-c"
@@ -33,7 +33,7 @@ services:
       POSTGRES_PASSWORD: qwerty
       POSTGRES_DB: employees
     volumes:
-      - ./dump/employees_pg_init.sql:/docker-entrypoint-initdb.d/employees_pg_init.sql
+      - ./employees_pg_init.sql:/docker-entrypoint-initdb.d/employees_pg_init.sql
     command:
       - "postgres"
       - "-c"

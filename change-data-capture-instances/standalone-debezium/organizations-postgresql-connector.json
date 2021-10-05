@@ -1,0 +1,15 @@
+{
+    "name": "organizations-postgresql-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.hostname": "organizations_database",
+        "database.port": "5432",
+        "database.user": "dbz",
+        "database.password": "qwerty",
+        "database.dbname" : "organizations",
+        "database.server.name": "organizations_database",
+        "plugin.name": "pgoutput",
+        "tasks.max": "1",
+        "table.includelist": "public.department"
+    }
+}

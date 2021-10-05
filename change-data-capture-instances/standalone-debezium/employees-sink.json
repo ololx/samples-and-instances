@@ -1,0 +1,19 @@
+{
+    "name": "employees-postgresql-connector-sink3",
+    "config": {
+        "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+        "tasks.max": "1",
+        "topics": "organizations_database.public.department",
+        "dialect.name": "PostgreSqlDatabaseDialect",
+        "table.name.format": "department",
+        "connection.url": "jdbc:postgresql://employees_database:5432/employees?user=dbz&password=qwerty",
+        "transforms": "unwrap",
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.unwrap.drop.tombstones": "true",
+        "auto.create": "true",
+        "insert.mode": "upsert",
+        "pk.fields": "department_id",
+        "pk.mode": "record_key",
+        "delete.enabled": "true"
+    }
+  }

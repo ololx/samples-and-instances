@@ -1,0 +1,25 @@
+server:
+  port: 8082
+
+logging:
+  file:
+    max-size: 100MB
+    path: .
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: INFO
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 30MB

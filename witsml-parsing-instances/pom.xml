@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <java.version>14</java.version>
+        <java.version>11</java.version>
     </properties>
 
     <packaging>pom</packaging>
@@ -44,6 +44,16 @@
             <dependency>
                 <groupId>org.orm.patterns.instances</groupId>
                 <artifactId>commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.orm.patterns.instances</groupId>
+                <artifactId>javaxb-implementation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.orm.patterns.instances</groupId>
+                <artifactId>hashmapinc-witsml-objects-library-implementation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!--Modules>-->
@@ -101,7 +111,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.5.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

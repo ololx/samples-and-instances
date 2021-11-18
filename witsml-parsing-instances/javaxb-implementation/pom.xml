@@ -15,5 +15,17 @@
 
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.witsml.parsing.instances</groupId>
+            <artifactId>commons</artifactId>
+            <version>${revision}${sha1}${changelist}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hashmapinc.tempus</groupId>
+            <artifactId>WitsmlObjects</artifactId>
+            <version>1.1.48.1</version>
+        </dependency>
+    </dependencies>
 
 </project>

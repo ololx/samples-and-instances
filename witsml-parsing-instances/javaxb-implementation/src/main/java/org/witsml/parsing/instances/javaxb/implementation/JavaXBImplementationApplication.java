@@ -9,7 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p>
  * @author Alexander A. Kropotin
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "org.witsml.parsing.instances.javaxb.implementation",
+        "org.witsml.parsing.instances.commons"
+})
 public class JavaXBImplementationApplication {
 
     public static void main(String[] args) throws Exception {

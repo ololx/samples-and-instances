@@ -26,9 +26,6 @@ public class SwaggerConfiguration {
         Docket apiDocket = new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(
-                        "org.witsml.parsing.instances.hashmapinc.witsml.objects.library.implementation.controller"
-                ))
                 .paths(regex("/.*"))
                 .build();
 

@@ -1,4 +1,4 @@
-package org.witsml.parsing.instances.hashmapinc.witsml.objects.library.implementation.configuration;
+package org.witsml.parsing.instances.commons.configuration;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

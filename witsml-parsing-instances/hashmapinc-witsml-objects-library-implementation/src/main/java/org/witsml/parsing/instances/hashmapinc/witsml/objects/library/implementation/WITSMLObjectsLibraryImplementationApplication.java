@@ -2,6 +2,8 @@ package org.witsml.parsing.instances.hashmapinc.witsml.objects.library.implement
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.witsml.parsing.instances.commons.configuration.FilterConfiguration;
+import org.witsml.parsing.instances.commons.configuration.SwaggerConfiguration;
 
 /**
  * @project witsml-parsing-instances
@@ -9,7 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p>
  * @author Alexander A. Kropotin
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+    "org.witsml.parsing.instances.hashmapinc.witsml.objects.library.implementation",
+    "org.witsml.parsing.instances.commons"
+})
 public class WITSMLObjectsLibraryImplementationApplication {
 
     public static void main(String[] args) throws Exception {

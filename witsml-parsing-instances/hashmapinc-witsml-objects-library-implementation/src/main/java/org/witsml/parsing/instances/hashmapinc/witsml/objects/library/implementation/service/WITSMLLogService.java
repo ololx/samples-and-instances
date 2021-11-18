@@ -47,8 +47,8 @@ public class WITSMLLogService implements WITSMLConvertingService<MultipartFile, 
 
             JAXBContext jaxbContext = JAXBContext.newInstance(ObjLogs.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            WITSMLLog = (ObjLogs) JAXBIntrospector.getValue(jaxbUnmarshaller.unmarshal(convFile));
-            log.warn(WITSMLLog.toString());
+            WITSMLLog = (ObjLogs) JAXBIntrospector.getValue(jaxbUnmarshaller.unmarshal(request.getInputStream()));
+            log.debug(WITSMLLog.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

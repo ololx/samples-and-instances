@@ -1,11 +1,8 @@
-package org.witsml.parsing.instances.hashmapinc.witsml.objects.library.implementation.configuration;
+package org.witsml.parsing.instances.commons.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -34,20 +31,7 @@ public class SwaggerConfiguration {
                 ))
                 .paths(regex("/.*"))
                 .build();
-                //.apiInfo(metaData());
 
         return apiDocket;
-    }
-
-    private ApiInfo metaData() {
-        return new ApiInfoBuilder()
-                .title("VTD AI PROCESSING API")
-                .description("Сервис-аггрегатор для рабоыт с сервисами ИИ")
-                .version("0.1.0")
-                .contact(new Contact(
-                        "[VTD BACK]: Alexander A. Kropotin",
-                        "https://university.innopolis.ru",
-                        "a.kropotin@innopolis.ru"))
-                .build();
     }
 }

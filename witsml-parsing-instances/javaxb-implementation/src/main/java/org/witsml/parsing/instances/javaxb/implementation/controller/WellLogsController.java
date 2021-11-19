@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.witsml.parsing.instances.commons.WITSMLConvertingService;
+import org.witsml.parsing.instances.javaxb.implementation.WellLogsService;
+import org.witsml.parsing.instances.javaxb.implementation.model.LogDetail;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +35,7 @@ import java.util.List;
 @RestController
 public class WellLogsController {
 
-    WITSMLConvertingService<MultipartFile, ObjLogs> wellLogConvertingService;
+    WellLogsService wellLogsService;
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(
@@ -42,9 +44,9 @@ public class WellLogsController {
             produces = "application/json",
             headers = "content-type=application/json, multipart/form-data"
     )
-    public ObjLogs parseLogs(@RequestBody MultipartFile witsmlFile) {
-        log.info("Получили запрос - {}", witsmlFile);
-        ObjLogs response = this.wellLogConvertingService.convert(witsmlFile);
+    public ObjLogs parseLogs(@RequestBody MultipartFile objLogsFile) {
+        log.info("Получили запрос - {}", objLogsFile);
+        ObjLogs response = this.wellLogsService.convertWellLogs(objLogsFile);
         log.info("Возвращаем овтет - {}", response);
 
         return response;
@@ -57,14 +59,24 @@ public class WellLogsController {
             produces = "application/json",
             headers = "content-type=application/json, multipart/form-data"
     )
-    public List<CsLogData> parseLogsData(@RequestBody MultipartFile witsmlFile) {
-        log.info("Получили запрос - {}", witsmlFile);
-        ObjLogs objLogs = this.wellLogConvertingService.convert(witsmlFile);
-        if (objLogs == null || objLogs.getLog().isEmpty()) {
-            return Collections.emptyList();
-        }
+    public List<CsLogData> parseLogsData(@RequestBody MultipartFile objLogsFile) {
+        log.info("Получили запрос - {}", objLogsFile);
+        List<CsLogData> result = this.wellLogsService.convertWellLogsData(objLogsFile);
+        log.info("Возвращаем овтет - {}", result);
 
-        List<CsLogData> result = objLogs.getLog().get(0).getLogData();
+        return result;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(
+            path = "/data/mnemonics",
+            consumes = "multipart/form-data",
+            produces = "application/json",
+            headers = "content-type=application/json, multipart/form-data"
+    )
+    public List<LogDetail> parseLogsDataMnemonics(@RequestBody MultipartFile objLogsFile) {
+        log.info("Получили запрос - {}", objLogsFile);
+        List<LogDetail> result = this.wellLogsService.convertWellLogsDataMnemonics(objLogsFile);
         log.info("Возвращаем овтет - {}", result);
 
         return result;

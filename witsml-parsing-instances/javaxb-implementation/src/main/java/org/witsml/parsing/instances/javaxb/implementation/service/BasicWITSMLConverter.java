@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.witsml.parsing.instances.commons.WITSMLConvertingService;
@@ -28,28 +29,23 @@ import java.io.OutputStream;
         level = AccessLevel.PRIVATE,
         makeFinal = true
 )
-@Service
-public class WITSMLLogService implements WITSMLConvertingService<MultipartFile, ObjLogs> {
+@Component
+public class BasicWITSMLConverter implements WITSMLConvertingService<MultipartFile, ObjLogs> {
 
     @Override
     public ObjLogs convert(MultipartFile request) {
-        ObjLogs WITSMLLog = new ObjLogs();
+        ObjLogs wellLogs = new ObjLogs();
 
         try {
-            File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + request.getName());
-            byte[] buffer = new byte[request.getInputStream().available()];
-            request.getInputStream().read(buffer);
-            OutputStream outStream = new FileOutputStream(convFile);
-            outStream.write(buffer);
-
             JAXBContext jaxbContext = JAXBContext.newInstance(ObjLogs.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            WITSMLLog = (ObjLogs) JAXBIntrospector.getValue(jaxbUnmarshaller.unmarshal(request.getInputStream()));
-            log.debug(WITSMLLog.toString());
+            wellLogs = (ObjLogs) JAXBIntrospector.getValue(jaxbUnmarshaller.unmarshal(request.getInputStream()));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return WITSMLLog;
+        log.trace("Convert XML to JSON - {}", wellLogs.toString());
+
+        return wellLogs;
     }
 }

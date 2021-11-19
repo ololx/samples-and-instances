@@ -1,6 +1,10 @@
 server:
   port: 8081
 
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+
 logging:
   file:
     max-size: 100MB

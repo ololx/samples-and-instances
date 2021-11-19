@@ -13,8 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.witsml.parsing.instances.javaxb.implementation.WellLogsService;
 import org.witsml.parsing.instances.javaxb.implementation.model.LogDetail;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

@@ -1,9 +1,10 @@
 package org.witsml.parsing.instances.javaxb.implementation.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,5 +22,10 @@ import java.util.List;
 )
 public class LogDetail {
 
-    List<MnemonicDetail> mnemonicDetails;
+    @JsonRawValue
+    @JsonProperty("meta")
+    String meta;
+
+    @JsonProperty("dataset")
+    List<DataSet> dataSet;
 }

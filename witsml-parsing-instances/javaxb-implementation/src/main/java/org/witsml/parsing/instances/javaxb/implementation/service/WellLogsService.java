@@ -1,4 +1,4 @@
-package org.witsml.parsing.instances.javaxb.implementation;
+package org.witsml.parsing.instances.javaxb.implementation.service;
 
 import com.hashmapinc.tempus.WitsmlObjects.v1411.CsLogData;
 import com.hashmapinc.tempus.WitsmlObjects.v1411.ObjLogs;

@@ -1,6 +1,5 @@
 package org.witsml.parsing.instances.hashmapinc.witsml.objects.library.implementation.service;
 
-import com.hashmapinc.tempus.WitsmlObjects.Util.WitsmlMarshal;
 import com.hashmapinc.tempus.WitsmlObjects.v1411.ObjLogs;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +14,7 @@ import javax.xml.bind.JAXBIntrospector;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  * @project witsml-parsing-instances

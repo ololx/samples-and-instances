@@ -13,6 +13,6 @@
     <artifactId>commons</artifactId>
     <name>commons</name>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
 </project>

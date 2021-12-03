@@ -2,8 +2,6 @@ package org.witsml.parsing.instances.hashmapinc.witsml.objects.library.implement
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.witsml.parsing.instances.commons.configuration.FilterConfiguration;
-import org.witsml.parsing.instances.commons.configuration.SwaggerConfiguration;
 
 /**
  * @project witsml-parsing-instances

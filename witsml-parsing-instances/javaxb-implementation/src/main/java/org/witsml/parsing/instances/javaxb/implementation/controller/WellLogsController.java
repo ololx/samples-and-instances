@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.witsml.parsing.instances.javaxb.implementation.WellLogsService;
 import org.witsml.parsing.instances.javaxb.implementation.model.LogDetail;
+import org.witsml.parsing.instances.javaxb.implementation.service.WellLogsService;
 
 import java.util.List;
 

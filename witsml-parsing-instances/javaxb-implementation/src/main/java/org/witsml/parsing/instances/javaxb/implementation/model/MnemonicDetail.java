@@ -37,15 +37,15 @@ import java.util.List;
 )
 public class MnemonicDetail {
 
-    @JsonProperty("mnemonic")
+    @JsonProperty("reportedMnemonic")
     String mnemonic;
 
-    @JsonProperty("abbreviation")
+    @JsonProperty("reportedMnemonicAbbreviation")
     String abbreviation;
 
-    @JsonProperty("unit")
+    @JsonProperty("measuredValueUOM")
     String unit;
 
-    @JsonProperty("data")
+    @JsonProperty("measuredValues")
     List<String> data;
 }

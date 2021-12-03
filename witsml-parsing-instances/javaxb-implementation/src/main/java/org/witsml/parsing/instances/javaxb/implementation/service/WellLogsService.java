@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.witsml.parsing.instances.commons.WITSMLConvertingService;
 import org.witsml.parsing.instances.javaxb.implementation.model.DataSet;
+import org.witsml.parsing.instances.javaxb.implementation.model.LogDataDetail;
 import org.witsml.parsing.instances.javaxb.implementation.model.LogDetail;
+import org.witsml.parsing.instances.javaxb.implementation.model.MnemonicDetail;
 
 import java.util.*;
 
@@ -178,6 +180,55 @@ public class WellLogsService {
                 );
             }
         }};
+
+        return result;
+    }
+
+    public LogDataDetail convertLogDataToPPDM39MnemonicList(MultipartFile objLogsFile) {
+        List<CsLogData> csLogDataCollection = this.convertWellLogsData(objLogsFile);
+
+        List<MnemonicDetail> mnemonicDetails = new ArrayList<>();
+        for (CsLogData eachCsLogData : csLogDataCollection) {
+            String mnemonics = eachCsLogData.getMnemonicList();
+            String units = eachCsLogData.getUnitList();
+            if (mnemonics == null || units == null) continue;
+
+            String[] mnemonicsArray = mnemonics.split(",");
+            String[] unitsArray = units.split(",");
+            for (int mnemonicIndex = 0; mnemonicIndex < mnemonicsArray.length; mnemonicIndex++) {
+                List<MnemonicDetail> mnemonicDetailList = new ArrayList<>();
+
+                String mnemonicFullName = mnemonicsArray[mnemonicIndex];
+                String abbreviation = mnemonicFullName;
+                if (mnemonicFullName.contains("pump_cnt")) {
+                    abbreviation = mnemonicFullName.replaceAll("pump_cnt", "SP");
+                } else if (mnemonicFullName.contains("volume")) {
+                    abbreviation = mnemonicFullName.replaceAll("volume", "V");
+                }
+
+                List<String> mnemonicValues = new ArrayList<>();
+                List<String> dataCollection = eachCsLogData.getData();
+                for (String data : dataCollection) {
+                    if (data == null) continue;
+
+                    String[] dataArray = data.split(",");
+                    mnemonicValues.add(dataArray[mnemonicIndex]);
+                }
+
+                mnemonicDetails.add(
+                        MnemonicDetail.builder()
+                                .mnemonic(mnemonicFullName)
+                                .abbreviation(mnemonicsSpecs.getOrDefault(mnemonicFullName, abbreviation))
+                                .unit(unitsArray[mnemonicIndex])
+                                .data(mnemonicValues)
+                                .build()
+                );
+            }
+        }
+
+        LogDataDetail result = LogDataDetail.builder()
+                .mnemonics(mnemonicDetails)
+                .build();
 
         return result;
     }

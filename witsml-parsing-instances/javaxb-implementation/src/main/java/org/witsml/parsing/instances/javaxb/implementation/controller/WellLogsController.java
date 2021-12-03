@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.witsml.parsing.instances.javaxb.implementation.model.LogDataDetail;
 import org.witsml.parsing.instances.javaxb.implementation.model.LogDetail;
 import org.witsml.parsing.instances.javaxb.implementation.service.WellLogsService;
 
@@ -35,6 +36,12 @@ public class WellLogsController {
 
     WellLogsService wellLogsService;
 
+    /**
+     * Parse logs obj logs.
+     *
+     * @param objLogsFile the obj logs file
+     * @return the obj logs
+     */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(
             path = "",
@@ -50,6 +57,12 @@ public class WellLogsController {
         return response;
     }
 
+    /**
+     * Parse logs data list.
+     *
+     * @param objLogsFile the obj logs file
+     * @return the list
+     */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(
             path = "/data",
@@ -65,6 +78,12 @@ public class WellLogsController {
         return result;
     }
 
+    /**
+     * Parse logs data mnemonics list.
+     *
+     * @param objLogsFile the obj logs file
+     * @return the list
+     */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(
             path = "/data/mnemonics",
@@ -75,6 +94,21 @@ public class WellLogsController {
     public List<LogDetail> parseLogsDataMnemonics(@RequestBody MultipartFile objLogsFile) {
         log.info("Получили запрос - {}", objLogsFile);
         List<LogDetail> result = this.wellLogsService.convertWellLogsDataMnemonics(objLogsFile);
+        log.info("Возвращаем овтет - {}", result);
+
+        return result;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(
+            path = "/data/mnemonics/ppdm39",
+            consumes = "multipart/form-data",
+            produces = "application/json",
+            headers = "content-type=application/json, multipart/form-data"
+    )
+    public LogDataDetail parseLogsDataMnemonicsForPPDM39(@RequestBody MultipartFile objLogsFile) {
+        log.info("Получили запрос - {}", objLogsFile);
+        LogDataDetail result = this.wellLogsService.convertLogDataToPPDM39MnemonicList(objLogsFile);
         log.info("Возвращаем овтет - {}", result);
 
         return result;

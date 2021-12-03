@@ -33,6 +33,9 @@ public class WellLogsService {
     @Qualifier("BasicWITSMLConverter")
     WITSMLConvertingService<MultipartFile, ObjLogs> witsmlConverter;
 
+    /**
+     * The Mnemonics specs.
+     */
     static Map<String, String> mnemonicsSpecs;
 
     static {
@@ -42,8 +45,8 @@ public class WellLogsService {
                             "md", "MD",
                             "DateTime", "DateTime",
                             "HKLD",	"HKLD",
-                            "MudPressure",	"PUMP",
-                            "Pump_cnt1(2,3,..,n)",	"SP1(2,3,…,N)",
+                            "MudPressure",	"SPP",
+                            "pump_cnt1(2,3,..,n)",	"SP1(2,3,…,N)",
                             "table_torque",	"T_TRQ",
                             "rotor_speed", "RPM",
                             "tr_block_pos",	"BLOCK",
@@ -84,18 +87,32 @@ public class WellLogsService {
                             "c1",	"C1",
                             "c2", "C2",
                             "c3",	"C3",
-                            "c4",	"C4"
+                            "c4",	"C4",
+                            "c5",	"C5",
+                            "c6",	"C6"
                     )
             );
         }};
     }
 
+    /**
+     * Convert well logs obj logs.
+     *
+     * @param objLogsFile the obj logs file
+     * @return the obj logs
+     */
     public ObjLogs convertWellLogs(MultipartFile objLogsFile) {
         ObjLogs objLogs = this.witsmlConverter.convert(objLogsFile);
 
         return objLogs;
     }
 
+    /**
+     * Convert well logs data list.
+     *
+     * @param objLogsFile the obj logs file
+     * @return the list
+     */
     public List<CsLogData> convertWellLogsData(MultipartFile objLogsFile) {
         ObjLogs objLogs = this.witsmlConverter.convert(objLogsFile);
         if (objLogs == null) {
@@ -110,6 +127,12 @@ public class WellLogsService {
         return result;
     }
 
+    /**
+     * Convert well logs data mnemonics list.
+     *
+     * @param objLogsFile the obj logs file
+     * @return the list
+     */
     public List<LogDetail> convertWellLogsDataMnemonics(MultipartFile objLogsFile) {
         List<CsLogData> csLogDataCollection = this.convertWellLogsData(objLogsFile);
 
@@ -133,9 +156,16 @@ public class WellLogsService {
                         dataSetPointsCollection.add(new DataSet.DataSetPoint(dataArray[mnemonicIndex], dataArray[0]));
                     }
 
+                    String mnemonicFullName = mnemonicsArray[mnemonicIndex];
+                    if (mnemonicFullName.contains("pump_cnt")) {
+                        mnemonicFullName = mnemonicFullName.replaceAll("pump_cnt", "SP");
+                    } else if (mnemonicFullName.contains("volume")) {
+                        mnemonicFullName = mnemonicFullName.replaceAll("volume", "V");
+                    }
+
                     DataSetCollection.add(
                             DataSet.builder()
-                                    .name(mnemonicsSpecs.getOrDefault(mnemonicsArray[mnemonicIndex], mnemonicsArray[mnemonicIndex]))
+                                    .name(mnemonicsSpecs.getOrDefault(mnemonicFullName, mnemonicFullName))
                                     .dataPoints(dataSetPointsCollection)
                                     .build()
                     );

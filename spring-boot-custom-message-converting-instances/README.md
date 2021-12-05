@@ -106,18 +106,18 @@ http://localhost:8080/swagger-ui.html
 This service contains one controller - `Request Repeater Controller`. This controller contains four endpoints, such as:
 1. `fizz-buzz/translated` - allows to send the JSON object with attributes named in both Cyrillic or latin. In this case, the custom message converter will translate request attributes into Cyrillic names.  For the evaluating this trick just send one of follows requests and see an APIs logs: 
 
-1.1.1.  Request:
+	1.1.1.  Request:
 ```sh
 curl -X POST "http://localhost:8080/fizz-buzz/translated" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"buzz\": \"1\", \"fizz\": \"2\"}"
 ```
-1.1.2.  Response body:
+	1.1.2.  Response body:
 ```json
 {
   "fizz": "2",
   "buzz": "1"
 }
 ```
-1.1.3.  Logs:
+	1.1.3.  Logs:
 ```sh
 21:17:55.000 INFO JSONTMessageConverter : Convert input message into map - {buzz=1, fizz=2}
 21:17:55.005 INFO JSONTMessageConverter : Transliterate input message map from EN to RU - {физз=2, бузз=1}
@@ -128,18 +128,18 @@ curl -X POST "http://localhost:8080/fizz-buzz/translated" -H "accept: applicatio
 21:17:55.066 INFO JSONTMessageConverter : Convert transliterated output message map into object - {"fizz":"2","buzz":"1"}
 ```
 
-1.2.1.  Request:
+	1.2.1.  Request:
 ```sh
 curl -X POST "http://localhost:8080/fizz-buzz/translated" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"бузз\": \"1\", \"физз\": \"2\"}"
 ```
-1.1.2.  Response body:
+	1.1.2.  Response body:
 ```json
 {
   "fizz": "2",
   "buzz": "1"
 }
 ```
-1.1.3.  Logs:
+	1.1.3.  Logs:
 ```sh
 21:21:21.176 INFO JSONTMessageConverter : Convert input message into map - {бузз=1, физз=2}
 21:21:21.177 INFO JSONTMessageConverter : Transliterate input message map from EN to RU - {физз=2, бузз=1}
@@ -150,38 +150,38 @@ curl -X POST "http://localhost:8080/fizz-buzz/translated" -H "accept: applicatio
 21:21:21.180 INFO JSONTMessageConverter : Convert transliterated output message map into object - {"fizz":"2","buzz":"1"}
 ```
 
-2. `fizz-buzz/origin` - allows to send the JSON object with attributes named in only latin. In this case, the custom message converter willn't be used. For the evaluating this trick just send one of follows requests and see an APIs logs: 
+2. `fizz-buzz/origin` - allows to send the JSON object with attributes named in only Cyrillic. In this case, the custom message converter willn't be used. For the evaluating this trick just send one of follows requests and see an APIs logs: 
 
-2.1.1.  Request:
+	2.1.1.  Request:
 ```sh
 curl -X POST "http://localhost:8080/fizz-buzz/origin" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"buzz\": \"1\", \"fizz\": \"2\"}"
 ```
-2.1.2.  Response body:
+	2.1.2.  Response body:
 ```json
 {
   "физз": null,
   "бузз": null
 }
 ```
-2..1.3.  Logs:
+	2..1.3.  Logs:
 ```sh
 21:22:54.925 INFO RequestRepeaterController : Получили запрос с оригинальным FizzBuzz - OriginFizzBuzz(fizz=null, buzz=null)
 ```
 
 ***BATASH =)**
 
-2.2.1.  Request:
+	2.2.1.  Request:
 ```sh
 curl -X POST "http://localhost:8080/fizz-buzz/origin" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"бузз\": \"1\", \"физз\": \"2\"}"
 ```
-2.1.2.  Response body:
+	2.1.2.  Response body:
 ```json
 {
   "физз": "2",
   "бузз": "1"
 }
 ```
-2.1.3.  Logs:
+	2.1.3.  Logs:
 ```sh
 21:23:49.972 INFO RequestRepeaterController : Получили запрос с оригинальным FizzBuzz - OriginFizzBuzz(fizz=2, buzz=1)
 ```

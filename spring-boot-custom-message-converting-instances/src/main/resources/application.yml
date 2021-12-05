@@ -11,7 +11,7 @@ logging:
     file:    "%clr(%date) %level %clr(%logger :) %message%n"
 
   level:
-    ru:
+    org:
       innopolis:
         university:
           java:

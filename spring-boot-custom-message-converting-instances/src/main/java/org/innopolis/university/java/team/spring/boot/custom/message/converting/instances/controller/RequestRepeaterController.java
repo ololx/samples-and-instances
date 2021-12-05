@@ -17,13 +17,16 @@
 package org.innopolis.university.java.team.spring.boot.custom.message.converting.instances.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.innopolis.university.java.team.spring.boot.custom.message.converting.instances.configuration.JSONTMessageConverter;
+import org.innopolis.university.java.team.spring.boot.custom.message.converting.instances.model.OriginFizzBuzz;
+import org.innopolis.university.java.team.spring.boot.custom.message.converting.instances.model.TranslatedBla;
+import org.innopolis.university.java.team.spring.boot.custom.message.converting.instances.model.TranslatedFizzBuzz;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -39,19 +42,56 @@ import org.springframework.web.bind.annotation.*;
         makeFinal = true
 )
 @CrossOrigin(origins = "/**")
-@RequestMapping(value = "/repeat")
+@RequestMapping(value = "/")
 @RestController
 public class RequestRepeaterController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(
-            path = "/",
-            consumes = JSONTMessageConverter.APPLICATION_JSONT_VALUE,
-            produces = JSONTMessageConverter.APPLICATION_JSONT_VALUE
+            path = "/json",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public JsonNode repeatJSONT(@RequestBody JsonNode request) {
-        log.info("Получили запрос - {}", request);
+    public JsonNode repeatJSON(@RequestBody JsonNode request) {
+        log.info("Получили запрос c оригинальным JSON- {}", request);
 
         return request;
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(
+            path = "/fizz-buzz/origin",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public OriginFizzBuzz repeatFizzBuzzOrigin(@RequestBody OriginFizzBuzz request) {
+        log.info("Получили запрос с оригинальным FizzBuzz - {}", request);
+
+        return request;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(
+            path = "/fizz-buzz/translated",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public TranslatedFizzBuzz repeatFizzBuzzTranslated(@RequestBody TranslatedFizzBuzz request) {
+        log.info("Получили запрос с транслированными полями ФиззБузз - {}", request);
+
+        return request;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(
+            path = "/bla/translated",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public TranslatedBla repeatBlaTranslated(@RequestBody TranslatedBla request) {
+        log.info("Получили запрос с транслированными полями Бла - {}", request);
+
+        return request;
+    }
+
 }

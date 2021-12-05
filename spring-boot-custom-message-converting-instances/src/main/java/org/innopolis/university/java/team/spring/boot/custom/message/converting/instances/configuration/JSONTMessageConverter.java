@@ -36,7 +36,9 @@ import java.util.Optional;
         makeFinal = true
 )
 @Component
-public class JSONTMessageConverter extends AbstractHttpMessageConverter<JsonNode> {
+public class JSONTMessageConverter<T extends JSONTMessageConverter.JsonTObject> extends AbstractHttpMessageConverter<T> {
+
+    public interface JsonTObject {}
 
     @FieldDefaults(
             level = AccessLevel.PRIVATE
@@ -100,39 +102,43 @@ public class JSONTMessageConverter extends AbstractHttpMessageConverter<JsonNode
 
     @Override
     protected boolean supports(Class<?> clazz) {
-        return JsonNode.class.isAssignableFrom(clazz);
+        return JsonTObject.class.isAssignableFrom(clazz);
     }
 
     @Override
-    protected JsonNode readInternal(Class<? extends JsonNode> clazz, HttpInputMessage inputMessage)  throws IOException, HttpMessageNotReadableException {
+    protected T readInternal(Class<? extends T> clazz, HttpInputMessage inputMessage)  throws IOException, HttpMessageNotReadableException {
         Map<String, Object> originMessageMap = mapper.readValue(inputMessage.getBody(), Map.class);
+        log.info("Convert input message into map - {}", originMessageMap);
 
         Map<String, Object> transliteratedMessageMap = new HashMap<>() {{
             originMessageMap.forEach((attribute, value) ->  {
                 put(transliteration.fromENToRU(attribute), value);
             });
         }};
+        log.info("Transliterate input message map from EN to RU - {}", transliteratedMessageMap);
 
-        JsonNode inputJson = mapper.convertValue(transliteratedMessageMap, JsonNode.class);
+        T transliteratedInputMessage = mapper.convertValue(transliteratedMessageMap, clazz);
+        log.info("Convert transliterated input message map into object - {}", transliteratedInputMessage);
 
-        return inputJson;
+        return transliteratedInputMessage;
     }
 
     @Override
-    protected void writeInternal(JsonNode outputJson, HttpOutputMessage outputMessage)
+    protected void writeInternal(T outputJson, HttpOutputMessage outputMessage)
             throws HttpMessageNotWritableException,
             IOException {
         Map<String, Object> originMessageMap = mapper.convertValue(outputJson, Map.class);
+        log.info("Convert output message into map - {}", originMessageMap);
 
         Map<String, Object> transliteratedMessageMap = new HashMap<>() {{
             originMessageMap.forEach((attribute, value) ->  {
                 put(transliteration.fromRUToEN(attribute), value);
             });
         }};
-        log.trace("Transliterate message map - {}", transliteratedMessageMap);
+        log.info("Transliterate output message map from EN to RU - {}", transliteratedMessageMap);
 
         JsonNode transliteratedJson = mapper.convertValue(transliteratedMessageMap, JsonNode.class);
-        log.trace("Convert transliterated map into JSON - {}", transliteratedJson);
+        log.info("Convert transliterated output message map into object - {}", transliteratedJson);
 
         OutputStream outputStream = outputMessage.getBody();
         outputStream.write(transliteratedJson.toString().getBytes());

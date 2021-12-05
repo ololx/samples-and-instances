@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.collections.CaseInsensitiveKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -48,9 +49,9 @@ public class JSONTMessageConverter<T extends JSONTMessageConverter.JsonTObject> 
 
         static String transliterationResourcePathString = "transliteration.csv";
 
-        static Map<String, String> ENtoRUMappingRules = new HashMap<>();
+        static Map<String, String> ENtoRUMappingRules = new CaseInsensitiveKeyMap<>();
 
-        static Map<String, String> RUToENMappingRules = new HashMap<>();
+        static Map<String, String> RUToENMappingRules = new CaseInsensitiveKeyMap<>();
 
         Transliteration() throws IOException {
             URL resource = getClass().getClassLoader().getResource(transliterationResourcePathString);

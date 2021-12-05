@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+logging:
+  file:
+    max-size: 10MB
+    path: ./logs
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    ru:
+      innopolis:
+        university:
+          java:
+            team:
+              spring:
+                boot:
+                  custom:
+                    converting:
+                      instances: TRACE
+    root: INFO
+    org.springframework.web: INFO
+    io:
+      swagger:
+        models:
+          parameters: ERROR
+
+spring:
+  application:
+    name: Spring-Boot Custom Message Converting Instances
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+contributors: ololx a.k.a. Alexander A. Kropotin

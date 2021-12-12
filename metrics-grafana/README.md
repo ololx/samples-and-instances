@@ -1,4 +1,4 @@
-# metrics-graphana
+# metrics-grafana
 
 This is a custom `Grafana` image with pre-installed datasources (Prometheus, Loki, Zipkin, ...) and dashboards (Spring-Boot metrics, ...).
 
@@ -68,18 +68,18 @@ In order to install it is quite simple to clone or download this repository.
 For the cloning this repository to a local machine, just use one of follows links:
 
 ```ssh
-git@github.com:innopolis-university-java-team/metrics-graphana.git
+git@github.com:innopolis-university-java-team/metrics-grafana.git
 ```
 
 ```http
-https://github.com/ololx/spring-boot-metrics-instances
+https://github.com/innopolis-university-java-team/metrics-grafana
 ```
 
 ### Using
 
 To run and try out it is required to: 
 
-0. [OPTIONAL] change the default admin credentials or modify some dashboards and some datasources. 
+0. [OPTIONAL] Change the default admin credentials or modify some dashboards and some datasources. 
   
   - To modify the default admin credentials, just edit the file at the path `./configuration/grafana.ini`.
 
@@ -94,24 +94,34 @@ admin_password = 123
   
   - To modify (delete, add or change) some dashboards, just edit the file at the path `./provisionning/datasources/all.yml` and put the `*.json` file with dasboard into directory `./provisionning/datasources`.
 
-1. build image
+1. Build or Pull the image
+
+- The simplest way to get the image copy is to pull the image from `Docker Hub` by this command:
+
+```sh
+docker push ololx/metrics-grafana:latest
+```
+
+- Build image
 
 ```ssh
 docker build -t {name_of_image} .
 ```
 
 For instance, command for the building this image as  `metrics-graphana`:
+
 ```ssh
 docker build -t metrics-graphana .
 ```
 
-2. run container
+2. Run container
 
 ```ssh
 docker run -d -p {port:port_other} {name_of_image} .
 ```
 
 For instance, command for the running this this image:
+
 ```ssh
 docker run -d -p 3000:3000 metrics-graphana .
 ```

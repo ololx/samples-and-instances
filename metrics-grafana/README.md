@@ -6,7 +6,9 @@ This is a custom `Grafana` image with pre-installed datasources (Prometheus, Lok
 
 ---
 
-[![Grafana](https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9)](#built-with) [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](#built-with)
+[![Grafana](https://img.shields.io/badge/Grafana-F2F4F9?style=for-the-badge&logo=grafana&logoColor=orange&labelColor=F2F4F9)](#built-with)
+
+[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](#built-with)
 
 ## 📇 Table of Contents
 
@@ -26,10 +28,15 @@ This is a custom `Grafana` image with pre-installed `datasources` (Prometheus, L
 The `Docker` image with follows provisionings:
 
 - datasources:
+ 
   -- Loki -  is required `Grafana Loki` pre installed with defaults url `loki:3100`;
+  
   -- Prometheus -  is required `Prometheus` pre installed with defaults url `prometheus:9090`;
+  
   -- Zipkin - is required `Zipkin` pre installed with defaults url `zipkin:9411`;
+  
 - dashboards:
+ 
   -- Spring-Boot-Statistics - for the `Spring-Boot`services  stats visualization.
 
 ### Changelog
@@ -73,6 +80,7 @@ https://github.com/ololx/spring-boot-metrics-instances
 To run and try out it is required to: 
 
 0. [OPTIONAL] change the default admin credentials or modify some dashboards and some datasources. 
+  
   - To modify the default admin credentials, just edit the file at the path `./configuration/grafana.ini`.
 
 ```ini
@@ -83,6 +91,7 @@ admin_password = 123
 ```
 
   - To modify (delete, add or change connection settings) some datasources, just edit the file at the path `./provisionning/datasources/all.yml`.
+  
   - To modify (delete, add or change) some dashboards, just edit the file at the path `./provisionning/datasources/all.yml` and put the `*.json` file with dasboard into directory `./provisionning/datasources`.
 
 1. build image

@@ -1,0 +1,39 @@
+datasources:
+  - name: Loki
+    label: Loki
+    uid: loki
+    type: loki
+    access: proxy
+    url: loki:3100
+    isDefault: true
+    jsonData:
+      maxLines: 10000
+      derivedFields:
+      datasourceUid: zipkin
+      matcherRegex: traceId=(\w+)
+      name: traceId
+      url: $${__value.raw}
+  
+  - name: Zipkin
+    label: Zipkin
+    type: zipkin
+    uid: zipkin
+    access: proxy
+    url: zipkin:9411
+    isDefault: false
+    jsonData:
+      tracesToLogs:
+        datasourceUid: loki
+        tags:
+          - service
+          - host
+          - level
+          - logger
+          - traceId     
+
+  - name: Prometheus
+    label: Prometheus
+    type: prometheus
+    access: proxy
+    url: prometheus:9090
+    isDefault: false

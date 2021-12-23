@@ -1,0 +1,107 @@
+version: '3'
+
+services:
+  loki:
+    container_name: loki
+    user: root
+    restart: always
+    build:
+      context: loki/
+      dockerfile: Dockerfile
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./local/loki:/loki
+    command: -config.file=/etc/loki/local-config.yaml   
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"   
+
+  promtail:
+    container_name: promtail
+    user: root
+    restart: always
+    build:
+      context: promtail/
+      dockerfile: Dockerfile
+    volumes:
+      - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers
+    command: -config.file=/etc/promtail/config.yml
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    depends_on:
+      - loki
+
+  prometheus:
+    container_name: prometheus
+    user: root
+    restart: always
+    build:
+      context: prometheus/
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./local/prometheus:/prometheus
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+      
+  jaeger:
+    container_name: jaeger
+    user: root
+    restart: always
+    build:
+      context: jaeger/
+      dockerfile: Dockerfile
+    ports:
+    - "6831:6831"
+    - "16686:16686"
+    volumes:
+      - ./local/jaeger:/jaeger
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+
+  zipkin:
+    container_name: zipkin
+    user: root
+    restart: always
+    build:
+      context: zipkin/
+      dockerfile: Dockerfile
+    ports:
+    - "9411:9411"
+    volumes:
+      - ./local/zipkin:/zipkin
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"        
+
+  grafana:
+    container_name: grafana
+    user: root
+    restart: always
+    build:
+      context: grafana/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./local/grafana:/var/lib/grafana
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"  
+    depends_on:
+      - loki
+      - promtail 
+      - jaeger
+      - zipkin

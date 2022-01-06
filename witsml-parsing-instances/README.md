@@ -1,3 +1,3 @@
 # witsml-parsing-instances
 
-This is a colection of witsml parsing cases using different libraries
+This is a colection of witsml parsing cases using different libraries and technologies

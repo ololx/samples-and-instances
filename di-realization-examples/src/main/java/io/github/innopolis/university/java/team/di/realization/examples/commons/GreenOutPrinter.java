@@ -6,7 +6,7 @@ package io.github.innopolis.university.java.team.di.realization.examples.commons
  * 
  * @author Alexander A. Kropotin
  */
-public class GreenOutPrinter implements ColoredOutPrinter {
+public final class GreenOutPrinter implements ColoredOutPrinter {
 
     @Override
     public void println(String msg) {

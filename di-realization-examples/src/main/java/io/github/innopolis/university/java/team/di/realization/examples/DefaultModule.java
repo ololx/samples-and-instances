@@ -10,7 +10,7 @@ import io.github.innopolis.university.java.team.di.realization.examples.commons.
  *
  * @author Alexander A. Kropotin
  */
-public class InjectingExampleBasicModule extends AbstractModule {
+public class DefaultModule extends AbstractModule {
 
     @Override
     protected void configure() {

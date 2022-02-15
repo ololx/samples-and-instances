@@ -4,13 +4,295 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!--[artifact-->
     <groupId>io.github.innopolis.university.java.team</groupId>
     <artifactId>di-realization-examples</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}${sha1}${changelist}</version>
+    <packaging>pom</packaging>
+    <!--artifact]-->
 
+    <!--[info-->
+    <name>${project.groupId}:${project.artifactId}</name>
+    <url>https://ololx.github.io/cranberry</url>
+    <inceptionYear>2022</inceptionYear>
+    <licenses>
+        <license>
+            <name>The Unlicense</name>
+            <url>https://unlicense.org</url>
+            <distribution>repo</distribution>
+            <comments/>
+        </license>
+    </licenses>
+    <!--info]-->
+
+    <!--[developers and contributors-->
+    <developers>
+        <developer>
+            <id>ololx</id>
+            <name>Alexander A. Kropotin</name>
+            <email>ololx@icloud.com</email>
+            <roles>
+                <role>author</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <!--developers and contributors]-->
+
+    <!--[ci info-->
+    <scm>
+        <connection>scm:git:git://github.com/innopolis-university-java-team/di-realization-examples</connection>
+        <developerConnection>scm:git:ssh://github.com:innopolis-university-java-team/di-realization-examples.git</developerConnection>
+        <url>http://github.com/innopolis-university-java-team/di-realization-examples</url>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/innopolis-university-java-team/di-realization-examples/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>Github Actions</system>
+        <url>https://github.com/innopolis-university-java-team/di-realization-examples/actions</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <sendOnError>true</sendOnError>
+                <sendOnFailure>true</sendOnFailure>
+                <sendOnSuccess>true</sendOnSuccess>
+                <sendOnWarning>true</sendOnWarning>
+                <address>ololx@icloud.com</address>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+    <!--ci info]-->
+
+    <!--[properties-->
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <!--[project versions-->
+        <revision>1.0.0</revision>
+        <changelist></changelist>
+        <sha1/>
+        <!--project versions]-->
+
+        <!--[project specific-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
+        <!--project specific]-->
+
+        <!--[plugins versions-->
+        <plugin.maven-checkstyle-plugin.version>2.17</plugin.maven-checkstyle-plugin.version>
+        <plugin.versions-maven-plugin.version>2.5</plugin.versions-maven-plugin.version>
+        <plugin.maven-enforcer-plugin.version>3.0.0-M2</plugin.maven-enforcer-plugin.version>
+        <plugin.maven-verifier-plugin.version>1.1</plugin.maven-verifier-plugin.version>
+        <plugin.flatten-maven-plugin.version>1.2.7</plugin.flatten-maven-plugin.version>
+        <plugin.buildnumber-maven-plugin.version>1.4</plugin.buildnumber-maven-plugin.version>
+        <plugin.maven-clean-plugin.version>3.1.0</plugin.maven-clean-plugin.version>
+        <plugin.maven-compiler-plugin.version>3.8.1</plugin.maven-compiler-plugin.version>
+        <plugin.maven-jar-plugin.version>3.1.1</plugin.maven-jar-plugin.version>
+        <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
+        <plugin.maven-resources-plugin.version>3.1.0</plugin.maven-resources-plugin.version>
+        <!--plugins versions]-->
     </properties>
+    <!--properties]-->
+
+    <!--[dependencies-->
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+    </dependencies>
+    <!--dependencies]-->
+
+    <!--[build-->
+    <build>
+        <!--[build general-->
+        <plugins>
+            <!--[checking code styles-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${plugin.maven-checkstyle-plugin.version}</version>
+                <configuration>
+                    <excludes>**/generated/**/*</excludes>
+                    <configLocation>check_style_google_rules.xml</configLocation>
+                    <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>6.19</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!--checking code style]-->
+
+            <!--[checking dependencies versions]-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${plugin.versions-maven-plugin.version}</version>
+                <configuration>
+                    <rulesUri>file://${user.dir}/check_dependency_versions_rules.xml</rulesUri>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>display-dependency-updates</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--checking dependencies versions]-->
+
+            <!--[checking requires-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${plugin.maven-enforcer-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <banDuplicatePomDependencyVersions/>
+                                <requireMavenVersion>
+                                    <version>3.3.1,</version>
+                                    <message>
+                                        Invalid Maven version. It should, at least, be 3.3.1
+                                    </message>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>11</version>
+                                    <message>
+                                        Invalid Maven version. It should, at least, be 11
+                                    </message>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-verifier-plugin</artifactId>
+                <version>${plugin.maven-verifier-plugin.version}</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+            <!--checking requires]-->
+
+            <!--[compiling source-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${plugin.maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!--compiling source]-->
+
+            <!--[cleaning target-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${plugin.maven-clean-plugin.version}</version>
+            </plugin>
+            <!--cleaning target]-->
+
+            <!--[reporting git branch info-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>${plugin.buildnumber-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                </configuration>
+            </plugin>
+            <!--reporting git branch info]-->
+
+            <!--[packaging to jar-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${plugin.maven-jar-plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <Implementation-Version>${project.version}-${buildNumber}</Implementation-Version>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <Implementation-Build>${scmBranch}</Implementation-Build>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!--packaging to jar]-->
+
+            <!--[managing resources-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${plugin.maven-resources-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-classes-to-test-module</id>
+                        <goals>
+                            <goal>testResources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/target/classes</directory>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--managing resources]-->
+        </plugins>
+        <!--build general]-->
+
+    </build>
+    <!--build]-->
 
 </project>

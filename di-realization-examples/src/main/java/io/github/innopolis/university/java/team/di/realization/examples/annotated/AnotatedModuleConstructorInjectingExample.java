@@ -15,7 +15,7 @@ public class AnotatedModuleConstructorInjectingExample {
 
     private final ColoredOutPrinter redOutPrinter;
 
-    private final ColoredOutPrinter grenOutPrinter;
+    private final ColoredOutPrinter greenOutPrinter;
 
     private final ColoredOutPrinter blueOutPrinter;
 
@@ -24,7 +24,7 @@ public class AnotatedModuleConstructorInjectingExample {
                                                      @Green ColoredOutPrinter greenOutPrinter,
                                                      @Blue ColoredOutPrinter blueOutPrinter) {
         this.redOutPrinter = redOutPrinter;
-        this.grenOutPrinter = greenOutPrinter;
+        this.greenOutPrinter = greenOutPrinter;
         this.blueOutPrinter = blueOutPrinter;
     }
 
@@ -33,7 +33,7 @@ public class AnotatedModuleConstructorInjectingExample {
         AnotatedModuleConstructorInjectingExample self = injector.getInstance(AnotatedModuleConstructorInjectingExample.class);
 
         self.redOutPrinter.println("Hello World!");
-        self.grenOutPrinter.println("Hello World!");
+        self.greenOutPrinter.println("Hello World!");
         self.blueOutPrinter.println("Hello World!");
     }
 }

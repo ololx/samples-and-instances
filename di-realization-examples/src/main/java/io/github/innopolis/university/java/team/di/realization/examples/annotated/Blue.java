@@ -1,4 +1,4 @@
-package io.github.innopolis.university.java.team.di.realization.examples;
+package io.github.innopolis.university.java.team.di.realization.examples.annotated;
 
 import com.google.inject.BindingAnnotation;
 

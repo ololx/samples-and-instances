@@ -1,4 +1,4 @@
-package io.github.innopolis.university.java.team.di.realization.examples;
+package io.github.innopolis.university.java.team.di.realization.examples.deault;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -15,7 +15,7 @@ public class DefaultModuleConstructorInjectingExample {
 
     private final ColoredOutPrinter redOutPrinter;
 
-    private final ColoredOutPrinter grenOutPrinter;
+    private final ColoredOutPrinter greenOutPrinter;
 
     private final ColoredOutPrinter blueOutPrinter;
 
@@ -24,7 +24,7 @@ public class DefaultModuleConstructorInjectingExample {
                                                     ColoredOutPrinter greenOutPrinter,
                                                     ColoredOutPrinter blueOutPrinter) {
         this.redOutPrinter = redOutPrinter;
-        this.grenOutPrinter = greenOutPrinter;
+        this.greenOutPrinter = greenOutPrinter;
         this.blueOutPrinter = blueOutPrinter;
     }
 
@@ -33,7 +33,7 @@ public class DefaultModuleConstructorInjectingExample {
         DefaultModuleConstructorInjectingExample self = injector.getInstance(DefaultModuleConstructorInjectingExample.class);
 
         self.redOutPrinter.println("Hello World!");
-        self.grenOutPrinter.println("Hello World!");
+        self.greenOutPrinter.println("Hello World!");
         self.blueOutPrinter.println("Hello World!");
     }
 }

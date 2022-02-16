@@ -30,7 +30,9 @@ public class AnotatedModuleConstructorInjectingExample {
 
     public static void main(String [] args) {
         Injector injector = Guice.createInjector(new AnnotatedModule());
-        AnotatedModuleConstructorInjectingExample self = injector.getInstance(AnotatedModuleConstructorInjectingExample.class);
+        AnotatedModuleConstructorInjectingExample self = injector.getInstance(
+                AnotatedModuleConstructorInjectingExample.class
+        );
 
         self.redOutPrinter.println("Hello World!");
         self.greenOutPrinter.println("Hello World!");

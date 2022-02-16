@@ -30,7 +30,9 @@ public class DefaultModuleConstructorInjectingExample {
 
     public static void main(String [] args) {
         Injector injector = Guice.createInjector(new DefaultModule());
-        DefaultModuleConstructorInjectingExample self = injector.getInstance(DefaultModuleConstructorInjectingExample.class);
+        DefaultModuleConstructorInjectingExample self = injector.getInstance(
+                DefaultModuleConstructorInjectingExample.class
+        );
 
         self.redOutPrinter.println("Hello World!");
         self.greenOutPrinter.println("Hello World!");

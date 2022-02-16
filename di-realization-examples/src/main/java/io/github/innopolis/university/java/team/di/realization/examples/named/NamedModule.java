@@ -17,9 +17,15 @@ public class NamedModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(ColoredOutPrinter.class).annotatedWith(Names.named("RedOutPrinter")).to(RedOutPrinter.class);
-        bind(ColoredOutPrinter.class).annotatedWith(Names.named("GreenOutPrinter")).to(GreenOutPrinter.class);
-        bind(ColoredOutPrinter.class).annotatedWith(Names.named("BlueOutPrinter")).to(BlueOutPrinter.class);
+        bind(ColoredOutPrinter.class)
+                .annotatedWith(Names.named("RedOutPrinter"))
+                .to(RedOutPrinter.class);
+        bind(ColoredOutPrinter.class)
+                .annotatedWith(Names.named("GreenOutPrinter"))
+                .to(GreenOutPrinter.class);
+        bind(ColoredOutPrinter.class)
+                .annotatedWith(Names.named("BlueOutPrinter"))
+                .to(BlueOutPrinter.class);
     }
 }
 

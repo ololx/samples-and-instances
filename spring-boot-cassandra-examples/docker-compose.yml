@@ -1,17 +1,13 @@
 version: '2'
 
 services:
-  cassandra:
-    image: docker.io/bitnami/cassandra:4.0
-    ports:
-      - '7000:7000'
-      - '9042:9042'
+  cassandra-db:
+    image: cassandra:3.11.2
+    restart: always
     volumes:
-      - 'cassandra_data:/bitnami'
-    environment:
-      - CASSANDRA_SEEDS=iujt
-      - CASSANDRA_PASSWORD_SEEDER=yes
-      - CASSANDRA_PASSWORD=iujt123
+      - ./cassandra:/var/lib/cassandra
+      - ./db-schema:/docker-entrypoint-initdb.d/
+      - ./db-schema/schema.cql:/scripts/data.cql
 volumes:
   cassandra_data:
     driver: local

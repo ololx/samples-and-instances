@@ -101,6 +101,13 @@
         <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
         <plugin.maven-resources-plugin.version>3.1.0</plugin.maven-resources-plugin.version>
         <!--plugins versions]-->
+
+        <!--[dependencies versions-->
+        <dependency.spring-boot-starter-data-cassandre.version>
+            2.6.3
+        </dependency.spring-boot-starter-data-cassandre.version>
+        <dependency.liquibase-core.version>3.6.3</dependency.liquibase-core.version>
+        <!--dependencies versions]-->
     </properties>
     <!--properties]-->
 
@@ -120,6 +127,7 @@
             <version>1.18.12</version>
             <optional>true</optional>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.ololx.cranberry/cranberry-muffin -->
         <dependency>
             <groupId>io.github.ololx.cranberry</groupId>
             <artifactId>cranberry-muffin</artifactId>
@@ -128,9 +136,16 @@
         <!--code generation && utils]-->
 
         <!--[database && ORM-->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-cassandra -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-cassandra</artifactId>
+            <version>${dependency.spring-boot-starter-data-cassandre.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${dependency.liquibase-core.version}</version>
         </dependency>
         <!--database && ORM]-->
 

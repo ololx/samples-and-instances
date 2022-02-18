@@ -13,7 +13,7 @@
 
     <!--[info-->
     <name>${project.groupId}:${project.artifactId}</name>
-    <url>https://ololx.github.io/cranberry</url>
+    <url>https://github.com/innopolis-university-java-team/di-realization-examples</url>
     <inceptionYear>2022</inceptionYear>
     <licenses>
         <license>

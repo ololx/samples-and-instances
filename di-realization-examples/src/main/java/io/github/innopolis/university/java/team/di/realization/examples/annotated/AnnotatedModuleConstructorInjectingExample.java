@@ -11,7 +11,7 @@ import io.github.innopolis.university.java.team.di.realization.examples.commons.
  *
  * @author Alexander A. Kropotin
  */
-public class AnotatedModuleConstructorInjectingExample {
+public class AnnotatedModuleConstructorInjectingExample {
 
     private final ColoredOutPrinter redOutPrinter;
 
@@ -20,9 +20,9 @@ public class AnotatedModuleConstructorInjectingExample {
     private final ColoredOutPrinter blueOutPrinter;
 
     @Inject
-    public AnotatedModuleConstructorInjectingExample(@Red ColoredOutPrinter redOutPrinter,
-                                                     @Green ColoredOutPrinter greenOutPrinter,
-                                                     @Blue ColoredOutPrinter blueOutPrinter) {
+    public AnnotatedModuleConstructorInjectingExample(@Red ColoredOutPrinter redOutPrinter,
+                                                      @Green ColoredOutPrinter greenOutPrinter,
+                                                      @Blue ColoredOutPrinter blueOutPrinter) {
         this.redOutPrinter = redOutPrinter;
         this.greenOutPrinter = greenOutPrinter;
         this.blueOutPrinter = blueOutPrinter;
@@ -30,8 +30,8 @@ public class AnotatedModuleConstructorInjectingExample {
 
     public static void main(String [] args) {
         Injector injector = Guice.createInjector(new AnnotatedModule());
-        AnotatedModuleConstructorInjectingExample self = injector.getInstance(
-                AnotatedModuleConstructorInjectingExample.class
+        AnnotatedModuleConstructorInjectingExample self = injector.getInstance(
+                AnnotatedModuleConstructorInjectingExample.class
         );
 
         self.redOutPrinter.println("Hello World!");

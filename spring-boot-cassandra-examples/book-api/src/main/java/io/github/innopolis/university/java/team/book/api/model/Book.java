@@ -1,5 +1,6 @@
 package io.github.innopolis.university.java.team.book.api.model;
 
+import com.datastax.driver.core.utils.UUIDs;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,13 +26,13 @@ import java.util.UUID;
 public class Book {
 
     @PrimaryKey
-    private UUID id;
+    UUID id;
 
-    private String title;
+    String title;
 
-    private String description;
+    String description;
 
-    private boolean published;
+    boolean published;
 
-    Set<String> authors;
+    //Set<String> authors;
 }

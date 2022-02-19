@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+  compression:
+    enabled: true
+
+logging:
+  file:
+    max-size: 100MB
+    path: .
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: INFO
+    io:
+      github:
+        innopolis:
+          university:
+            java:
+              team:
+                spring:
+                  boot:
+                    cassandra:
+                      examples:
+                        book:
+                          api: DEBUG
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  application:
+    name: book-api
+
+  data:
+    cassandra:
+      keyspaceName: books
+      contactPoints: 127.0.0.1
+      port: 9042
+      schemaAction: CREATE_IF_NOT_EXISTS
+
+contributors: Alexander Kropotin

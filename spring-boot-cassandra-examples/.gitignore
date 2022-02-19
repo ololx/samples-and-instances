@@ -1,5 +1,5 @@
 # project specific
-./cassandra/*
+cassandra/
 
 # exclude from ignore
 !.gitignore

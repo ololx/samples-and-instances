@@ -1,7 +1,7 @@
-version: '3.5'
+version: '2.2'
 
 services:
-  cassandra_db:
+  cassandra:
     image: cassandra:3.11.2
     container_name: cassandra
     ports:
@@ -12,6 +12,11 @@ services:
     restart: always
     volumes:
       - ./var/lib:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces"]
+      interval: 15s
+      timeout: 10s
+      retries: 10  
 
   cassandra_load_keyspace:
     image: cassandra:3.11.2
@@ -21,8 +26,4 @@ services:
         condition: service_healthy
     volumes:
       - ./db-schema/schema.cql:/schema.cql
-    command: /bin/bash -c "sleep 60 && echo loading cassandra keyspace && cqlsh cassandra -f /schema.cql"
-
-volumes:
-  cassandra_data:
-    driver: local
+    command: /bin/bash -c "echo loading cassandra keyspace && cqlsh cassandra -f /schema.cql"

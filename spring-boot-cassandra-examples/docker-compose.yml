@@ -11,7 +11,7 @@ services:
         - "HEAP_NEWSIZE=128M"
     restart: always
     volumes:
-      - ./cassandra:/var/lib/cassandra
+      - ./var/lib:/var/lib/cassandra
 
   cassandra_load_keyspace:
     image: cassandra:3.11.2

@@ -83,7 +83,7 @@
         <!--project versions]-->
 
         <!--[project specific-->
-        <mainClass></mainClass>
+        <mainClass>io.github.innopolis.university.java.team.book.api.BookApiApplication</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <!--project specific]-->

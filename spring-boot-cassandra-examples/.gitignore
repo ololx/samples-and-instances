@@ -1,5 +1,5 @@
 # project specific
-cassandra/
+var/
 
 # exclude from ignore
 !.gitignore

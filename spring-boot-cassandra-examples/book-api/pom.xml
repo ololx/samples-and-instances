@@ -17,7 +17,7 @@
     <groupId>io.github.innopolis.university.java.team</groupId>
     <artifactId>book-api</artifactId>
     <version>${revision}${sha1}${changelist}</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <!--artifact]-->
 
     <!--[info-->

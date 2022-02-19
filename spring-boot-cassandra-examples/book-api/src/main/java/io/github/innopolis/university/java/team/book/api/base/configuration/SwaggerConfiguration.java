@@ -22,7 +22,7 @@ public class SwaggerConfiguration {
     /**
      * The Base package.
      */
-    static final String BASE_PACKAGE = "io.github.innopolis.university.java.team.spring.boot.cassandra.examples.book.api";
+    static final String BASE_PACKAGE = "io.github.innopolis.university.java.team.book.api";
 
     /**
      * Gets product api.

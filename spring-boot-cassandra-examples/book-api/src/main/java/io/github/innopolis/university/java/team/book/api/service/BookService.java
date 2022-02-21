@@ -1,6 +1,6 @@
 package io.github.innopolis.university.java.team.book.api.service;
 
-import io.github.innopolis.university.java.team.book.api.model.Book;
+import io.github.innopolis.university.java.team.book.api.model.detail.BookDetail;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  * @author Alexander A. Kropotin
  */
-public interface BookService<T extends Book, ID extends UUID> {
+public interface BookService<T extends BookDetail, ID extends UUID> {
 
     T create(T book);
 

@@ -1,6 +1,5 @@
-package io.github.innopolis.university.java.team.book.api.model;
+package io.github.innopolis.university.java.team.book.api.model.entity;
 
-import com.datastax.driver.core.utils.UUIDs;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -23,7 +21,7 @@ import java.util.UUID;
         level = AccessLevel.PRIVATE
 )
 @Table("book")
-public class Book {
+public final class Book {
 
     @PrimaryKey
     UUID id;

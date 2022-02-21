@@ -74,6 +74,14 @@
     </ciManagement>
     <!--ci info]-->
 
+    <!--[repositories-->
+    <repositories>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <name>Sonatype Nexus Snapshots Repository</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
     <!--[properties-->
     <properties>
         <!--[project versions-->
@@ -88,6 +96,12 @@
         <java.version>11</java.version>
         <!--project specific]-->
 
+        <!--[dependencies versions-->
+        <dependency.spring-boot-starter-data-cassandre.version>2.6.3</dependency.spring-boot-starter-data-cassandre.version>
+        <dependency.liquibase-core.version>3.6.3</dependency.liquibase-core.version>
+        <dependency.cranberry-muffin.version>0.12.2-SNAPSHOT</dependency.cranberry-muffin.version>
+        <!--dependencies versions]-->
+
         <!--[plugins versions-->
         <plugin.maven-checkstyle-plugin.version>2.17</plugin.maven-checkstyle-plugin.version>
         <plugin.versions-maven-plugin.version>2.5</plugin.versions-maven-plugin.version>
@@ -101,11 +115,6 @@
         <plugin.maven-dependency-plugin.version>3.1.1</plugin.maven-dependency-plugin.version>
         <plugin.maven-resources-plugin.version>3.1.0</plugin.maven-resources-plugin.version>
         <!--plugins versions]-->
-
-        <!--[dependencies versions-->
-        <dependency.spring-boot-starter-data-cassandre.version>2.6.3</dependency.spring-boot-starter-data-cassandre.version>
-        <dependency.liquibase-core.version>3.6.3</dependency.liquibase-core.version>
-        <!--dependencies versions]-->
     </properties>
     <!--properties]-->
 
@@ -129,7 +138,7 @@
         <dependency>
             <groupId>io.github.ololx.cranberry</groupId>
             <artifactId>cranberry-muffin</artifactId>
-            <version>0.9.1</version>
+            <version>${dependency.cranberry-muffin.version}</version>
         </dependency>
         <!--code generation && utils]-->
 

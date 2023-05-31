@@ -1,9 +1,11 @@
 package io.github.ololx.samples;
 
+import io.github.ololx.samples.metrics.CounterFactory;
 import io.prometheus.client.Counter;
 import io.prometheus.client.exporter.HTTPServer;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -18,11 +20,7 @@ public class PrometheusExampleApp implements AutoCloseable {
 
     static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    static final Counter executions = Counter.build()
-            .name("execution_count")
-            .help("Method execution count")
-            .labelNames("author", "application")
-            .register();
+    static final CounterFactory counterFactory = new CounterFactory();
 
     static HTTPServer server;
 
@@ -39,8 +37,12 @@ public class PrometheusExampleApp implements AutoCloseable {
     }
 
     private void countExecutions() {
-        executions.labels("1", "2").inc();
-        System.out.println("Count: " + executions.labels("1", "2").get());
+        var executions = counterFactory.getOrCreate(
+                "execution_count",
+                Map.of("author", "guide-man", "application", this.getClass().getName())
+        );
+        executions.inc();
+        System.out.println("Count: " + executions.get());
     }
 
     @Override

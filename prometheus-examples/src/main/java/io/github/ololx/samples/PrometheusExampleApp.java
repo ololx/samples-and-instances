@@ -2,6 +2,7 @@ package io.github.ololx.samples;
 
 import io.github.ololx.samples.metrics.CounterFactory;
 import io.github.ololx.samples.metrics.GaugeFactory;
+import io.github.ololx.samples.metrics.HistogramFactory;
 import io.prometheus.client.Counter;
 import io.prometheus.client.exporter.HTTPServer;
 
@@ -27,6 +28,8 @@ public class PrometheusExampleApp implements AutoCloseable {
 
     static final GaugeFactory gaugeFactory = new GaugeFactory();
 
+    static final HistogramFactory histogramFactory = new HistogramFactory();
+
     static final HTTPServer server;
 
     static {
@@ -48,6 +51,7 @@ public class PrometheusExampleApp implements AutoCloseable {
         executorService.scheduleAtFixedRate(() -> {
             this.countExecutions();
             this.gaugeExecutionsDate();
+            this.histogramExecutionsDate();
         }, 0, 5, TimeUnit.SECONDS
         );
     }
@@ -78,6 +82,20 @@ public class PrometheusExampleApp implements AutoCloseable {
         );
         executions.set(now.getSecond());
         System.out.println("Gauge: " + executions.get());
+    }
+
+    private void histogramExecutionsDate() {
+        var now = LocalDateTime.now();
+        var executions = histogramFactory.getOrCreate(
+                "execution_histogram",
+                Map.of(
+                        "author", "guide-man",
+                        "application", this.getClass().getName(),
+                        "now", now.truncatedTo(ChronoUnit.MINUTES).toString()
+                )
+        );
+        executions.observe(now.getSecond());
+        System.out.println("Histogram: " + executions.get().sum);
     }
 
     @Override

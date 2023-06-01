@@ -14,7 +14,6 @@ public abstract class AbstractCollectorFactory<R, T extends SimpleCollector<R>> 
 
     protected Map<String, T> collectors = new HashMap<>();
 
-    @SuppressWarnings("unchecked")
     public R getOrCreate(String name, Map<String, String> labels) {
         var collector = this.collectors.get(name);
 

@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * project deduplication-service-example
+ * project prometheus-examples
  * created 27.05.2023 12:48
  *
  * @author Alexander A. Kropotin

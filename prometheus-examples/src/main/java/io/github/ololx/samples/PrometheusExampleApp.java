@@ -3,16 +3,23 @@ package io.github.ololx.samples;
 import io.github.ololx.samples.metrics.CounterFactory;
 import io.github.ololx.samples.metrics.GaugeFactory;
 import io.github.ololx.samples.metrics.HistogramFactory;
+import io.github.ololx.samples.metrics.MetricableScheduledExecutorService;
 import io.prometheus.client.Counter;
 import io.prometheus.client.exporter.HTTPServer;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * project deduplication-service-example
@@ -23,6 +30,8 @@ import java.util.concurrent.TimeUnit;
 public class PrometheusExampleApp implements AutoCloseable {
 
     static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
+    static final MetricableScheduledExecutorService metricableScheduledExecutorService = new MetricableScheduledExecutorService(Executors.newFixedThreadPool(4));
 
     static final CounterFactory counterFactory = new CounterFactory();
 
@@ -48,12 +57,26 @@ public class PrometheusExampleApp implements AutoCloseable {
     }
 
     private void start() {
+        List<CompletableFuture<Void>> completableFutures = IntStream.range(0, 5)
+                                                                    .mapToObj(index -> CompletableFuture.runAsync(
+                                                                      () -> {
+                                                                          System.out.println("index - " + index);
+                                                                          try {
+                                                                              Thread.sleep(1000);
+                                                                          } catch(InterruptedException e) {
+                                                                              throw new RuntimeException(e);
+                                                                          }
+                                                                      },
+                                                                              metricableScheduledExecutorService)
+                                                                    )
+                                                                    .toList();
         executorService.scheduleAtFixedRate(() -> {
             this.countExecutions();
             this.gaugeExecutionsDate();
             this.histogramExecutionsDate();
         }, 0, 5, TimeUnit.SECONDS
         );
+        completableFutures.parallelStream().forEach(CompletableFuture::join);
     }
 
     private void countExecutions() {

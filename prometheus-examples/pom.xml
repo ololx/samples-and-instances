@@ -25,5 +25,10 @@
             <artifactId>simpleclient_httpserver</artifactId>
             <version>0.16.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.ololx.moonshine</groupId>
+            <artifactId>moonshine-stopwatch</artifactId>
+            <version>0.8.2</version>
+        </dependency>
     </dependencies>
 </project>

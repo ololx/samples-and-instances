@@ -15,11 +15,19 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/io.github.ololx.moonshine/moonshine-stopwatch -->
         <dependency>
-            <groupId>io.prometheus</groupId>
-            <artifactId>simpleclient</artifactId>
-            <version>0.16.0</version>
+            <groupId>io.github.ololx.moonshine</groupId>
+            <artifactId>moonshine-stopwatch</artifactId>
+            <version>0.8.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>1.11.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.prometheus/simpleclient_httpserver -->
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_httpserver</artifactId>

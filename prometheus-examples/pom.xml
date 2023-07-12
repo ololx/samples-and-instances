@@ -19,7 +19,7 @@
         <dependency>
             <groupId>io.github.ololx.moonshine</groupId>
             <artifactId>moonshine-stopwatch</artifactId>
-            <version>0.8.2</version>
+            <version>0.10.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus -->
         <dependency>

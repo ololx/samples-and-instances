@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 /**
@@ -13,25 +12,32 @@ import lombok.experimental.FieldDefaults;
  *     project jackson-json-view-samples
  *     created 01/12/2023 5:32 pm
  */
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
 @FieldDefaults(
     level = AccessLevel.PRIVATE
 )
-public class PersonDetail {
+public class CharacterDetail {
 
-    @JsonView(Views.Person.class)
+    @JsonView({
+        CharacterView.Title.class,
+        CharacterView.Characteristics.class
+    })
+    int id;
+
+    @JsonView(CharacterView.Title.class)
     String name;
 
-    @JsonView(Views.Person.class)
+    @JsonView(CharacterView.Title.class)
     String secondName;
 
-    @JsonView(Views.Person.class)
+    @JsonView(CharacterView.Characteristics.class)
     int age;
 
-    @JsonView(Views.Person.class)
-    String phoneNumber;
+    @JsonView(CharacterView.Characteristics.class)
+    int height;
 
-    @JsonView(Views.Person.class)
-    String email;
+    @JsonView(CharacterView.Characteristics.class)
+    double weight;
 }

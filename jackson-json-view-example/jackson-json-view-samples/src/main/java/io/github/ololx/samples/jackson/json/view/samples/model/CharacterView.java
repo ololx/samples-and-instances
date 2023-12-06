@@ -5,9 +5,11 @@ package io.github.ololx.samples.jackson.json.view.samples.model;
  *     project jackson-json-view-samples
  *     created 01/12/2023 5:35 pm
  */
-public interface Views {
+public interface CharacterView {
 
-    public interface Person {}
+    public interface Title {}
 
-    public interface Contacts {}
+    public interface Characteristics {}
+
+    public interface Character extends Title, Characteristics {}
 }

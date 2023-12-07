@@ -1,17 +1,12 @@
 package io.github.ololx.samples.jackson.json.view.samples.service;
 
 import io.github.ololx.samples.jackson.json.view.samples.model.CharacterDetail;
-import io.github.ololx.samples.jackson.json.view.samples.service.StoredCharactersDetails;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Alexander A. Kropotin

@@ -1,11 +1,8 @@
 package io.github.ololx.samples.jackson.json.view.samples.service;
 
 import io.github.ololx.samples.jackson.json.view.samples.model.CharacterDetail;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

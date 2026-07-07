@@ -1,0 +1,59 @@
+# project specific
+input/
+src/resources/
+local/
+
+# general exclude
+!.gitignore
+
+# all hidden files
+.*
+
+# general swap/backup files
+*.so
+*.log
+*.out
+*~
+*.swp
+*.DS_Store
+*.lock
+
+# virtual machine crash logs
+hs_err_pid*
+
+# compiled java class files
+*.class
+
+# package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# compiled ant specific
+dist/
+build/
+out/
+
+# compiled maven specific
+log/
+target/
+
+# intelliJ IDEA specific
+.idea/
+*.iml
+*.iws
+
+# eclipse specific
+.classpath
+.project
+.settings/
+
+# netbeans specific
+core/
+nbproject/
+!nbproject/project.properties
+!nbproject/project.xml

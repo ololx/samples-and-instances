@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/employees
+    username: dbz
+    password: qwerty
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      show-sql: true
+
+  database:
+    organizations:
+      host: localhost
+      port: 5433
+      database: organizations
+      username: dbz
+      password: qwerty

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet
+            id="2021-03-20-table-employ-init"
+            author="a.kropotin@innopolis.ru"
+            logicalFilePath="2021-03-20-table-employ-init.xml"
+    >
+        <createTable tableName="position">
+            <column name="position_uid" type="SMALLSERIAL">
+                <constraints primaryKey="true" primaryKeyName="position_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="code" type="VARCHAR(5)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="employ">
+            <column name="employ_uid" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="employ_pkey"/>
+            </column>
+            <column name="full_name" type="VARCHAR">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="organization_uid" type="BIGINT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+            <column name="position_uid" type="SMALLINT">
+                <constraints nullable="false" unique="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="employ"
+                                 baseColumnNames="organization_uid"
+                                 constraintName="employ_organization_fk"
+                                 referencedTableName="organization"
+                                 referencedColumnNames="uid"/>
+
+        <addForeignKeyConstraint baseTableName="employ"
+                                 baseColumnNames="position_uid"
+                                 constraintName="employ_position_fk"
+                                 referencedTableName="position"
+                                 referencedColumnNames="position_uid"/>
+    </changeSet>
+
+</databaseChangeLog>

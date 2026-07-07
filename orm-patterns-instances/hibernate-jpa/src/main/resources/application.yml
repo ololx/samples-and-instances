@@ -1,0 +1,49 @@
+server:
+  port: 8082
+
+logging:
+  file:
+    max-size: 100MB
+    path: .
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: INFO
+    org:
+      springframework: WARN
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  datasource:
+    driver: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/persons?cachePrepStmts=true&useServerPrepStmts=true&rewriteBatchedStatements=true
+    username: postgres
+    password: postgres
+
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        order_inserts: true
+      show-sql: false
+      jdbc:
+        batch_size: 1000
+
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: false
+
+  liquibase:
+    change-log: classpath:db-migrations/changelog.xml
+    enabled: true
+    drop-first: true

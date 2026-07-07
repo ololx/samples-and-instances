@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+logging:
+  file:
+    max-size: 10MB
+    path: ./logs
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: ERROR
+    org.springframework.web: INFO
+    org:
+      change:
+        data:
+          capture:
+            instances:
+              embedded:
+                debezium: DEBUG
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://employees_database:5434/employees
+    username: dbz
+    password: qwerty
+
+    jpa:
+      properties:
+        hibernate:
+          jdbc:
+            lob:
+              non_contextual_creation: true
+          temp:
+            use_jdbc_metadata_defaults: false
+          dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        show-sql: true
+
+      hibernate:
+        ddl-auto: validate
+      open-in-view: false
+      show-sql: true
+
+database:
+  organizations:
+    host: localhost
+    port: 5433
+    database: organizations
+    username: dbz
+    password: qwerty

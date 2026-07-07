@@ -1,0 +1,75 @@
+# exclude from ignore
+!.gitignore
+!.github
+!.mvn/wrapper/maven-wrapper.jar
+
+# all hidden files
+.*
+
+# rocks db
+rocksdb/
+
+# general swap/backup files
+*.so
+*.log
+*.out
+*~
+*.swp
+*.DS_Store
+*.lock
+
+# virtual machine crash logs
+hs_err_pid*
+
+# compiled java class files
+*.class
+
+# package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# compiled ant specific
+dist/
+build/
+out/
+
+# compiled maven specific
+**/log/
+**/target/
+
+# intelliJ IDEA specific
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# eclipse specific
+.classpath
+.project
+.settings/
+
+# netbeans specific
+core/
+nbproject/
+
+# STS specific
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# VS Code specific
+.vscode/
+/.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/maven-wrapper.properties
+/.mvn/wrapper/MavenWrapperDownloader.java
+/mvnw
+/mvnw.cmd

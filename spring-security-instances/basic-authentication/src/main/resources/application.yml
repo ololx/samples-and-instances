@@ -1,0 +1,68 @@
+server:
+  port: 8080
+
+sequrity:
+  basic:
+    enabled: false
+
+logging:
+  file:
+    max-size: 100MB
+    path: .
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: INFO
+    org:
+      spring:
+        security:
+          instances:
+            basic:
+              authentication:
+                instance: TRACE
+
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://basic-auth-dbms:5432/basic_auth_db
+    username: basic
+    password: qwerty
+
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+      show-sql: true
+
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: true
+
+  liquibase:
+    change-log: classpath:db-migrations/changelog.xml
+    enabled: true
+    drop-first: true
+
+swagger:
+  package: org.spring.security.instances.basic.authentication.instance
+  title: Auth Service
+  description: Auth Service
+  version: 0.0.1
+  contact:
+    name: Alexander A. Kropotin
+    url: https://github.com/ololx
+    email: ololx@icloud.com

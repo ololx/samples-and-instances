@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  jaeger:
+    container_name: jaeger
+    user: root
+    restart: always
+    build:
+      context: jaeger/
+      dockerfile: Dockerfile
+    ports:
+    - "6831:6831"
+    - "16686:16686"
+    volumes:
+      - ./local/jaeger:/jaeger
+
+  zipkin:
+    container_name: zipkin
+    user: root
+    restart: always
+    build:
+      context: zipkin/
+      dockerfile: Dockerfile
+    ports:
+    - "9411:9411"
+    volumes:
+      - ./local/zipkin:/zipkin
+
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    restart: always
+    hostname: rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      
+  service-c:
+    container_name: service-c
+    user: root
+    restart: always
+    build:
+      context: service-c
+      dockerfile: Dockerfile
+    ports:
+      - "8183:8183"
+    depends_on:
+      - rabbit
+
+  service-b:
+    container_name: service-b
+    user: root
+    restart: always
+    build:
+      context: service-b
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8181"
+    depends_on:
+      - rabbit  
+      - service-c
+
+  service-a:
+    container_name: service-a
+    user: root
+    restart: always
+    build:
+      context: service-a
+      dockerfile: Dockerfile
+    ports:
+      - "8182:8182"  
+    depends_on:
+      - service-b               

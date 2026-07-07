@@ -1,0 +1,55 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+  endpoint:
+    health:
+      show-details: always
+
+opentracing:
+  jaeger:
+    udp-sender:
+      host: jaeger
+      port: 6831
+
+logging:
+  file:
+    max-size: 100MB
+    path: .
+
+  pattern:
+    console: "%clr(%date{HH:mm:ss.SSS}) %level [%yellow(%mdc)] %clr(%logger{0}) : %message%n"
+    file:    "%clr(%date) %level %clr(%logger :) %message%n"
+
+  level:
+    root: INFO
+    org.springframework.web: INFO
+
+server:
+  port: 8182
+
+spring:
+  application:
+    name: service-a
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  main:
+    allow-bean-definition-overriding: true
+
+client:
+  service-b: http://service-b:8181/messages/
+
+swagger:
+  package: org.spring.boot.distributed.tracing.instances.service.a
+  title: Service A
+  description: This service allows to create and store message info
+  version: 0.0.1
+  contact:
+    name: Alexander A. Kropotin
+    url: https://github.com/ololx
+    email: ololx@icloud.com

@@ -1,0 +1,14 @@
+version: '2.1'
+services:
+  spring_cloud_stream_instances_rabbit:
+    image: rabbitmq:3-management
+    container_name: spring_cloud_stream_instances_rabbit
+    restart: always
+    hostname: spring_cloud_stream_instances_rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - "15672:15672"
+      - "5672:5672"

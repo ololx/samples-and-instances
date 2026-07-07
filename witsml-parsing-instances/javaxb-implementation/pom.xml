@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>witsml-parsing-instances</artifactId>
+        <groupId>org.witsml.parsing.instances</groupId>
+        <version>${revision}${sha1}${changelist}</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>javaxb-implementation</artifactId>
+    <name>javaxb-implementation</name>
+
+    <properties>
+        <mainClass>org.witsml.parsing.instances.javaxb.implementation.JavaXBImplementationApplication</mainClass>
+    </properties>
+
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.witsml.parsing.instances</groupId>
+            <artifactId>commons</artifactId>
+            <version>${revision}${sha1}${changelist}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hashmapinc.tempus</groupId>
+            <artifactId>WitsmlObjects</artifactId>
+            <version>1.1.48.1</version>
+        </dependency>
+    </dependencies>
+</project>

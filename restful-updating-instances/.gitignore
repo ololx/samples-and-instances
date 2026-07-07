@@ -1,0 +1,18 @@
+# exclude ignore rules for files
+!.gitignore
+!.flattened-pom.xml
+
+# all hidden files (important for macOS)
+.*
+
+# IDE files
+.idea/*
+*.iml
+
+# compiled class files && package files
+target/**
+*.class
+*.jar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
